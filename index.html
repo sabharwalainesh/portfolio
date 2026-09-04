@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ainesh Sabharwal — Portfolio</title>
+  <meta name="description" content="Ainesh Sabharwal — CS @ UC Berkeley. A phosphor-CRT workstation: shell, VHS deck, resource monitor, dial-up. Explore." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-theme="green">
+
+  <!-- ===== BOOT ===== -->
+  <div id="boot" class="boot">
+    <pre class="boot__log" id="bootLog"></pre>
+    <div class="boot__bar"><span id="bootBar"></span></div>
+    <p class="boot__hint">press any key to skip</p>
+  </div>
+
+  <!-- ===== GLOBAL FX ===== -->
+  <div class="crt-power" id="crtPower" aria-hidden="true"></div>
+  <div class="dotgrid" aria-hidden="true"></div>
+  <div class="spotlight" id="spotlight" aria-hidden="true"></div>
+  <div class="crt-scanlines" aria-hidden="true"></div>
+  <div class="crt-vignette" aria-hidden="true"></div>
+  <div class="crt-flicker" aria-hidden="true"></div>
+
+  <!-- ===== MENU BAR = file path ===== -->
+  <header class="menubar">
+    <span class="menubar__logo">◈</span>
+    <nav class="crumbs" aria-label="path">
+      <span>~</span><i>/</i><span>ainesh</span><i>/</i><span>portfolio</span><i>/</i><span class="crumbs__file" id="crumbFile">boot.sh</span>
+    </nav>
+    <div class="menubar__right">
+      <button id="sfxToggle" title="toggle sound">🔇 sfx</button>
+      <button id="themeToggle" title="cycle phosphor colour">amber?</button>
+      <span class="menubar__clock" id="clock">--:--:--</span>
+    </div>
+    <div class="menubar__progress" id="scrollProgress"></div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ===== FILE TREE RAIL ===== -->
+    <aside class="filetree" id="filetree">
+      <div class="filetree__head">DISK ▸ /ainesh</div>
+      <ul>
+        <li data-goto="hero"><span class="cur">›</span><span class="fi">$_</span> boot.sh</li>
+        <li data-goto="about"><span class="cur">›</span><span class="fi">▯</span> about.txt</li>
+        <li data-goto="skills"><span class="cur">›</span><span class="fi">≣</span> skills.sys</li>
+        <li data-goto="experience"><span class="cur">›</span><span class="fi">▶</span> work.vhs</li>
+        <li data-goto="projects"><span class="cur">›</span><span class="fi">▤</span> projects/</li>
+        <li data-goto="honors"><span class="cur">›</span><span class="fi">★</span> honors.md</li>
+        <li data-goto="contact"><span class="cur">›</span><span class="fi">◍</span> contact.net</li>
+      </ul>
+      <pre class="filetree__ascii" aria-hidden="true">
+   .---.
+  /_____\
+  [`---']
+  |  =  |
+  |_____|
+ [::::::::]
+      </pre>
+      <div class="filetree__foot">7 items · scroll ▼</div>
+    </aside>
+
+    <!-- ===== FULLSCREEN SECTIONS ===== -->
+    <main class="screens" id="screens">
+
+      <!-- HERO / SHELL -->
+      <section class="screen" id="hero" data-file="boot.sh">
+        <div class="window window--hero" data-app="shell">
+          <div class="window__bar">
+            <span class="tb-traffic"><i></i><i></i><i></i></span>
+            <span class="tb-title">ainesh@berkeley: ~ — zsh</span>
+            <span class="tb-actions"><i class="dot live"></i>tty1</span>
+          </div>
+          <div class="window__body term">
+            <pre class="hero__ascii glitchable" id="heroAscii" aria-label="AINESH"></pre>
+            <pre class="hero__sub" id="heroSub"></pre>
+            <div class="term__live">
+              <span class="term__prompt">visitor@phosphor:~$</span>
+              <span class="term__input" id="termInput" contenteditable="true" spellcheck="false" autocapitalize="off"></span>
+              <span class="term__caret" aria-hidden="true">▋</span>
+            </div>
+            <div id="termScroll" class="term__scrollout"></div>
+            <p class="term__tip">try <code>help</code> · <code>projects</code> · <code>resume</code> — or just scroll ▼</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT / EDITOR -->
+      <section class="screen" id="about" data-file="about.txt">
+        <div class="window" data-app="editor">
+          <div class="window__bar">
+            <span class="tb-traffic"><i></i><i></i><i></i></span>
+            <span class="tb-title">about.txt — nano</span>
+            <span class="tb-menu">File&nbsp; Edit&nbsp; View</span>
+            <span class="tb-actions" id="aboutStatus">NORMAL</span>
+          </div>
+          <div class="window__body">
+            <div class="editor">
+              <div class="editor__gutter" id="aboutGutter"></div>
+              <pre class="editor__code" id="aboutCode"></pre>
+            </div>
+            <div class="editor__statusbar"><span>utf-8</span><span>txt</span><span id="aboutLn">ln 1</span><span class="editor__hint">^X exit &nbsp; ^O save</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SKILLS / MONITOR -->
+      <section class="screen" id="skills" data-file="skills.sys">
+        <div class="window" data-app="monitor">
+          <div class="window__bar">
+            <span class="tb-traffic"><i></i><i></i><i></i></span>
+            <span class="tb-title">skills.sys — resource monitor</span>
+            <span class="tb-actions"><i class="dot live"></i>polling <span id="pollRate">1000ms</span></span>
+          </div>
+          <div class="window__body">
+            <h2 class="decode" data-text="// mounted volumes">// mounted volumes</h2>
+            <div class="meters" id="meters"></div>
+            <pre class="monitor__graph" id="cpuGraph" aria-hidden="true"></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE / VHS -->
+      <section class="screen" id="experience" data-file="work.vhs">
+        <div class="window window--vhs" data-app="vhs">
+          <div class="window__bar">
+            <span class="tb-traffic"><i></i><i></i><i></i></span>
+            <span class="tb-title">work.vhs — PHOSPHOR VIDEO</span>
+            <span class="tb-actions"><span class="vhs__counter" id="vhsCounter">00:00:00</span></span>
+          </div>
+          <div class="window__body vhs">
+            <div class="vhs__screen" id="vhsScreen">
+              <div class="vhs__static" id="vhsStatic"></div>
+              <div class="vhs__tracking" id="vhsTracking"></div>
+              <div class="vhs__osd">
+                <span class="vhs__osd-mode" id="vhsMode">▶ PLAY</span>
+                <span class="vhs__osd-tape" id="vhsTape">SP 0:00</span>
+              </div>
+              <div class="vhs__content">
+                <div class="vhs__role" id="vhsRole">—</div>
+                <div class="vhs__org" id="vhsOrg"></div>
+                <div class="vhs__when" id="vhsWhen"></div>
+                <p class="vhs__note" id="vhsNote"></p>
+              </div>
+            </div>
+            <div class="vhs__deck">
+              <div class="vhs__buttons">
+                <button data-vhs="rew" title="previous">◀◀</button>
+                <button data-vhs="play" id="vhsPlay" title="play/pause">▶</button>
+                <button data-vhs="ff" title="next">▶▶</button>
+                <button data-vhs="eject" title="eject">⏏</button>
+              </div>
+              <div class="vhs__timeline" id="vhsTimeline"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJECTS / FINDER -->
+      <section class="screen" id="projects" data-file="projects/">
+        <div class="window" data-app="finder">
+          <div class="window__bar">
+            <span class="tb-traffic"><i></i><i></i><i></i></span>
+            <span class="tb-title">projects/ — column view</span>
+            <span class="tb-actions" id="finderCount">— items</span>
+          </div>
+          <div class="window__body">
+            <div class="finder">
+              <div class="finder__grid" id="finderGrid"></div>
+              <aside class="finder__preview" id="finderPreview">
+                <p class="finder__hint">▤ select a folder</p>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HONORS / TROPHIES -->
+      <section class="screen" id="honors" data-file="honors.md">
+        <div class="window" data-app="trophy">
+          <div class="window__bar">
+            <span class="tb-traffic"><i></i><i></i><i></i></span>
+            <span class="tb-title">honors.md — achievements</span>
+            <span class="tb-actions">4 / 4 unlocked</span>
+          </div>
+          <div class="window__body">
+            <h2 class="decode" data-text="$ cat honors.md">$ cat honors.md</h2>
+            <div class="trophies" id="trophies"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT / DIAL-UP -->
+      <section class="screen" id="contact" data-file="contact.net">
+        <div class="window" data-app="net">
+          <div class="window__bar">
+            <span class="tb-traffic"><i></i><i></i><i></i></span>
+            <span class="tb-title">contact.net — connection manager</span>
+            <span class="tb-actions"><i class="dot" id="netLed"></i><span id="netLabel">offline</span></span>
+          </div>
+          <div class="window__body">
+            <pre class="net__status" id="netStatus"></pre>
+            <ul class="ports" id="ports"></ul>
+            <pre class="net__ascii" aria-hidden="true">
+┌────────────────────────────┐
+│ ▚▚▚  56K MODEM  ▞▞▞  [Ω]  │
+└────────────────────────────┘</pre>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ===== TICKER ===== -->
+  <footer class="ticker" aria-hidden="true">
+    <div class="ticker__track" id="tickerTrack"></div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
