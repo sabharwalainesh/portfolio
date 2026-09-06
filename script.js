@@ -610,6 +610,7 @@ async function stageSwap(card) {
   SFX.whoosh();
   const stage = $("#stage");
   stage.classList.add("is-open");                       // the rail must be out, so both windows land where the cards are
+  refreshThumbs();                                       // the card the window lands on must already look like it
   const from = $(".stage__thumb", card).getBoundingClientRect();
   // show the target alongside the current one, measure where it lands
   target.classList.add("is-on");
@@ -629,13 +630,14 @@ async function stageSwap(card) {
   cur.classList.add("is-parking");
   cur.style.transform = `translate(${park.left - c.left}px, ${park.top - c.top}px) scale(${park.width / c.width}, ${park.height / c.height}) rotateY(32deg)`;
   card.classList.add("is-leaving");
-  await sleep(420);                                      // let the outgoing window finish shrinking into the rail
+  await sleep(440);                                      // let the outgoing window finish shrinking onto its rail card
+  curCard.style.visibility = "";                         // card appears underneath, exactly where the window landed
+  await new Promise((r) => requestAnimationFrame(r));    // paint the card before the window goes, so the swap is seamless
   activate(target);
   win.classList.remove("is-flying"); win.style.transformOrigin = "";
   cur.classList.remove("is-parking"); cur.style.transform = ""; cur.style.transformOrigin = "";
-  curCard.style.visibility = "";                         // its card takes over exactly where the window landed
   card.classList.remove("is-leaving");
-  stage.classList.remove("is-open");
+  setTimeout(() => stage.classList.remove("is-open"), 900);   // hold the rail out so the parked card is seen landing
   swapping = false;
   refreshThumbs();
 }

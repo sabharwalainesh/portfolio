@@ -232,7 +232,7 @@ body[data-theme="cyan"] .desktop__wall { filter: hue-rotate(-15deg) saturate(1.1
 }
 .window.is-flying, .window.is-parking { will-change: transform, opacity; box-shadow: 0 30px 60px rgba(0,0,0,.45) !important; backface-visibility: hidden; }
 .window.is-flying { transition: transform .36s cubic-bezier(.2, .85, .25, 1), opacity .22s ease-out !important; z-index: 3; }
-.window.is-parking { transition: transform .4s cubic-bezier(.32, .72, .3, 1), opacity .12s ease-in .3s !important; opacity: 0; z-index: 2; }
+.window.is-parking { transition: transform .42s cubic-bezier(.32, .72, .3, 1) !important; opacity: 1; z-index: 2; }
 
 .window__bar {
   position: relative; display: flex; align-items: center; gap: .6rem;
