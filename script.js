@@ -213,6 +213,8 @@ async function decodeTo(el) {
   el.textContent = final;
 }
 
+window.goto = (id) => { document.getElementById(id).scrollIntoView({ behavior: reduced ? "auto" : "smooth" }); };
+
 /* ============================================================
    BOOT
    ============================================================ */
@@ -307,7 +309,7 @@ async function runHero() {
 
 function shell() {
   const input = $("#termInput"), out = $("#termScroll");
-  const goto = (id) => { document.getElementById(id).scrollIntoView({ behavior: reduced ? "auto" : "smooth" }); };
+  const goto = window.goto;
   const cmds = {
     help: () => `commands:
   <span class="k">about</span>      who I am
@@ -317,6 +319,7 @@ function shell() {
   <span class="k">honors</span>     awards
   <span class="k">contact</span>    reach me
   <span class="k">resume</span>     open the PDF
+  <span class="k">ask</span>        chat with a Claude about me
   <span class="k">links</span>      all my links (one page)
   <span class="k">theme</span>      cycle phosphor colour
   <span class="k">clear</span>      wipe screen`,
@@ -328,10 +331,11 @@ function shell() {
     honors: () => { goto("honors"); return DATA.honors.map((h) => `★ ${h.b} — ${h.s}`).join("\n"); },
     contact: () => { goto("contact"); return `mail   ${DATA.contact.email}\ngithub ${DATA.contact.github}`; },
     links: () => { location.href = "links.html"; return "opening links.html ..."; },
+    ask: () => { goto("ask"); return "opening ask.claude ..."; },
     resume: () => { window.open(DATA.resumeFile, "_blank"); return "opening " + DATA.resumeFile + " ..."; },
     theme: () => { cycleTheme(); return "phosphor recalibrated."; },
     whoami: () => `${DATA.name} — ${DATA.role}`,
-    ls: () => "about.txt  skills.sys  work.mp4  projects/  honors.md  contact.net  resume.pdf",
+    ls: () => "about.txt  skills.sys  work.mp4  projects/  honors.md  ask.claude  contact.net  resume.pdf",
     sudo: () => "nice try.",
     clear: () => "\x00CLEAR",
   };
@@ -400,18 +404,26 @@ function renderMeters() {
 let graphTimer = null;
 function runGraph() {
   if (graphTimer) return;
-  const el = $("#cpuGraph");
-  const blocks = " ▁▂▃▄▅▆▇█";
-  const W = 60;
-  let hist = Array.from({ length: W }, () => Math.random());
+  const N = 64;
+  const series = {
+    cpu: { v: 0.55, hist: [], out: $("#gCpu"), fmt: (v) => Math.round(v * 100) + "%" },
+    net: { v: 0.35, hist: [], out: $("#gNet"), fmt: (v) => Math.round(v * 900) + " kb/s" },
+    mem: { v: 0.62, hist: [], out: $("#gMem"), fmt: (v) => Math.round(v * 100) + "%" },
+  };
+  $$(".graph__bars").forEach((g) => { g.innerHTML = Array.from({ length: N }, () => "<i></i>").join(""); });
+  for (const k in series) series[k].hist = Array.from({ length: N }, () => series[k].v);
   const draw = () => {
-    hist.push(Math.min(1, Math.max(0, hist[hist.length - 1] + (Math.random() - 0.5) * 0.35)));
-    hist = hist.slice(-W);
-    const line = hist.map((v) => blocks[Math.round(v * (blocks.length - 1))]).join("");
-    el.textContent = `cpu ${line}\nnet ${[...line].reverse().join("")}`;
+    for (const k in series) {
+      const s = series[k];
+      s.v = Math.min(1, Math.max(0.04, s.v + (Math.random() - 0.5) * (k === "mem" ? 0.08 : 0.3)));
+      s.hist.push(s.v); s.hist = s.hist.slice(-N);
+      const bars = $(`.graph__bars[data-g="${k}"]`).children;
+      s.hist.forEach((v, i) => { bars[i].style.height = (v * 100) + "%"; });
+      s.out.textContent = s.fmt(s.v);
+    }
   };
   draw();
-  if (!reduced) graphTimer = setInterval(draw, 200);
+  if (!reduced) graphTimer = setInterval(draw, 220);
 }
 
 /* ============================================================
@@ -515,28 +527,174 @@ function startVHS() {
 }
 
 /* ============================================================
+   DESKTOP — widgets, stage manager rail, mac clock
+   ============================================================ */
+function renderDesktop() {
+  $("#ringWidget").innerHTML = DATA.skills.slice(0, 4).map((k) =>
+    `<div class="ring"><div class="ring__c" style="--p:${k.pct}"><span>${esc(k.g)}</span></div>${k.pct}%</div>`).join("");
+  const apps = [
+    ["about",      "about.txt",   "▯", "#3b82f6"],
+    ["skills",     "skills.sys",  "≣", "#22c55e"],
+    ["experience", "work.mp4",    "▶", "#f97316"],
+    ["projects",   "projects/",   "▤", "#0ea5e9"],
+    ["honors",     "honors.md",   "★", "#eab308"],
+    ["ask",        "ask.claude",  "✳", "#d97757"],
+  ];
+  const stage = $("#stage");
+  stage.innerHTML = apps.map(([id, name, g, c]) => `
+    <div class="stage__card" data-goto="${id}" style="--ac:${c}">
+      <div class="stage__thumb"><div class="stage__lines"><i></i><i></i><i></i><i></i></div></div>
+      <div class="stage__app">${g}</div>
+      <div class="stage__name">${name}</div>
+    </div>`).join("");
+  $$(".stage__card").forEach((c) => c.addEventListener("click", () => goto(c.dataset.goto)));
+  // rail pops open when the pointer nears the left edge or the user scrolls over the desktop
+  let hold;
+  const pop = () => { stage.classList.add("is-open"); clearTimeout(hold); hold = setTimeout(() => stage.classList.remove("is-open"), 1400); };
+  $(".desktop").addEventListener("pointermove", (e) => { if (e.clientX < 200) pop(); }, { passive: true });
+  $(".desktop").addEventListener("wheel", pop, { passive: true });
+  setTimeout(pop, 1800);
+  // mac clock
+  const tick = () => { $("#macClock").textContent = new Date().toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).replace(",", ""); };
+  tick(); setInterval(tick, 30000);
+}
+
+/* ============================================================
+   ASK — Claude-style chat over the same data
+   ============================================================ */
+function chatAnswer(q) {
+  const t = q.toLowerCase(), c = DATA.contact;
+  const li = (a) => `<ul>${a.map((x) => `<li>${x}</li>`).join("")}</ul>`;
+  if (/project|built|build|made|ship/.test(t))
+    return `<p>Ainesh has shipped a handful of things. The highlights:</p>` + li(DATA.projects.map((p) =>
+      `<b>${esc(p.name)}</b> <i>(${esc(p.tag)})</i> — ${esc(p.body.split("\n")[0])}${p.link ? ` <a href="${esc(p.link)}" target="_blank" rel="noopener">repo ↗</a>` : ""}`)) +
+      `<p>Want details on any one of them? Ask, or open the <a href="#projects" data-goto="projects">projects folder</a>.</p>`;
+  if (/skill|stack|language|tool|know|tech/.test(t))
+    return `<h4>Languages & tools</h4>` + li(DATA.skills.map((k) => `<b>${esc(k.g)}</b> — ${esc(k.v)} <i>(${k.pct}%)</i>`));
+  if (/honor|award|won|win|achiev|rank|eagle|belt/.test(t))
+    return `<p>A few things he's earned:</p>` + li(DATA.honors.map((h) => `<b>${esc(h.b)}</b> — ${esc(h.s)}`));
+  if (/work|experience|job|intern|research|teach|icode|algoverse/.test(t))
+    return `<h4>Experience</h4>` + li(DATA.tapes.map((x) => `<b>${esc(x.role)}</b> @ ${esc(x.org)} <i>(${esc(x.when)})</i><br>${esc(x.note)}`));
+  if (/contact|email|reach|linkedin|instagram|github|hire|message/.test(t))
+    return `<p>Fastest is email. All the ways:</p>` + li([
+      `Email — <a href="mailto:${c.email}">${c.email}</a>`,
+      `LinkedIn — <a href="${c.linkedin}" target="_blank" rel="noopener">${c.linkedin.replace("https://www.", "")}</a>`,
+      `GitHub — <a href="${c.github}" target="_blank" rel="noopener">${c.github.replace("https://", "")}</a>`,
+      `Instagram — <a href="${c.instagram}" target="_blank" rel="noopener">${c.instagram.replace("https://www.", "").replace(/\/$/, "")}</a>`,
+      `Everything on one page — <a href="links.html">links.html</a>`]);
+  if (/resume|cv/.test(t))
+    return `<p>Here's the PDF: <a href="${DATA.resumeFile}" target="_blank" rel="noopener">${DATA.resumeFile} ↗</a></p>`;
+  if (/who|about|ainesh|yourself|intro|school|berkeley/.test(t))
+    return `<p><b>${esc(DATA.name)}</b> is a Computer Science student at <b>UC Berkeley</b> (College of Computing, Data Science & Society, class of 2030). He graduated from Bridgeland High School in Cypress, TX ranked 2 of 921.</p><p>${esc(DATA.tagline)}</p><p>He's interested in on-device AI, retrieval systems and native apps — and is <b>open to internships</b>.</p>`;
+  if (/hi|hello|hey|yo\b/.test(t))
+    return `<p>Hey! I'm a small Claude-flavoured guide to this portfolio. Ask me about Ainesh's <b>projects</b>, <b>skills</b>, <b>experience</b>, <b>honors</b>, or how to <b>contact</b> him.</p>`;
+  return `<p>I only know about Ainesh — try asking about his <b>projects</b>, <b>skills</b>, <b>experience</b>, <b>honors</b>, <b>resume</b>, or how to <b>contact</b> him.</p>`;
+}
+let chatBusy = false;
+async function chatSend(q) {
+  q = (q || "").trim(); if (!q || chatBusy) return; chatBusy = true;
+  const wrap = $("#chatMsgs"), scroll = $("#chatScroll");
+  wrap.insertAdjacentHTML("beforeend", `<div class="msg msg--user"><div class="msg__body">${esc(q)}</div></div>`);
+  const ai = document.createElement("div"); ai.className = "msg msg--ai msg--typing";
+  ai.innerHTML = `<div class="msg__ico">✳</div><div class="msg__body"></div>`;
+  wrap.append(ai); scroll.scrollTop = scroll.scrollHeight;
+  await sleep(reduced ? 0 : 450);
+  const html = chatAnswer(q), body = $(".msg__body", ai);
+  if (reduced) body.innerHTML = html;
+  else {
+    // stream: reveal the rendered HTML word by word via a hidden template
+    const tmp = document.createElement("div"); tmp.innerHTML = html;
+    const text = tmp.textContent; let shown = 0;
+    while (shown < text.length) {
+      shown += 3 + Math.floor(Math.random() * 4);
+      body.textContent = text.slice(0, shown); scroll.scrollTop = scroll.scrollHeight;
+      await sleep(14);
+    }
+    body.innerHTML = html;
+  }
+  ai.classList.remove("msg--typing"); scroll.scrollTop = scroll.scrollHeight;
+  $$("a[data-goto]", body).forEach((a) => a.addEventListener("click", (e) => { e.preventDefault(); goto(a.dataset.goto); }));
+  chatBusy = false;
+}
+function renderChat() {
+  $("#chatScroll").innerHTML = `<div class="chat__msgs" id="chatMsgs"></div>`;
+  $("#chatForm").addEventListener("submit", (e) => { e.preventDefault(); const i = $("#chatInput"); const q = i.value; i.value = ""; chatSend(q); });
+  $$("[data-ask]").forEach((li) => li.addEventListener("click", () => { $("#chatInput").value = ""; chatSend(li.dataset.ask); }));
+  $("#chatNew").addEventListener("click", () => { $("#chatMsgs").innerHTML = ""; chatSend("hi"); });
+  $("#chatShare").addEventListener("click", () => location.href = "links.html");
+}
+let chatStarted = false;
+async function startChat() {
+  if (chatStarted) return; chatStarted = true;
+  await chatSend("who is ainesh?");
+  await chatSend("what has he won?");
+}
+
+/* ============================================================
    FINDER
    ============================================================ */
+const TAG_COLORS = { swift: "#ff8f5a", typescript: "#5fb0ff", python: "#ffd75a", java: "#ff6b6b", default: "#b58cff" };
+const tagKey = (p) => (p.tag.split(/[\s/·]+/)[0] || "").toLowerCase();
 function renderFinder() {
-  const grid = $("#finderGrid"), preview = $("#finderPreview");
-  $("#finderCount").textContent = DATA.projects.length + " items";
-  grid.innerHTML = DATA.projects.map((p, i) => `
+  const grid = $("#finderGrid"), preview = $("#finderPreview"), status = $("#finderCount");
+  const P = DATA.projects;
+  let sel = -1, tagFilter = null, query = "";
+
+  const folderIco = (cls = "folder__ico") => `<div class="${cls}"><i></i></div>`;
+  grid.innerHTML = P.map((p, i) => `
     <button class="folder" data-i="${i}" style="--i:${i}">
-      <div class="folder__ico">▤</div>
+      ${folderIco()}
       <div class="folder__name">${esc(p.name)}</div>
       <div class="folder__tag">${esc(p.tag)}</div>
     </button>`).join("");
+
+  // sidebar tags = unique first word of each project tag
+  const tags = [...new Set(P.map(tagKey))];
+  $("#finderTags").innerHTML = tags.map((t) =>
+    `<li data-tag="${esc(t)}" style="--tc:${TAG_COLORS[t] || TAG_COLORS.default}"><i></i>${esc(t)}</li>`).join("");
+
+  const visible = () => P.map((p, i) => i).filter((i) =>
+    (!tagFilter || tagKey(P[i]) === tagFilter) &&
+    (!query || (P[i].name + " " + P[i].tag + " " + P[i].meta).toLowerCase().includes(query)));
+  const applyFilter = () => {
+    const v = visible();
+    $$(".folder", grid).forEach((f) => f.classList.toggle("is-hidden", !v.includes(+f.dataset.i)));
+    status.textContent = `${v.length} of ${P.length} items` + (sel >= 0 && v.includes(sel) ? ", 1 selected" : "");
+    $$("#finderTags li").forEach((li) => li.classList.toggle("cur", li.dataset.tag === tagFilter));
+    if (v.length && !v.includes(sel)) open(v[0]);
+  };
+
   let typing = 0;
   const open = async (i) => {
-    const p = DATA.projects[i];
+    const p = P[i]; sel = i;
     $$(".folder", grid).forEach((f) => f.classList.toggle("is-sel", +f.dataset.i === i));
+    status.textContent = `${visible().length} of ${P.length} items, 1 selected`;
     const run = ++typing;
-    preview.innerHTML = `<h3>${esc(p.name)}</h3><div class="sub">${esc(p.tag)} · ${esc(p.meta)}</div><pre></pre>${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">source →</a>` : ""}`;
+    preview.innerHTML = `${folderIco("folder__ico finder__bigico")}<h3>${esc(p.name)}</h3><div class="sub">${esc(p.tag)} · ${esc(p.meta)}</div><pre></pre>${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">open source →</a>` : ""}
+      <div class="finder__kv"><span>Kind</span><span>Folder</span><span>Tags</span><span>${esc(tagKey(p))}</span><span>Where</span><span>~/ainesh/projects/${esc(p.name.toLowerCase().replace(/\s+/g, "-"))}</span></div>`;
     const pre = $("pre", preview);
     if (reduced) { pre.textContent = p.body; return; }
     for (const ch of p.body) { if (run !== typing) return; pre.append(ch); await sleep(ch === "\n" ? 36 : 5); }
   };
+  const step = (d) => { const v = visible(); if (!v.length) return; const k = v.indexOf(sel); open(v[(k + d + v.length) % v.length]); };
+
   $$(".folder", grid).forEach((f) => f.addEventListener("click", () => open(+f.dataset.i)));
+  $("#finderBack").addEventListener("click", () => step(-1));
+  $("#finderFwd").addEventListener("click", () => step(1));
+  $("#finderSearch").addEventListener("input", (e) => { query = e.target.value.trim().toLowerCase(); applyFilter(); });
+  $$("#finderTags li").forEach((li) => li.addEventListener("click", () => { tagFilter = tagFilter === li.dataset.tag ? null : li.dataset.tag; applyFilter(); }));
+  $$("[data-fnav]").forEach((li) => li.addEventListener("click", () => {
+    $$("[data-fnav]").forEach((x) => x.classList.toggle("cur", x === li));
+    $("#finderTitle").textContent = li.textContent.replace("☁", "").trim();
+    if (li.dataset.fnav === "projects") { tagFilter = null; query = ""; $("#finderSearch").value = ""; applyFilter(); }
+    else { // every other "place" just shows an empty folder
+      $$(".folder", grid).forEach((f) => f.classList.add("is-hidden"));
+      status.textContent = "0 items";
+      preview.innerHTML = `<p class="finder__hint">nothing here — try <b>projects</b></p>`;
+    }
+  }));
+  $("#finderShare").addEventListener("click", () => { const p = P[sel]; if (p && p.link) window.open(p.link, "_blank", "noopener"); });
+  status.textContent = `${P.length} items`;
   return () => open(0);
 }
 
@@ -600,6 +758,7 @@ function activate(screen) {
   if (!started[id]) {
     started[id] = true;
     if (id === "hero") runHero();
+    if (id === "ask") startChat();
     if (id === "about") runEditor();
     if (id === "skills") { $$("#skills h2.decode").forEach(decodeTo); runGraph(); }
     if (id === "experience") startVHS();
@@ -655,7 +814,7 @@ function juice() {
   });
 
   // hover blips + click thocks on all interactive bits (delegated)
-  const HOVER_SEL = "button, a, .filetree li, .folder, .qt__chapters li, .trophy, .ports a";
+  const HOVER_SEL = "button, a, .filetree li, .folder, .finder__list li, .qt__chapters li, .trophy, .ports a";
   document.addEventListener("pointerover", (e) => {
     const el = e.target.closest(HOVER_SEL);
     if (el && !el.dataset.hovered) {
@@ -711,6 +870,8 @@ spotlight();
 renderMeters();
 renderVHS();
 window.__openFirstProject = renderFinder();
+renderDesktop();
+renderChat();
 renderTrophies();
 renderTicker();
 screenSwitcher();
