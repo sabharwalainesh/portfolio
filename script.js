@@ -232,13 +232,16 @@ async function boot() {
     "spawning apps: shell nano monitor vhs finder modem ...",
     "ready.",
   ];
+  let finished = false;
   const finish = () => {
+    if (finished) return; finished = true;
+    removeEventListener("keydown", skip); removeEventListener("click", skip);
     bootEl.classList.add("done");
     const p = $("#crtPower");
     if (!reduced) { p.classList.add("fire"); p.addEventListener("animationend", () => p.classList.remove("fire"), { once: true }); }
     activate($("#hero"));
   };
-  const skip = () => { removeEventListener("keydown", skip); removeEventListener("click", skip); finish(); };
+  const skip = () => finish();
   addEventListener("keydown", skip); addEventListener("click", skip);
 
   if (reduced) { el.textContent = lines.join("\n"); bar.style.width = "100%"; await sleep(300); finish(); return; }
@@ -529,10 +532,7 @@ function startVHS() {
 /* ============================================================
    DESKTOP — widgets, stage manager rail, mac clock
    ============================================================ */
-function renderDesktop() {
-  $("#ringWidget").innerHTML = DATA.skills.slice(0, 4).map((k) =>
-    `<div class="ring"><div class="ring__c" style="--p:${k.pct}"><span>${esc(k.g)}</span></div>${k.pct}%</div>`).join("");
-  const apps = [
+const apps = [
     ["hero",       "terminal",    "$_", "#111827"],
     ["about",      "about.txt",   "▯", "#3b82f6"],
     ["skills",     "skills.sys",  "≣", "#22c55e"],
@@ -541,7 +541,8 @@ function renderDesktop() {
     ["honors",     "honors.md",   "★", "#eab308"],
     ["ask",        "ask.claude",  "✳", "#d97757"],
     ["contact",    "contact.net", "◍", "#8b5cf6"],
-  ];
+];
+function renderDesktop() {
   const stage = $("#stage");
   stage.innerHTML = apps.map(([id, name, g, c]) => `
     <div class="stage__card" data-goto="${id}" style="--ac:${c}">
@@ -555,7 +556,18 @@ function renderDesktop() {
   const pop = (ms = 1600) => { stage.classList.add("is-open"); clearTimeout(hold); hold = setTimeout(() => stage.classList.remove("is-open"), ms); };
   const desk = $("#desktop");
   desk.addEventListener("pointermove", (e) => { if (e.clientX - desk.getBoundingClientRect().left < 210) pop(); }, { passive: true });
-  addEventListener("wheel", () => pop(), { passive: true });
+  let acc = 0, lastStep = 0;
+  addEventListener("wheel", (e) => {
+    pop(1800);
+    if (e.target.closest(".window__body, .chat__scroll, .finder__grid, .finder__preview, .chat__side")) return; // let inner content scroll
+    acc += e.deltaY;
+    const now = performance.now();
+    if (Math.abs(acc) > 90 && now - lastStep > 750 && !swapping) {
+      lastStep = now; const dir = acc > 0 ? 1 : -1; acc = 0;
+      const order = apps.map((a) => a[0]); const k = order.indexOf(currentApp?.id ?? "hero");
+      showApp(order[(k + dir + order.length) % order.length]);
+    }
+  }, { passive: true });
   stage.addEventListener("pointerenter", () => pop(60000));
   stage.addEventListener("pointerleave", () => pop(600));
   setTimeout(() => pop(2600), 1800);
@@ -569,40 +581,35 @@ function renderDesktop() {
 let swapping = false;
 async function stageSwap(card) {
   if (swapping) return; swapping = true;
-  const desk = $("#desktop"), id = card.dataset.goto, name = $(".stage__name", card).textContent;
-  const cur = currentApp && $(".window", currentApp);
-  const target = document.getElementById(id);
+  const id = card.dataset.goto, target = document.getElementById(id);
+  const cur = currentApp && $(".window", currentApp), win = $(".window", target);
   if (reduced || !cur) { activate(target); swapping = false; return; }
   SFX.whoosh();
-  const d = desk.getBoundingClientRect(), from = $(".stage__thumb", card).getBoundingClientRect();
-  // slot the new window will occupy: peek at it off-screen
-  target.classList.add("is-off"); target.style.visibility = "hidden";
-  const to = $(".window", target).getBoundingClientRect();
-  target.classList.remove("is-off"); target.style.visibility = "";
-  // ghost grows from the thumbnail into the slot
-  const ghost = document.createElement("div");
-  ghost.className = "stage__ghost"; ghost.innerHTML = `<i></i><span>${esc(name)}</span>`;
-  ghost.style.left = (from.left - d.left) + "px"; ghost.style.top = (from.top - d.top) + "px";
-  ghost.style.width = to.width + "px"; ghost.style.height = to.height + "px";
-  ghost.style.transform = `scale(${from.width / to.width}, ${from.height / to.height})`;
-  desk.append(ghost);
+  const from = $(".stage__thumb", card).getBoundingClientRect();
+  // show the target alongside the current one, measure where it lands
+  target.classList.add("is-on");
+  const to = win.getBoundingClientRect();
+  // start the real window at the thumbnail's position/size and let it spring into place
+  win.style.transformOrigin = "0 0"; win.style.transition = "none";
+  win.style.transform = `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${from.width / to.width}, ${from.height / to.height}) rotateY(18deg)`;
+  win.style.opacity = "0.85";
   // current window parks into the rail slot that will represent it
   const curCard = $(`.stage__card[data-goto="${currentApp.id}"]`);
   curCard.classList.remove("is-active"); curCard.style.visibility = "hidden";
   const park = $(".stage__thumb", curCard).getBoundingClientRect(), c = cur.getBoundingClientRect();
   cur.style.transformOrigin = "0 0";
+  void win.offsetWidth;
+  win.style.transition = ""; win.classList.add("is-flying");
+  win.style.transform = ""; win.style.opacity = "";
   cur.classList.add("is-parking");
   cur.style.transform = `translate(${park.left - c.left}px, ${park.top - c.top}px) scale(${park.width / c.width}, ${park.height / c.height}) rotateY(20deg)`;
   card.classList.add("is-leaving");
-  void ghost.offsetWidth;
-  ghost.style.transform = `translate(${to.left - from.left}px, ${to.top - from.top}px) scale(1)`;
-  await sleep(520);
+  await sleep(560);
   activate(target);
-  curCard.style.visibility = "";
+  win.classList.remove("is-flying"); win.style.transformOrigin = "";
   cur.classList.remove("is-parking"); cur.style.transform = ""; cur.style.transformOrigin = "";
-  ghost.style.opacity = "0";
-  await sleep(220); ghost.remove();
-  card.classList.remove("is-leaving"); $("#stage").classList.remove("is-open");
+  curCard.style.visibility = "";
+  card.classList.remove("is-leaving");
   swapping = false;
 }
 
