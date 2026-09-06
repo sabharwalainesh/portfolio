@@ -69,10 +69,14 @@ const DATA = {
   ],
 
   honors: [
-    { ico: "①", b: "Class Rank 2 of 921", s: "Bridgeland High School" },
-    { ico: "▮", b: "3rd Place: Website Design", s: "FBLA National Leadership Conference" },
-    { ico: "⇡", b: "Eagle Scout", s: "Boy Scouts of America" },
-    { ico: "◆", b: "Black Belt", s: "Taekwondo" },
+    { ico: "①", b: "Class Rank 2 of 921", s: "Bridgeland High School", tag: "academics", c: "#ffcf6b",
+      note: "Second in a class of 921, the top quarter of one percent." },
+    { ico: "▮", b: "3rd Place: Website Design", s: "FBLA National Leadership Conference", tag: "competition", c: "#5fb0ff",
+      note: "Placed on the national podium for a site built end to end." },
+    { ico: "⇡", b: "Eagle Scout", s: "Boy Scouts of America", tag: "service", c: "#7fdc7f",
+      note: "The highest rank in Scouts BSA, earned through a led service project." },
+    { ico: "◆", b: "Black Belt", s: "Taekwondo", tag: "discipline", c: "#ff8f8f",
+      note: "Years of training, gradings and sparring to first dan." },
   ],
 
   contact: {
@@ -83,16 +87,25 @@ const DATA = {
     phone: "832-302-6497",
   },
 
-  ticker: [
-    ["status", "open to internships"],
-    ["loc", "Berkeley, CA / Cypress, TX"],
-    ["now playing", "CS 61A"],
-    ["stack", "Java · TS · Python · Swift"],
-    ["award", "3rd @ FBLA Nationals, Website Design"],
-    ["rank", "2 / 921"],
-    ["fact", "Eagle Scout · TKD black belt"],
-    ["uptime", "since 2008"],
-  ],
+  dock: {
+    apps: [
+      ["hero",       "terminal",    "$_", "#2b3440"],
+      ["about",      "about.txt",   "\u25AF", "#3b82f6"],
+      ["skills",     "skills.sys",  "\u2261", "#22c55e"],
+      ["experience", "work.mp4",    "\u25B6", "#f97316"],
+      ["projects",   "projects/",   "\u25A4", "#0ea5e9"],
+      ["honors",     "honors.md",   "\u2605", "#eab308"],
+      ["ask",        "ask.claude",  "\u2733", "#d97757"],
+      ["contact",    "contact.net", "\u25CD", "#8b5cf6"],
+    ],
+    // brand marks live in the dock the way real app icons do, and open the real thing
+    links: [
+      ["github",    "GitHub",     "#1f2328"],
+      ["linkedin",  "LinkedIn",   "#0a66c2"],
+      ["instagram", "Instagram",  "#c13584"],
+      ["mail",      "Email me",   "#2f7de1"],
+    ],
+  },
 };
 
 /* ============================================================
@@ -439,7 +452,7 @@ function runGraph() {
   for (const k in series) series[k].hist = Array.from({ length: N }, () => series[k].v);
 
   const draw = () => {
-    const apps = Object.keys(started).length || 1;
+    const apps = opened.size || 1;
     const target = {
       cpu: 0.05 + pointerLoad * 0.92,
       net: 0.015 + netBurst * 0.95,
@@ -830,10 +843,28 @@ function renderFinder() {
    ============================================================ */
 function renderTrophies() {
   $("#trophies").innerHTML = DATA.honors.map((h, i) => `
-    <div class="trophy" style="--i:${i}">
-      <span class="trophy__ico">${esc(h.ico)}</span>
-      <span class="trophy__txt"><b>${esc(h.b)}</b><span>${esc(h.s)}</span></span>
-    </div>`).join("");
+    <article class="trophy" style="--i:${i}; --tc:${h.c}">
+      <span class="trophy__medal">${esc(h.ico)}</span>
+      <span class="trophy__body">
+        <span class="trophy__tag">${esc(h.tag)}</span>
+        <b>${esc(h.b)}</b>
+        <span class="trophy__org">${esc(h.s)}</span>
+        <p class="trophy__note">${esc(h.note)}</p>
+      </span>
+    </article>`).join("");
+}
+// the ring fills and the counter ticks up the first time honors.md is opened
+let ringDone = false;
+function runHonorsRing() {
+  if (ringDone) return; ringDone = true;
+  const ring = $("#honorsRing"), out = $("#honorsCount"), n = DATA.honors.length;
+  if (reduced) { ring.style.setProperty("--p", 100); out.textContent = n; return; }
+  let k = 0;
+  const step = () => {
+    k++; out.textContent = k; ring.style.setProperty("--p", (k / n) * 100); SFX.key();
+    if (k < n) setTimeout(step, 260);
+  };
+  setTimeout(step, 450);
 }
 let netDone = false;
 async function runNet() {
@@ -860,9 +891,54 @@ async function runNet() {
   $("#ports").innerHTML = rows.map(([k, href, label], i) =>
     `<li style="--i:${i}"><a href="${esc(href)}"${href.startsWith("mailto") ? "" : ' target="_blank" rel="noopener"'}><span class="jack"></span><span class="pk">${k}</span>${esc(label)}</a></li>`).join("");
 }
-function renderTicker() {
-  const one = DATA.ticker.map(([k, v]) => `<span><em>${esc(k)}:</em> <b>${esc(v)}</b></span>`).join('<span class="sep">▪</span>');
-  $("#tickerTrack").innerHTML = one + '<span class="sep">▪</span>' + one;
+const DOCK_ICON = {
+  github: `<svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03A9.5 9.5 0 0 1 12 6.8c.85 0 1.71.12 2.51.35 1.91-1.3 2.75-1.03 2.75-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.85-2.34 4.7-4.57 4.95.36.31.68.92.68 1.85v2.75c0 .26.18.58.69.48A10 10 0 0 0 12 2z"/></svg>`,
+  linkedin: `<svg viewBox="0 0 24 24" fill="#fff"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9.5 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95C21 8.75 22 11 22 14.1V21h-4v-6.1c0-1.45-.03-3.3-2.05-3.3-2.05 0-2.36 1.57-2.36 3.2V21h-4z"/></svg>`,
+  instagram: `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.2" fill="#fff" stroke="none"/></svg>`,
+  mail: `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M3 7l9 6 9-6" stroke-linecap="round"/></svg>`,
+};
+function renderDock() {
+  const c = DATA.contact;
+  const href = { github: c.github, linkedin: c.linkedin, instagram: c.instagram, mail: "mailto:" + c.email };
+  const tile = (inner, color) => `<span class="dock__tile" style="--ac:${color}">${inner}</span>`;
+  const html = [
+    ...DATA.dock.apps.map(([id, label, glyph, color]) =>
+      `<button class="dock__item" data-app="${id}" data-label="${esc(label)}">${tile(esc(glyph), color)}</button>`),
+    `<span class="dock__sep"></span>`,
+    ...DATA.dock.links.map(([k, label, color]) =>
+      `<a class="dock__item" href="${esc(href[k])}" data-label="${esc(label)}"${k === "mail" ? "" : ' target="_blank" rel="noopener"'}>${tile(DOCK_ICON[k], color)}</a>`),
+    `<span class="dock__sep"></span>`,
+    `<a class="dock__item" href="links.html" data-label="all my links">${tile("\u25C8", "#38bdf8")}</a>`,
+    `<a class="dock__item" href="${esc(DATA.resumeFile)}" target="_blank" rel="noopener" data-label="resume.pdf">${tile("\u25A4", "#e5e7eb")}</a>`,
+  ].join("");
+  const inner = $("#dockInner");
+  inner.innerHTML = html;
+  $$(".dock__item[data-app]", inner).forEach((b) => b.addEventListener("click", () => {
+    b.classList.add("is-bouncing");
+    b.addEventListener("animationend", () => b.classList.remove("is-bouncing"), { once: true });
+    showApp(b.dataset.app);
+  }));
+
+  // macOS-style magnification: icons swell with how close the pointer is
+  if (!reduced) {
+    const items = $$(".dock__item", inner);
+    const magnify = (x) => items.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      const d = Math.abs(x - (r.left + r.width / 2));
+      const k = Math.exp(-((d / 78) ** 2));                 // falls off smoothly either side
+      el.style.transform = `translateY(${(-16 * k).toFixed(2)}px) scale(${(1 + 0.55 * k).toFixed(3)})`;
+    });
+    inner.addEventListener("pointermove", (e) => { inner.style.setProperty("--mag", "1"); magnify(e.clientX); }, { passive: true });
+    inner.addEventListener("pointerleave", () => items.forEach((el) => { el.style.transform = ""; }));
+  }
+}
+const opened = new Set(["hero"]);                          // apps the visitor has actually opened
+function syncDock(id) {
+  opened.add(id);
+  $$(".dock__item[data-app]").forEach((b) => {
+    b.classList.toggle("is-open", opened.has(b.dataset.app));
+    b.classList.toggle("is-active", b.dataset.app === id);
+  });
 }
 
 /* ============================================================
@@ -874,7 +950,9 @@ function activate(screen) {
   $$(".screen").forEach((s) => s.classList.toggle("is-on", s === screen));
   const id = screen.id;
   currentApp = screen;
-  if (id === "skills") runGraph();                       // idempotent; the monitor only ticks while it can be seen
+  if (id === "skills") runGraph();                       // both are idempotent and must not depend on
+  if (id === "honors") runHonorsRing();                  // the priming pass, which forces reduced motion
+  syncDock(id);                       // idempotent; the monitor only ticks while it can be seen
   $$(".stage__card").forEach((c) => c.classList.toggle("is-active", c.dataset.goto === id));
   $("#crumbFile").textContent = screen.dataset.file;
   $$("#filetree li").forEach((li) => li.classList.toggle("is-active", li.dataset.goto === id));
@@ -1016,7 +1094,7 @@ window.__openFirstProject = renderFinder();
 renderDesktop();
 renderChat();
 renderTrophies();
-renderTicker();
+renderDock();
 screenSwitcher();
 juice();
 boot();

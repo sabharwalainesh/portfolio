@@ -273,16 +273,22 @@
         </div>
       </section>
 
-      <!-- HONORS / TROPHIES -->
+      <!-- HONORS / TROPHY CASE -->
       <section class="screen" id="honors" data-file="honors.md">
         <div class="window" data-app="trophy">
           <div class="window__bar">
             <span class="tb-traffic"><i></i><i></i><i></i></span>
             <span class="tb-title">honors.md - achievements</span>
-            <span class="tb-actions">4 / 4 unlocked</span>
+            <span class="tb-actions"><i class="dot live"></i>all unlocked</span>
           </div>
           <div class="window__body">
-            <h2 class="decode" data-text="$ cat honors.md">$ cat honors.md</h2>
+            <div class="honors__head">
+              <div>
+                <h2 class="decode" data-text="$ cat honors.md">$ cat honors.md</h2>
+                <p class="honors__sub">four badges, no cheat codes</p>
+              </div>
+              <div class="honors__ring" id="honorsRing"><span><b id="honorsCount">0</b>/4</span></div>
+            </div>
             <div class="trophies" id="trophies"></div>
           </div>
         </div>
@@ -361,9 +367,9 @@
   </div>
 
   <!-- ===== TICKER ===== -->
-  <footer class="ticker" aria-hidden="true">
-    <div class="ticker__track" id="tickerTrack"></div>
-  </footer>
+  <nav class="dock" id="dock" aria-label="dock">
+    <div class="dock__inner" id="dockInner"></div>
+  </nav>
 
   <script src="script.js"></script>
 </body>
