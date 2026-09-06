@@ -189,7 +189,7 @@ const SFX = (() => {
 /* ---------- helpers ---------- */
 const $  = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
@@ -240,6 +240,7 @@ async function boot() {
     const p = $("#crtPower");
     if (!reduced) { p.classList.add("fire"); p.addEventListener("animationend", () => p.classList.remove("fire"), { once: true }); }
     activate($("#hero"));
+    setTimeout(primeApps, 80);
   };
   const skip = () => finish();
   addEventListener("keydown", skip); addEventListener("click", skip);
@@ -376,6 +377,7 @@ let editorDone = false;
 async function runEditor() {
   if (editorDone) return; editorDone = true;
   const code = $("#aboutCode"), gutter = $("#aboutGutter"), lnEl = $("#aboutLn");
+  const fast = reduced;
   for (let i = 0; i < DATA.about.length; i++) {
     const line = DATA.about[i];
     gutter.append((i + 1) + "\n");
@@ -383,8 +385,8 @@ async function runEditor() {
     const span = document.createElement("span");
     span.className = line.c || "";
     code.append(span);
-    await typeInto(span, line.t, 9);
-    if (line.x) { const sx = document.createElement("span"); sx.className = "str"; code.append(sx); await typeInto(sx, line.x, 9); }
+    if (fast) span.append(line.t); else await typeInto(span, line.t, 9);
+    if (line.x) { const sx = document.createElement("span"); sx.className = "str"; code.append(sx); if (fast) sx.append(line.x); else await typeInto(sx, line.x, 9); }
     code.append("\n");
   }
   const cur = document.createElement("span");
@@ -556,13 +558,16 @@ function renderDesktop() {
   const pop = (ms = 1600) => { stage.classList.add("is-open"); clearTimeout(hold); hold = setTimeout(() => stage.classList.remove("is-open"), ms); };
   const desk = $("#desktop");
   desk.addEventListener("pointermove", (e) => { if (e.clientX - desk.getBoundingClientRect().left < 210) pop(); }, { passive: true });
-  let acc = 0, lastStep = 0;
+  // wheel → step one app per deliberate scroll gesture; trackpad momentum is swallowed during the cooldown
+  let acc = 0, lastStep = 0, settle;
   addEventListener("wheel", (e) => {
     pop(1800);
     if (e.target.closest(".window__body, .chat__scroll, .finder__grid, .finder__preview, .chat__side")) return; // let inner content scroll
-    acc += e.deltaY;
     const now = performance.now();
-    if (Math.abs(acc) > 90 && now - lastStep > 750 && !swapping) {
+    if (now - lastStep < 1100 || swapping) { acc = 0; return; }   // momentum tail of the last gesture: ignore
+    acc += e.deltaY;
+    clearTimeout(settle); settle = setTimeout(() => { acc = 0; }, 220);  // gesture ended without reaching the threshold
+    if (Math.abs(acc) > 240) {
       lastStep = now; const dir = acc > 0 ? 1 : -1; acc = 0;
       const order = apps.map((a) => a[0]); const k = order.indexOf(currentApp?.id ?? "hero");
       showApp(order[(k + dir + order.length) % order.length]);
@@ -591,8 +596,8 @@ async function stageSwap(card) {
   const to = win.getBoundingClientRect();
   // start the real window at the thumbnail's position/size and let it spring into place
   win.style.transformOrigin = "0 0"; win.style.transition = "none";
-  win.style.transform = `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${from.width / to.width}, ${from.height / to.height}) rotateY(18deg)`;
-  win.style.opacity = "0.85";
+  win.style.transform = `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${from.width / to.width}, ${from.height / to.height}) rotateY(32deg)`;
+  win.style.opacity = "0";
   // current window parks into the rail slot that will represent it
   const curCard = $(`.stage__card[data-goto="${currentApp.id}"]`);
   curCard.classList.remove("is-active"); curCard.style.visibility = "hidden";
@@ -602,9 +607,9 @@ async function stageSwap(card) {
   win.style.transition = ""; win.classList.add("is-flying");
   win.style.transform = ""; win.style.opacity = "";
   cur.classList.add("is-parking");
-  cur.style.transform = `translate(${park.left - c.left}px, ${park.top - c.top}px) scale(${park.width / c.width}, ${park.height / c.height}) rotateY(20deg)`;
+  cur.style.transform = `translate(${park.left - c.left}px, ${park.top - c.top}px) scale(${park.width / c.width}, ${park.height / c.height}) rotateY(32deg)`;
   card.classList.add("is-leaving");
-  await sleep(560);
+  await sleep(370);
   activate(target);
   win.classList.remove("is-flying"); win.style.transformOrigin = "";
   cur.classList.remove("is-parking"); cur.style.transform = ""; cur.style.transformOrigin = "";
@@ -766,13 +771,14 @@ let netDone = false;
 async function runNet() {
   if (netDone) return; netDone = true;
   const s = $("#netStatus"), c = DATA.contact;
-  SFX.dial();
+  const fast = reduced;
+  if (!fast) SFX.dial();
   for (const l of [
     "$ ./connect --host ainesh",
     "dialing " + c.phone.replace(/-/g, " ") + " ...",
     "handshake ... negotiating ... 56000 bps",
     "CONNECTED. fastest response: email.",
-  ]) await typeInto(s, l + "\n", 11);
+  ]) { if (fast) s.append(l + "\n"); else await typeInto(s, l + "\n", 11); }
   $("#netLed").classList.add("ok");
   $("#netLabel").textContent = "connected";
   const rows = [
@@ -822,6 +828,17 @@ function activate(screen) {
     if (id === "honors") { $$("#honors h2.decode").forEach(decodeTo); setTimeout(() => SFX.ding(), 500); }
     if (id === "contact") runNet();
   }
+}
+// pre-render the typewriter-style apps once (instantly) so a swapped-in window is never blank
+function primeApps() {
+  const was = reduced; reduced = true;
+  try {
+    started.about = true; runEditor();
+    started.skills = true; $$("#skills h2.decode").forEach(decodeTo); runGraph();
+    started.projects = true; window.__openFirstProject?.();
+    started.honors = true; $$("#honors h2.decode").forEach(decodeTo);
+    started.contact = true; runNet();
+  } finally { reduced = was; }
 }
 let currentApp = null;
 function showApp(id) {
