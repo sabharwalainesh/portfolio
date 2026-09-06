@@ -44,13 +44,13 @@ const DATA = {
   ],
 
   tapes: [
-    { role: "Lead Instructor", org: "iCode", when: "Oct 2025 – Mar 2026",
+    { role: "Lead Instructor", org: "iCode", when: "Oct 2025 - Mar 2026", logo: "assets/logos/icode.png",
       note: "Taught programming fundamentals to K-12 through hands-on projects; guided students building and debugging their own software and hardware." },
-    { role: "Student Researcher", org: "Algoverse AI Research Program", when: "Aug 2024 – May 2025",
+    { role: "Student Researcher", org: "Algoverse AI Research Program", when: "Aug 2024 - May 2025", logo: "assets/logos/algoverse.png",
       note: "Applied research on Retrieval-Augmented Generation for grounded QA, retrieval, embeddings, and prompting strategies to raise answer accuracy over source docs." },
-    { role: "B.A. Computer Science", org: "UC Berkeley (CDSS)", when: "Class of 2030",
+    { role: "B.A. Computer Science", org: "UC Berkeley (CDSS)", when: "Class of 2030", logo: "assets/logos/berkeley.png",
       note: "College of Computing, Data Science & Society. Currently: CS 61A, linear algebra & differential equations behind me." },
-    { role: "Bridgeland High School", org: "Cypress, TX", when: "Class of 2026",
+    { role: "Bridgeland High School", org: "Cypress, TX", when: "Class of 2026", logo: "assets/logos/bridgeland.png",
       note: "Rank 2 of 921. Data structures & algorithms in Java, AP Physics C, FBLA, TSA." },
   ],
 
@@ -495,6 +495,9 @@ async function vhsGo(i, manual = false) {
   SFX.clunk();
   if (!reduced) { flash.classList.remove("roll"); void flash.offsetWidth; flash.classList.add("roll"); }
   $("#vhsTape").textContent = `chapter ${i + 1} / ${DATA.tapes.length}`;
+  const badge = $("#vhsLogo"), img = $("#vhsLogoImg");
+  if (t.logo) { badge.hidden = false; badge.classList.remove("in"); void badge.offsetWidth; img.src = t.logo; img.alt = t.org; badge.classList.add("in"); }
+  else badge.hidden = true;
   $$("#qtChapters li").forEach((li, k) => li.classList.toggle("cur", k === i));
   vhsPaint();
   const role = $("#vhsRole"), org = $("#vhsOrg"), when = $("#vhsWhen"), note = $("#vhsNote");

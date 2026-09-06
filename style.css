@@ -205,7 +205,8 @@ body[data-theme="cyan"] .desktop__wall { filter: hue-rotate(-15deg) saturate(1.1
 .stage__thumb { position: absolute; left: 22px; top: 0; right: 0; bottom: 8px; border-radius: 6px; background: var(--panel); border: 1px solid var(--edge); overflow: hidden; }
 .stage__snap { position: absolute; left: 0; top: 0; transform-origin: 0 0; pointer-events: none; user-select: none; }
 .stage__snap .window { position: static !important; inset: auto !important; opacity: 1 !important; transform: none !important; border-radius: 0; box-shadow: none; }
-.stage__snap .window__bar::after, .stage__snap .crt-flicker { display: none; }
+.stage__snap .window__bar::after, .stage__snap .crt-flicker, .stage__snap .qt__grain { display: none; }
+.stage__snap * { animation: none !important; transition: none !important; }
 .stage__thumb.has-snap::before, .stage__thumb.has-snap .stage__lines { display: none; }
 .stage__thumb::before { content: ""; display: block; height: 10px; background: var(--panel-bar); border-bottom: 1px solid var(--edge); }
 .stage__lines { padding: 6px 8px; display: flex; flex-direction: column; gap: 4px; }
@@ -341,17 +342,27 @@ h2.decode { font-family: var(--font-display); font-size: 24px; color: var(--phos
   box-shadow: inset 0 0 90px rgba(0,0,0,.75);
 }
 .qt__grain {
-  position: absolute; inset: 0; opacity: .07; pointer-events: none;
-  background-image: repeating-conic-gradient(#fff 0% .0001%, #000 .0002% .0003%);
-  background-size: 170px 170px;
-  animation: staticJitter .18s steps(3) infinite;
+  position: absolute; inset: 0; opacity: .05; pointer-events: none;
+  /* cheap static film grain: one small SVG tile, no animation (a conic-gradient tile animated at 60fps pinned the renderer) */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  background-size: 120px 120px;
 }
-@keyframes staticJitter { 0%{transform:translate(0,0)} 33%{transform:translate(-40px,20px)} 66%{transform:translate(30px,-30px)} 100%{transform:translate(0,0)} }
 .qt__flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
 .qt__flash.roll { animation: qtcut .35s ease-out 1; }
 @keyframes qtcut { 0% { opacity: .18; } 100% { opacity: 0; } }
 
 .qt__content { position: absolute; inset: 0; padding: 2rem 2.2rem 7.2rem; display: flex; flex-direction: column; justify-content: center; }
+.qt__badge {
+  position: absolute; right: 6%; top: 50%; transform: translateY(-58%);
+  width: clamp(190px, 26vw, 330px); aspect-ratio: 1;
+  border-radius: 28px; display: grid; place-items: center; padding: 8%;
+  background: radial-gradient(120% 120% at 30% 20%, rgba(255,255,255,.97), rgba(226,235,240,.9));
+  box-shadow: 0 30px 70px -20px rgba(0,0,0,.8), 0 0 60px -10px var(--phos-glow), inset 0 1px 0 rgba(255,255,255,.9);
+}
+.qt__badge img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.qt__badge.in { animation: badgeIn .5s var(--ease) both; }
+@keyframes badgeIn { from { opacity: 0; transform: translateY(-58%) scale(.9) rotate(-3deg); } to { opacity: 1; transform: translateY(-58%) scale(1) rotate(0); } }
+.qt__content .vhs__role, .qt__content .vhs__org, .qt__content .vhs__when, .qt__content .vhs__note, .qt__chapter { max-width: min(56ch, 58%); }
 .qt__chapter { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-dim); margin-bottom: .5rem; }
 .vhs__role { font-family: var(--font-display); font-size: clamp(26px, 4.2vw, 40px); color: var(--phos-bright); text-shadow: 0 0 16px var(--phos-glow); line-height: 1; }
 .vhs__org { color: var(--amber); margin-top: .35rem; font-size: 14px; }
@@ -683,6 +694,9 @@ a, button { -webkit-tap-highlight-color: transparent; }
 
   .qt__video { min-height: 0; }
   .qt__content { padding: 1.4rem 1.1rem 8.6rem; justify-content: flex-start; }
+  .qt__badge { position: static; transform: none; width: 92px; border-radius: 18px; margin: 0 0 .7rem auto; padding: 9%; }
+  @keyframes badgeIn { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: scale(1); } }
+  .qt__content .vhs__role, .qt__content .vhs__org, .qt__content .vhs__when, .qt__content .vhs__note, .qt__chapter { max-width: none; }
   .vhs__role { font-size: clamp(22px, 6.4vw, 30px); }
   .vhs__note { font-size: 12.5px; }
   .qt__hud { width: calc(100% - 1.2rem); bottom: .6rem; padding: .55rem .7rem .6rem; border-radius: 10px; }
