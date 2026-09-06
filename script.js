@@ -891,25 +891,53 @@ async function runNet() {
   $("#ports").innerHTML = rows.map(([k, href, label], i) =>
     `<li style="--i:${i}"><a href="${esc(href)}"${href.startsWith("mailto") ? "" : ' target="_blank" rel="noopener"'}><span class="jack"></span><span class="pk">${k}</span>${esc(label)}</a></li>`).join("");
 }
-const DOCK_ICON = {
-  github: `<svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03A9.5 9.5 0 0 1 12 6.8c.85 0 1.71.12 2.51.35 1.91-1.3 2.75-1.03 2.75-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.85-2.34 4.7-4.57 4.95.36.31.68.92.68 1.85v2.75c0 .26.18.58.69.48A10 10 0 0 0 12 2z"/></svg>`,
-  linkedin: `<svg viewBox="0 0 24 24" fill="#fff"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9.5 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95C21 8.75 22 11 22 14.1V21h-4v-6.1c0-1.45-.03-3.3-2.05-3.3-2.05 0-2.36 1.57-2.36 3.2V21h-4z"/></svg>`,
-  instagram: `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.2" fill="#fff" stroke="none"/></svg>`,
-  mail: `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M3 7l9 6 9-6" stroke-linecap="round"/></svg>`,
+// Vector app icons drawn to sit on a macOS-style squircle: a coloured plate plus a
+// white mark, so they stay crisp at any magnification without image assets.
+const DOCK_ART = {
+  terminal: { bg: "linear-gradient(170deg,#3d4450,#15181d 55%,#0a0c0f)", svg:
+    `<svg viewBox="0 0 24 24" fill="none" stroke="#7fdc7f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7.5l4 4-4 4"/><path d="M11.5 16.5h7.5"/></svg>` },
+  about: { bg: "linear-gradient(170deg,#ffffff,#e6e9ee 60%,#c9cfd8)", svg:
+    `<svg viewBox="0 0 24 24" fill="none" stroke="#495569" stroke-width="1.9" stroke-linecap="round"><path d="M5.5 6.5h13M5.5 10.5h13M5.5 14.5h9M5.5 18.5h6"/></svg>` },
+  skills: { bg: "linear-gradient(170deg,#1d2b22,#101a14 60%,#0a120d)", svg:
+    `<svg viewBox="0 0 24 24" fill="#5ee08a"><rect x="3" y="13" width="3.2" height="8" rx="1.1"/><rect x="8" y="8" width="3.2" height="13" rx="1.1"/><rect x="13" y="4" width="3.2" height="17" rx="1.1"/><rect x="18" y="10" width="3.2" height="11" rx="1.1" opacity=".65"/></svg>` },
+  work: { bg: "linear-gradient(170deg,#5b6472,#2b3038 55%,#171a20)", svg:
+    `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2" fill="none" stroke="#fff" stroke-width="1.7" opacity=".9"/><path d="M10 8.2l6.4 3.8-6.4 3.8z" fill="#fff"/></svg>` },
+  projects: { bg: "linear-gradient(170deg,#63c8ff,#2b8ef0 55%,#1a6ed4)", svg:
+    `<svg viewBox="0 0 24 24" fill="#fff"><path d="M3.2 7.4c0-1 .8-1.8 1.8-1.8h3.4l1.8 1.9h8.8c1 0 1.8.8 1.8 1.8v7.3c0 1-.8 1.8-1.8 1.8H5c-1 0-1.8-.8-1.8-1.8z" opacity=".95"/><path d="M3.2 10.4h17.6v6.2c0 1-.8 1.8-1.8 1.8H5c-1 0-1.8-.8-1.8-1.8z" fill="#eaf4ff" opacity=".55"/></svg>` },
+  honors: { bg: "linear-gradient(170deg,#ffd96b,#f0a92c 55%,#c97d10)", svg:
+    `<svg viewBox="0 0 24 24" fill="#fff"><path d="M7 4h10v3.2a5 5 0 0 1-10 0z"/><path d="M4.6 5.2h2.1v2.2a2.7 2.7 0 0 1-2.1-2.2zM17.3 5.2h2.1a2.7 2.7 0 0 1-2.1 2.2z" opacity=".8"/><path d="M10.8 12.4h2.4l.5 3.1h2.1v2.1H8.2v-2.1h2.1z"/><rect x="6.8" y="18.4" width="10.4" height="2.1" rx="1"/></svg>` },
+  ask: { bg: "linear-gradient(170deg,#f0a184,#d97757 52%,#b45636)", svg:
+    `<svg viewBox="0 0 24 24" fill="#fff"><g transform="translate(12 12)"><rect x="-1.15" y="-9.5" width="2.3" height="19" rx="1.15"/><rect x="-1.15" y="-9.5" width="2.3" height="19" rx="1.15" transform="rotate(45)"/><rect x="-1.15" y="-9.5" width="2.3" height="19" rx="1.15" transform="rotate(90)"/><rect x="-1.15" y="-9.5" width="2.3" height="19" rx="1.15" transform="rotate(135)"/></g></svg>` },
+  contact: { bg: "linear-gradient(170deg,#a78bfa,#7c4ded 55%,#5b32c4)", svg:
+    `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.4"/><path d="M3.7 12h16.6"/><path d="M12 3.6c2.4 2.4 3.6 5.2 3.6 8.4s-1.2 6-3.6 8.4c-2.4-2.4-3.6-5.2-3.6-8.4s1.2-6 3.6-8.4z"/></svg>` },
+
+  github: { bg: "linear-gradient(170deg,#3a3f46,#1c2024 55%,#0d1013)", svg:
+    `<svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03A9.5 9.5 0 0 1 12 6.8c.85 0 1.71.12 2.51.35 1.91-1.3 2.75-1.03 2.75-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.85-2.34 4.7-4.57 4.95.36.31.68.92.68 1.85v2.75c0 .26.18.58.69.48A10 10 0 0 0 12 2z"/></svg>` },
+  linkedin: { bg: "linear-gradient(170deg,#3f9bea,#0a66c2 55%,#064b90)", svg:
+    `<svg viewBox="0 0 24 24" fill="#fff"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9.5 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95C21 8.75 22 11 22 14.1V21h-4v-6.1c0-1.45-.03-3.3-2.05-3.3-2.05 0-2.36 1.57-2.36 3.2V21h-4z"/></svg>` },
+  instagram: { bg: "radial-gradient(circle at 28% 100%, #fdd869 0%, #f9743f 28%, #e6316f 52%, #c32aa3 70%, #7b34c4 92%)", svg:
+    `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9"><rect x="3.4" y="3.4" width="17.2" height="17.2" rx="5.2"/><circle cx="12" cy="12" r="4.3"/><circle cx="17.3" cy="6.7" r="1.15" fill="#fff" stroke="none"/></svg>` },
+  mail: { bg: "linear-gradient(170deg,#7cc3ff,#2f7de1 52%,#155bb5)", svg:
+    `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="2.6" y="5.2" width="18.8" height="13.6" rx="3"/><path d="M3.4 7.4l7.5 5.2a2 2 0 0 0 2.2 0l7.5-5.2" stroke-linecap="round"/></svg>` },
+  links: { bg: "linear-gradient(170deg,#7ee8fa,#2bb6d6 55%,#1785a3)", svg:
+    `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M10.2 13.8a3.6 3.6 0 0 0 5.1 0l2.6-2.6a3.6 3.6 0 1 0-5.1-5.1l-1.3 1.3"/><path d="M13.8 10.2a3.6 3.6 0 0 0-5.1 0l-2.6 2.6a3.6 3.6 0 1 0 5.1 5.1l1.3-1.3"/></svg>` },
+  resume: { bg: "linear-gradient(170deg,#ffffff,#e8ebf0 60%,#cdd3dc)", svg:
+    `<svg viewBox="0 0 24 24"><path d="M6 2.8h7.6L19 8.2v13H6z" fill="none" stroke="#5a6474" stroke-width="1.6" stroke-linejoin="round"/><path d="M13.4 2.8V8.4H19" fill="none" stroke="#5a6474" stroke-width="1.6" stroke-linejoin="round"/><rect x="7.6" y="13.6" width="9" height="5.2" rx="1.2" fill="#e8453c"/><text x="12.1" y="17.6" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="3.5" font-weight="700" fill="#fff">PDF</text></svg>` },
 };
 function renderDock() {
   const c = DATA.contact;
   const href = { github: c.github, linkedin: c.linkedin, instagram: c.instagram, mail: "mailto:" + c.email };
-  const tile = (inner, color) => `<span class="dock__tile" style="--ac:${color}">${inner}</span>`;
+  const ART_FOR = { hero: "terminal", experience: "work" };     // screen ids that do not match their art
+  const tile = (key) => `<span class="dock__tile" style="--bg:${DOCK_ART[key].bg}">${DOCK_ART[key].svg}</span>`;
   const html = [
-    ...DATA.dock.apps.map(([id, label, glyph, color]) =>
-      `<button class="dock__item" data-app="${id}" data-label="${esc(label)}">${tile(esc(glyph), color)}</button>`),
+    ...DATA.dock.apps.map(([id, label]) =>
+      `<button class="dock__item" data-app="${id}" data-label="${esc(label)}">${tile(ART_FOR[id] || id)}</button>`),
     `<span class="dock__sep"></span>`,
-    ...DATA.dock.links.map(([k, label, color]) =>
-      `<a class="dock__item" href="${esc(href[k])}" data-label="${esc(label)}"${k === "mail" ? "" : ' target="_blank" rel="noopener"'}>${tile(DOCK_ICON[k], color)}</a>`),
+    ...DATA.dock.links.map(([k, label]) =>
+      `<a class="dock__item" href="${esc(href[k])}" data-label="${esc(label)}"${k === "mail" ? "" : ' target="_blank" rel="noopener"'}>${tile(k)}</a>`),
     `<span class="dock__sep"></span>`,
-    `<a class="dock__item" href="links.html" data-label="all my links">${tile("\u25C8", "#38bdf8")}</a>`,
-    `<a class="dock__item" href="${esc(DATA.resumeFile)}" target="_blank" rel="noopener" data-label="resume.pdf">${tile("\u25A4", "#e5e7eb")}</a>`,
+    `<a class="dock__item" href="links.html" data-label="all my links">${tile("links")}</a>`,
+    `<a class="dock__item" href="${esc(DATA.resumeFile)}" target="_blank" rel="noopener" data-label="resume.pdf">${tile("resume")}</a>`,
   ].join("");
   const inner = $("#dockInner");
   inner.innerHTML = html;
@@ -919,18 +947,34 @@ function renderDock() {
     showApp(b.dataset.app);
   }));
 
-  // macOS-style magnification: icons swell with how close the pointer is
-  if (!reduced) {
-    const items = $$(".dock__item", inner);
-    const magnify = (x) => items.forEach((el) => {
-      const r = el.getBoundingClientRect();
-      const d = Math.abs(x - (r.left + r.width / 2));
-      const k = Math.exp(-((d / 78) ** 2));                 // falls off smoothly either side
-      el.style.transform = `translateY(${(-16 * k).toFixed(2)}px) scale(${(1 + 0.55 * k).toFixed(3)})`;
+  // macOS-style magnification. Slot centres are measured once per hover rather than
+  // per move (they shift as neighbours scale, which is what made this judder), and
+  // the transform is written on an animation frame with the CSS transition switched
+  // off, so the icons track the pointer instead of chasing it.
+  if (reduced) return;
+  const items = $$(".dock__item", inner);
+  let centres = [], x = 0, raf = 0;
+  const measure = () => {
+    inner.classList.add("no-mag");
+    items.forEach((el) => { el.style.transform = ""; });
+    centres = items.map((el) => { const r = el.getBoundingClientRect(); return r.left + r.width / 2; });
+    inner.classList.remove("no-mag");
+  };
+  const paint = () => {
+    raf = 0;
+    items.forEach((el, i) => {
+      const k = Math.exp(-(((x - centres[i]) / 82) ** 2));   // smooth falloff either side
+      el.style.transform = `translateY(${(-17 * k).toFixed(2)}px) scale(${(1 + 0.6 * k).toFixed(3)})`;
     });
-    inner.addEventListener("pointermove", (e) => { inner.style.setProperty("--mag", "1"); magnify(e.clientX); }, { passive: true });
-    inner.addEventListener("pointerleave", () => items.forEach((el) => { el.style.transform = ""; }));
-  }
+  };
+  inner.addEventListener("pointerenter", (e) => { measure(); inner.classList.add("is-magnifying"); x = e.clientX; paint(); });
+  inner.addEventListener("pointermove", (e) => { x = e.clientX; if (!raf) raf = requestAnimationFrame(paint); }, { passive: true });
+  inner.addEventListener("pointerleave", () => {
+    inner.classList.remove("is-magnifying");
+    if (raf) { cancelAnimationFrame(raf); raf = 0; }
+    items.forEach((el) => { el.style.transform = ""; });
+  });
+  addEventListener("resize", () => { if (inner.classList.contains("is-magnifying")) measure(); }, { passive: true });
 }
 const opened = new Set(["hero"]);                          // apps the visitor has actually opened
 function syncDock(id) {
