@@ -608,29 +608,33 @@ async function stageSwap(card) {
   const cur = currentApp && $(".window", currentApp), win = $(".window", target);
   if (reduced || !cur) { activate(target); swapping = false; return; }
   SFX.whoosh();
-  const stage = $("#stage");
-  stage.classList.add("is-open");                       // the rail must be out, so both windows land where the cards are
-  refreshThumbs();                                       // the card the window lands on must already look like it
+  const stage = $("#stage"), curCard = $(`.stage__card[data-goto="${currentApp.id}"]`);
+  // Put the rail in its final open state *before measuring*: mid-transition or closed
+  // cards would hand us the wrong boxes and the windows would land off their cards.
+  stage.classList.add("is-open", "no-anim");
+  curCard.classList.remove("is-active");                 // the outgoing app's card takes its slot back
+  curCard.style.visibility = "hidden";
+  refreshThumbs();                                       // the card a window lands on must already look like it
+  void stage.offsetWidth;
   const from = $(".stage__thumb", card).getBoundingClientRect();
+  const park = $(".stage__thumb", curCard).getBoundingClientRect();
+  stage.classList.remove("no-anim");
+
   // show the target alongside the current one, measure where it lands
   target.classList.add("is-on");
-  const to = win.getBoundingClientRect();
-  // start the real window at the thumbnail's position/size and let it spring into place
+  const to = win.getBoundingClientRect(), c = cur.getBoundingClientRect();
+
+  // incoming grows out of its card, outgoing shrinks onto its own - same clock, both opaque
   win.style.transformOrigin = "0 0"; win.style.transition = "none";
-  win.style.transform = `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${from.width / to.width}, ${from.height / to.height}) rotateY(32deg)`;
-  win.style.opacity = "0";
-  // current window parks into the rail slot that will represent it
-  const curCard = $(`.stage__card[data-goto="${currentApp.id}"]`);
-  curCard.classList.remove("is-active"); curCard.style.visibility = "hidden";
-  const park = $(".stage__thumb", curCard).getBoundingClientRect(), c = cur.getBoundingClientRect();
+  win.style.transform = `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${from.width / to.width}, ${from.height / to.height})`;
   cur.style.transformOrigin = "0 0";
   void win.offsetWidth;
   win.style.transition = ""; win.classList.add("is-flying");
-  win.style.transform = ""; win.style.opacity = "";
+  win.style.transform = "";
   cur.classList.add("is-parking");
-  cur.style.transform = `translate(${park.left - c.left}px, ${park.top - c.top}px) scale(${park.width / c.width}, ${park.height / c.height}) rotateY(32deg)`;
+  cur.style.transform = `translate(${park.left - c.left}px, ${park.top - c.top}px) scale(${park.width / c.width}, ${park.height / c.height})`;
   card.classList.add("is-leaving");
-  await sleep(440);                                      // let the outgoing window finish shrinking onto its rail card
+  await sleep(480);                                      // let the outgoing window finish shrinking onto its rail card
   curCard.style.visibility = "";                         // card appears underneath, exactly where the window landed
   await new Promise((r) => requestAnimationFrame(r));    // paint the card before the window goes, so the swap is seamless
   activate(target);
