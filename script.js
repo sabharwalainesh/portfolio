@@ -547,16 +547,47 @@ function renderDesktop() {
       <div class="stage__app">${g}</div>
       <div class="stage__name">${name}</div>
     </div>`).join("");
-  $$(".stage__card").forEach((c) => c.addEventListener("click", () => goto(c.dataset.goto)));
+  $$(".stage__card").forEach((c, i) => { c.style.setProperty("--i", i); c.addEventListener("click", () => stageSwap(c)); });
   // rail pops open when the pointer nears the left edge or the user scrolls over the desktop
   let hold;
-  const pop = () => { stage.classList.add("is-open"); clearTimeout(hold); hold = setTimeout(() => stage.classList.remove("is-open"), 1400); };
-  $(".desktop").addEventListener("pointermove", (e) => { if (e.clientX < 200) pop(); }, { passive: true });
-  $(".desktop").addEventListener("wheel", pop, { passive: true });
-  setTimeout(pop, 1800);
+  const pop = (ms = 1600) => { stage.classList.add("is-open"); clearTimeout(hold); hold = setTimeout(() => stage.classList.remove("is-open"), ms); };
+  const desk = $(".desktop");
+  desk.addEventListener("pointermove", (e) => { if (e.clientX - desk.getBoundingClientRect().left < 210) pop(); }, { passive: true });
+  desk.addEventListener("wheel", () => pop(), { passive: true });
+  stage.addEventListener("pointerenter", () => pop(60000));
+  stage.addEventListener("pointerleave", () => pop(600));
+  setTimeout(() => pop(2600), 1800);
+  desk.addEventListener("pointerdown", (e) => { if (!e.target.closest(".stage")) stage.classList.remove("is-open"); });
   // mac clock
   const tick = () => { $("#macClock").textContent = new Date().toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).replace(",", ""); };
   tick(); setInterval(tick, 30000);
+}
+
+// Stage Manager swap: thumbnail flies to the window slot, terminal parks in the rail, then we scroll to the section
+let swapping = false;
+async function stageSwap(card) {
+  if (swapping) return; swapping = true;
+  const desk = $(".desktop"), term = $(".window--term");
+  const id = card.dataset.goto, name = $(".stage__name", card).textContent;
+  if (reduced) { goto(id); swapping = false; return; }
+  SFX.whoosh();
+  const d = desk.getBoundingClientRect(), from = $(".stage__thumb", card).getBoundingClientRect(), to = term.getBoundingClientRect();
+  const ghost = document.createElement("div");
+  ghost.className = "stage__ghost"; ghost.innerHTML = `<i></i><span>${esc(name)}</span>`;
+  ghost.style.left = (from.left - d.left) + "px"; ghost.style.top = (from.top - d.top) + "px";
+  ghost.style.width = to.width + "px"; ghost.style.height = to.height + "px";
+  ghost.style.transform = `scale(${from.width / to.width}, ${from.height / to.height})`;
+  desk.append(ghost);
+  card.classList.add("is-leaving"); term.classList.add("is-parking");
+  void ghost.offsetWidth;
+  ghost.style.transform = `translate(${to.left - from.left}px, ${to.top - from.top}px) scale(1)`;
+  await sleep(560);
+  goto(id);
+  await sleep(500);
+  ghost.style.opacity = "0";
+  await sleep(250); ghost.remove();
+  card.classList.remove("is-leaving"); term.classList.remove("is-parking"); $("#stage").classList.remove("is-open");
+  swapping = false;
 }
 
 /* ============================================================
@@ -620,7 +651,6 @@ function renderChat() {
   $("#chatScroll").innerHTML = `<div class="chat__msgs" id="chatMsgs"></div>`;
   $("#chatForm").addEventListener("submit", (e) => { e.preventDefault(); const i = $("#chatInput"); const q = i.value; i.value = ""; chatSend(q); });
   $$("[data-ask]").forEach((li) => li.addEventListener("click", () => { $("#chatInput").value = ""; chatSend(li.dataset.ask); }));
-  $("#chatNew").addEventListener("click", () => { $("#chatMsgs").innerHTML = ""; chatSend("hi"); });
   $("#chatShare").addEventListener("click", () => location.href = "links.html");
 }
 let chatStarted = false;

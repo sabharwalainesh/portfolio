@@ -307,35 +307,25 @@
       </section>
 
       <!-- ASK / CLAUDE -->
-      <section class="screen" id="ask" data-file="ask.claude">
+      <section class="screen screen--flush" id="ask" data-file="ask.claude">
         <div class="window window--chat" data-app="chat">
           <div class="chat">
-            <aside class="chat__side">
-              <div class="chat__sidetop">
-                <span class="tb-traffic"><i></i><i></i><i></i></span>
-                <span class="chat__sideicons"><i title="search">⌕</i><i title="new chat" id="chatNew">✎</i></span>
-              </div>
-              <ul class="chat__list">
-                <li class="cur"><span class="chat__spark">✳</span>Claude</li>
-                <li data-ask="what projects has he built?"><span class="chat__glyph">▤</span>Projects</li>
-                <li data-ask="what are his skills?"><span class="chat__glyph">≣</span>Skills</li>
-              </ul>
-              <div class="chat__h">Projects</div>
-              <ul class="chat__list">
-                <li class="chat__proj" data-ask="tell me about ainesh">Ainesh's Portfolio</li>
-              </ul>
-              <div class="chat__h">More</div>
-              <ul class="chat__list">
-                <li class="chat__proj" data-ask="resume">Ainesh's Resume</li>
-                <li class="chat__proj" data-ask="how do I contact him?">Contact</li>
-              </ul>
-            </aside>
             <div class="chat__main">
               <div class="chat__top">
+                <span class="tb-traffic chat__traffic"><i></i><i></i><i></i></span>
                 <span class="chat__model">Claude <small>Fable 5.1</small> ⌄</span>
                 <span class="chat__topright"><button class="chat__share" id="chatShare">⇧ Share</button><span class="chat__avatar">A</span></span>
               </div>
               <div class="chat__scroll" id="chatScroll"></div>
+              <div class="chat__chips">
+                <button data-ask="tell me about ainesh">About</button>
+                <button data-ask="what projects has he built?">Projects</button>
+                <button data-ask="what are his skills?">Skills</button>
+                <button data-ask="what's his experience?">Experience</button>
+                <button data-ask="what has he won?">Honors</button>
+                <button data-ask="how do I contact him?">Contact</button>
+                <button data-ask="resume">Resume</button>
+              </div>
               <form class="chat__composer" id="chatForm">
                 <input id="chatInput" type="text" placeholder="Ask anything about Ainesh…" autocomplete="off" />
                 <button type="submit" title="send">↑</button>
