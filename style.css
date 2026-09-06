@@ -216,8 +216,8 @@ body[data-theme="cyan"] .desktop__wall { filter: hue-rotate(-15deg) saturate(1.1
 .stage.is-open .stage__name { opacity: 1; }
 
 .screen--home { pointer-events: none; left: -170px; }   /* span the full desktop so the terminal centres on screen */
-.hero__hi { font-family: var(--font-display); font-size: clamp(22px, 2.4vw, 34px); color: var(--amber); letter-spacing: .06em; line-height: 1; margin-bottom: .25rem; text-shadow: 0 0 10px color-mix(in srgb, var(--amber) 40%, transparent); }
-.window--term { position: absolute; left: 22%; right: 22%; top: 30%; bottom: 3%; width: auto; height: auto; max-height: none; font-family: var(--font-mono); pointer-events: auto; }
+.hero__hi { font-family: var(--font-display); font-size: clamp(26px, 3.2vw, 46px); color: var(--amber); letter-spacing: .06em; line-height: 1; margin-bottom: .25rem; text-shadow: 0 0 10px color-mix(in srgb, var(--amber) 40%, transparent); }
+.window--term { position: absolute; left: 15%; right: 15%; top: 11%; bottom: 8%; width: auto; height: auto; max-height: none; font-family: var(--font-mono); pointer-events: auto; }
 .window--term .window__body { overflow: hidden; }
 
 .window--term .window__body { flex: 0 1 auto; }
@@ -267,7 +267,7 @@ h2.decode { font-family: var(--font-display); font-size: 24px; color: var(--phos
 /* ===================== HERO / SHELL ===================== */
 .hero__ascii {
   font-family: var(--font-mono);
-  font-size: clamp(6px, 1.2vw, 12px);
+  font-size: clamp(6px, 1.65vw, 17px);
   line-height: 1.15;
   color: var(--phos-bright);
   text-shadow: 0 0 12px var(--phos-glow);
@@ -281,11 +281,11 @@ h2.decode { font-family: var(--font-display); font-size: 24px; color: var(--phos
   50% { transform: translate(3px, -1px); text-shadow: -3px 0 var(--rose), 3px 0 var(--phos); }
   100% { transform: translate(0); }
 }
-.hero__sub { white-space: pre-wrap; color: var(--phos); text-shadow: 0 0 6px var(--phos-glow); font-size: 14px; margin-bottom: .8rem; min-height: 3.2em; }
+.hero__sub { white-space: pre-wrap; color: var(--phos); text-shadow: 0 0 6px var(--phos-glow); font-size: 15.5px; margin-bottom: .8rem; min-height: 3.2em; }
 .hero__sub .accent { color: var(--phos-bright); font-weight: 700; }
 .hero__sub .amber { color: var(--amber); }
 
-.term__live { display: flex; align-items: baseline; gap: .5ch; flex-wrap: wrap; font-size: 14px; }
+.term__live { display: flex; align-items: baseline; gap: .5ch; flex-wrap: wrap; font-size: 15.5px; }
 .term__prompt { color: var(--amber); white-space: nowrap; }
 .term__input { flex: 1; min-width: 4ch; color: var(--phos-bright); outline: none; caret-color: transparent; word-break: break-word; }
 .term__caret { color: var(--phos-bright); animation: blink 1s steps(1) infinite; margin-left: -.4ch; }
