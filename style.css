@@ -226,7 +226,7 @@ body[data-theme="cyan"] .desktop__wall { filter: hue-rotate(-15deg) saturate(1.1
 .screen--home { pointer-events: none; left: -170px; }   /* span the full desktop so the terminal centres on screen */
 .hero__hi { font-family: var(--font-display); font-size: clamp(26px, 3.2vw, 46px); color: var(--amber); letter-spacing: .06em; line-height: 1; margin-bottom: .25rem; text-shadow: 0 0 10px color-mix(in srgb, var(--amber) 40%, transparent); }
 .window--term { position: absolute; left: 15%; right: 15%; top: 11%; bottom: 8%; width: auto; height: auto; max-height: none; font-family: var(--font-mono); pointer-events: auto; }
-.window--term .window__body { overflow: hidden; }
+.window--term .window__body { overflow-y: auto; }
 
 .window--term .window__body { flex: 0 1 auto; }
 .screen.is-on .window {
@@ -288,6 +288,10 @@ h2.decode { font-family: var(--font-display); font-size: 24px; color: var(--phos
   50% { transform: translate(3px, -1px); text-shadow: -3px 0 var(--rose), 3px 0 var(--phos); }
   100% { transform: translate(0); }
 }
+.hero__banner { overflow: hidden; }
+/* the terminal body is a flex column: without this its children get squeezed on
+   short screens and the text lines end up drawn on top of each other */
+.window--term .window__body > * { flex: 0 0 auto; }
 .hero__sub { white-space: pre-wrap; color: var(--phos); text-shadow: 0 0 6px var(--phos-glow); font-size: 15.5px; margin-bottom: .8rem; min-height: 3.2em; }
 .hero__sub .accent { color: var(--phos-bright); font-weight: 700; }
 .hero__sub .amber { color: var(--amber); }
@@ -707,14 +711,15 @@ a, button { -webkit-tap-highlight-color: transparent; }
   #sfxToggle, #themeToggle { padding: .15rem .4rem; font-size: 11px; }
 
   .layout { grid-template-columns: 1fr; }
-  .apps { top: 46px; left: 6px; right: 6px; bottom: calc(var(--dock-h) + 8px); }
+  .apps { top: calc(var(--bar-h) + 6px); left: 6px; right: 6px; bottom: calc(var(--dock-h) + 8px); }
   .stage { display: none; }
   .screen--home { left: 0; }
-  .window--term { left: 0; right: 0; top: 40%; bottom: 0; }
+  .window--term { left: 0; right: 0; top: 16%; bottom: 0; }
   .hero__hi { font-size: 20px; }
 
-  /* horizontal jump strip pinned under the menubar */
-  .mobilenav {
+  /* the dock handles navigation on phones, so the jump strip is redundant */
+  .mobilenav { display: none; }
+  .mobilenav--unused {
     display: flex; gap: .35rem; position: fixed; top: var(--bar-h); left: 0; right: 0; z-index: 3900;
     padding: .35rem .6rem; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
     background: color-mix(in srgb, var(--panel) 88%, transparent); backdrop-filter: blur(6px);
@@ -751,7 +756,8 @@ a, button { -webkit-tap-highlight-color: transparent; }
   .msg--user .msg__body { max-width: 85%; }
   .chat__scroll { padding: .3rem .8rem; }
   .chat__composer { width: calc(100% - 1.4rem); }
-  .hero__sub, .term__live { font-size: 13px; }
+  .hero__sub { font-size: 13px; min-height: 0; }
+  .term__live { font-size: 13px; }
   .term__tip { font-size: 11px; }
   .editor__code { font-size: 12.5px; padding: .7rem .7rem; }
   .editor__gutter { padding: .7rem .4rem; font-size: 12px; }
@@ -779,10 +785,13 @@ a, button { -webkit-tap-highlight-color: transparent; }
   .finder__toolbar { padding: .45rem .6rem; gap: .5rem; }
   .finder__tools .finder__tool:not(#finderShare), .finder__toolgroup { display: none; }
   .finder__search { width: 110px; }
-  .finder__content { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); }
-  .finder__grid { grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: .8rem .3rem; padding: .9rem .6rem; max-height: 46%; }
+  .finder__content { grid-template-columns: 1fr; grid-template-rows: max-content minmax(0, 1fr); }
+  /* one sideways-scrolling strip of folders, so no vertical space is wasted */
+  .finder__grid { display: flex; gap: .55rem; padding: .7rem .5rem; max-height: none; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
+  .finder__grid::-webkit-scrollbar { display: none; }
+  .folder { flex: 0 0 86px; }
   .folder__ico { width: 56px; height: 42px; }
-  .finder__preview { border-left: 0; border-top: 1px solid var(--edge); padding: .9rem .8rem; }
+  .finder__preview { border-left: 0; border-top: 1px solid var(--edge); padding: .8rem; overflow-y: auto; }
   .finder__preview .finder__bigico { display: none; }
   .finder__preview h3 { font-size: 22px; }
   .finder__preview pre { font-size: 12px; }

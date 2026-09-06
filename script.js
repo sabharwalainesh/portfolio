@@ -286,6 +286,21 @@ function spotlight() {
 /* ============================================================
    HERO, ascii banner + typed sub + shell
    ============================================================ */
+// The ASCII name is fixed at 46 characters wide, so on a phone it overruns the
+// window. Scale the wrapper (not the <pre>, whose transform the glitch owns).
+function fitBanner() {
+  const box = $("#heroBanner"), el = $("#heroAscii");
+  if (!box || !el) return;
+  box.style.transform = ""; box.style.height = "";
+  const avail = box.clientWidth, w = el.scrollWidth;
+  if (!avail || !w || w <= avail) return;
+  const k = avail / w;
+  box.style.transformOrigin = "0 0";
+  box.style.transform = `scale(${k.toFixed(4)})`;
+  box.style.height = Math.ceil(el.scrollHeight * k) + "px";
+}
+addEventListener("resize", fitBanner, { passive: true });
+
 let heroDone = false;
 async function runHero() {
   if (heroDone) return; heroDone = true;
@@ -294,13 +309,14 @@ async function runHero() {
   // ascii banner: reveal by columns
   const rows = DATA.ascii.split("\n");
   const width = Math.max(...rows.map((r) => r.length));
-  if (reduced) { bannerEl.textContent = DATA.ascii; }
+  if (reduced) { bannerEl.textContent = DATA.ascii; fitBanner(); }
   else {
     for (let c = 0; c <= width; c += 3) {
       bannerEl.textContent = rows.map((r) => r.slice(0, c)).join("\n");
       await sleep(14);
     }
     bannerEl.textContent = DATA.ascii;
+    fitBanner();
     bannerEl.classList.add("glitch");
     setTimeout(() => bannerEl.classList.remove("glitch"), 900);
   }
@@ -626,6 +642,16 @@ function renderDesktop() {
     }
     return false;
   };
+  // one place that decides what "next" means, shared by wheel and touch
+  const step = (dir) => {
+    if (currentApp?.id === "experience") {                                // in the video, walk the chapters first
+      const n = DATA.tapes.length, k = vhs.i + dir;
+      if (k >= 0 && k < n) { vhsGo(k, true); return true; }
+    }
+    const order = apps.map((a) => a[0]), k = order.indexOf(currentApp?.id ?? "hero");
+    showApp(order[(k + dir + order.length) % order.length]);
+    return false;
+  };
   let acc = 0, lastStep = 0, settle;
   addEventListener("wheel", (e) => {
     pop(1800);
@@ -636,14 +662,25 @@ function renderDesktop() {
     clearTimeout(settle); settle = setTimeout(() => { acc = 0; }, 220);
     if (Math.abs(acc) > 240) {
       lastStep = now; const dir = acc > 0 ? 1 : -1; acc = 0;
-      // inside the video: scroll walks the chapters first, then leaves the app at either end
-      if (currentApp?.id === "experience") {
-        const n = DATA.tapes.length, k = vhs.i + dir;
-        if (k >= 0 && k < n) { vhsGo(k, true); lastStep = now - 400; return; }
-      }
-      const order = apps.map((a) => a[0]); const k = order.indexOf(currentApp?.id ?? "hero");
-      showApp(order[(k + dir + order.length) % order.length]);
+      if (step(dir)) lastStep = now - 400;
     }
+  }, { passive: true });
+
+  // phones never fire wheel, so the same gesture arrives as a vertical swipe
+  let sy = 0, sx = 0, st = 0, sEl = null;
+  addEventListener("touchstart", (e) => {
+    const t = e.touches[0]; sy = t.clientY; sx = t.clientX; st = performance.now(); sEl = e.target;
+  }, { passive: true });
+  addEventListener("touchend", (e) => {
+    const t = e.changedTouches[0], dy = t.clientY - sy, dx = t.clientX - sx;
+    if (swapping || performance.now() - st > 700) return;
+    if (Math.abs(dy) < 55 || Math.abs(dx) > Math.abs(dy) * 0.8) return;   // must be a deliberate vertical flick
+    if (sEl?.closest(".dock, .stage")) return;
+    if (innerCanScroll(sEl, -dy)) return;                                 // content still had somewhere to go
+    const now = performance.now();
+    if (now - lastStep < 500) return;
+    lastStep = now;
+    step(dy < 0 ? 1 : -1);                                                // swipe up moves forward
   }, { passive: true });
   stage.addEventListener("pointerenter", () => pop(60000));
   stage.addEventListener("pointerleave", () => pop(600));
