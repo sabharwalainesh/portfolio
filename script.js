@@ -99,12 +99,12 @@ const DATA = {
    SFX — WebAudio synth, no files. Off by default; toggle in menubar.
    ============================================================ */
 const SFX = (() => {
-  let ctx = null, master = null, enabled = false, humOsc = null;
+  let ctx = null, master = null, enabled = false, humOsc = null, vol = 0.55;
   const ensure = () => {
     if (!ctx) {
       ctx = new (window.AudioContext || window.webkitAudioContext)();
       master = ctx.createGain();
-      master.gain.value = 0.16;
+      master.gain.value = vol * 0.3;
       master.connect(ctx.destination);
     }
     if (ctx.state === "suspended") ctx.resume();
@@ -150,6 +150,7 @@ const SFX = (() => {
   };
   return {
     get on() { return enabled; },
+    volume(v) { vol = Math.max(0, Math.min(1, v)); if (master) master.gain.value = vol * 0.3; },
     toggle() {
       enabled = !enabled;
       if (enabled) { ensure(); this.hum(true); this.ding(); } else this.hum(false);
@@ -311,7 +312,7 @@ function shell() {
     help: () => `commands:
   <span class="k">about</span>      who I am
   <span class="k">skills</span>     what I build with
-  <span class="k">work</span>       experience (VHS deck)
+  <span class="k">work</span>       experience (work.mp4)
   <span class="k">projects</span>   things I've shipped
   <span class="k">honors</span>     awards
   <span class="k">contact</span>    reach me
@@ -321,7 +322,7 @@ function shell() {
   <span class="k">clear</span>      wipe screen`,
     about: () => { goto("about"); return "opening about.txt in nano ..."; },
     skills: () => { goto("skills"); return DATA.skills.map((s) => `${s.g.padEnd(6)} ${"█".repeat(Math.round(s.pct / 6))} ${s.pct}%`).join("\n"); },
-    work: () => { goto("experience"); return "inserting work.vhs ... ▶ PLAY"; },
+    work: () => { goto("experience"); return "opening work.mp4 ... ▶"; },
     experience: () => cmds.work(),
     projects: () => { goto("projects"); return DATA.projects.map((p) => `▤ ${p.name}  (${p.tag})`).join("\n"); },
     honors: () => { goto("honors"); return DATA.honors.map((h) => `★ ${h.b} — ${h.s}`).join("\n"); },
@@ -330,7 +331,7 @@ function shell() {
     resume: () => { window.open(DATA.resumeFile, "_blank"); return "opening " + DATA.resumeFile + " ..."; },
     theme: () => { cycleTheme(); return "phosphor recalibrated."; },
     whoami: () => `${DATA.name} — ${DATA.role}`,
-    ls: () => "about.txt  skills.sys  work.vhs  projects/  honors.md  contact.net  resume.pdf",
+    ls: () => "about.txt  skills.sys  work.mp4  projects/  honors.md  contact.net  resume.pdf",
     sudo: () => "nice try.",
     clear: () => "\x00CLEAR",
   };
@@ -416,32 +417,69 @@ function runGraph() {
 /* ============================================================
    VHS DECK — experience
    ============================================================ */
-const vhs = { i: 0, playing: false, timer: null, sec: 0, gen: 0 };
+const TAPE_MS = 7000;                                   // seconds per "chapter"
+const vhs = { i: 0, playing: false, timer: null, gen: 0, t0: 0, frozen: 0 };
+const fmtT = (ms) => { const s = Math.max(0, Math.round(ms / 1000)); return `${String((s / 60) | 0).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`; };
+function vhsElapsedInTape() { return vhs.playing ? Math.min(TAPE_MS, performance.now() - vhs.t0) : vhs.frozen; }
 function renderVHS() {
-  $("#vhsTimeline").innerHTML = DATA.tapes.map((_, i) => `<span class="vhs__seg" data-i="${i}"></span>`).join("");
-  $$(".vhs__seg").forEach((s) => s.addEventListener("click", () => vhsGo(+s.dataset.i, true)));
+  const n = DATA.tapes.length;
+  $("#qtTotal").textContent = fmtT(n * TAPE_MS);
+  $("#qtMarks").innerHTML = DATA.tapes.slice(1).map((_, k) => `<i style="left:${((k + 1) / n) * 100}%"></i>`).join("");
+  $("#qtChapters").innerHTML = DATA.tapes.map((t, k) =>
+    `<li data-i="${k}"><span class="n">${fmtT(k * TAPE_MS)}</span><span class="t">${esc(t.role)}</span><span class="w">${esc(t.when)}</span></li>`).join("");
+  $$("#qtChapters li").forEach((li) => li.addEventListener("click", () => { vhsGo(+li.dataset.i, true); $("#qtChapters").hidden = true; }));
+
+  // scrubber: click / drag → jump to that chapter
+  const scrub = $("#vhsTimeline");
+  const seek = (e) => {
+    const r = scrub.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+    const k = Math.min(n - 1, (p * n) | 0);
+    if (k !== vhs.i) vhsGo(k, true);
+  };
+  scrub.addEventListener("pointerdown", (e) => { scrub.setPointerCapture(e.pointerId); seek(e); });
+  scrub.addEventListener("pointermove", (e) => { if (e.buttons) seek(e); });
+
+  // volume slider drives the SFX master gain; speaker icon = mute toggle
+  const vol = $("#qtVol"), mute = $("#qtMute");
+  const paintVol = () => vol.style.setProperty("--v", vol.value + "%");
+  paintVol();
+  vol.addEventListener("input", () => { paintVol(); SFX.volume(vol.value / 100); if (+vol.value > 0 && !SFX.on) $("#sfxToggle").click(); });
+  mute.addEventListener("click", () => $("#sfxToggle").click());
+  const syncMute = () => mute.classList.toggle("is-muted", !SFX.on);
+  syncMute(); $("#sfxToggle").addEventListener("click", () => setTimeout(syncMute, 0));
+
   $$("[data-vhs]").forEach((b) => b.addEventListener("click", () => {
     const a = b.dataset.vhs;
     if (a === "play") vhsToggle();
-    if (a === "ff") vhsGo((vhs.i + 1) % DATA.tapes.length, true);
-    if (a === "rew") vhsGo((vhs.i - 1 + DATA.tapes.length) % DATA.tapes.length, true);
-    if (a === "eject") vhsEject();
+    if (a === "ff") vhsGo((vhs.i + 1) % n, true);
+    if (a === "rew") vhsGo((vhs.i - 1 + n) % n, true);
+    if (a === "theme") cycleTheme();
+    if (a === "list") $("#qtChapters").hidden = !$("#qtChapters").hidden;
   }));
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest("#qtChapters, #qtListBtn")) $("#qtChapters").hidden = true;
+  });
+  setInterval(vhsPaint, 250);
+}
+function vhsPaint() {
+  const n = DATA.tapes.length;
+  const p = (vhs.i + vhsElapsedInTape() / TAPE_MS) / n;
+  $("#qtFill").style.width = (p * 100) + "%";
+  $("#qtHead").style.left = (p * 100) + "%";
+  $("#qtElapsed").textContent = fmtT(vhs.i * TAPE_MS + vhsElapsedInTape());
 }
 async function vhsGo(i, manual = false) {
-  vhs.i = i;
-  const gen = ++vhs.gen;              // cancel any in-flight typing from a previous tape
+  vhs.i = i; vhs.t0 = performance.now(); vhs.frozen = 0;
+  const gen = ++vhs.gen;              // cancel any in-flight typing from a previous chapter
   const alive = () => vhs.gen === gen;
   const t = DATA.tapes[i];
-  const track = $("#vhsTracking");
+  const flash = $("#vhsTracking");
   SFX.clunk();
-  if (!reduced) { track.classList.remove("roll"); void track.offsetWidth; track.classList.add("roll"); }
-  $("#vhsMode").textContent = vhs.playing ? "▶ PLAY" : "❚❚ PAUSE";
-  $("#vhsTape").textContent = `SP ${i + 1}:0${0}`;
-  $$(".vhs__seg").forEach((s, k) => {
-    s.classList.toggle("cur", k === i);
-    s.classList.toggle("done", k < i);
-  });
+  if (!reduced) { flash.classList.remove("roll"); void flash.offsetWidth; flash.classList.add("roll"); }
+  $("#vhsTape").textContent = `chapter ${i + 1} / ${DATA.tapes.length}`;
+  $$("#qtChapters li").forEach((li, k) => li.classList.toggle("cur", k === i));
+  vhsPaint();
   const role = $("#vhsRole"), org = $("#vhsOrg"), when = $("#vhsWhen"), note = $("#vhsNote");
   role.textContent = ""; org.textContent = ""; when.textContent = ""; note.textContent = "";
   await typeInto(role, t.role, 18, alive);
@@ -452,47 +490,28 @@ async function vhsGo(i, manual = false) {
   if (!alive()) return;
   if (manual) vhsHold();
 }
-function vhsToggle() {
-  vhs.playing = !vhs.playing;
-  $("#vhsPlay").textContent = vhs.playing ? "❚❚" : "▶";
-  $("#vhsMode").textContent = vhs.playing ? "▶ PLAY" : "❚❚ PAUSE";
-  clearInterval(vhs.timer);
-  if (vhs.playing && !reduced) vhs.timer = setInterval(() => vhsGo((vhs.i + 1) % DATA.tapes.length), 6000);
+function vhsSetPlaying(on) {
+  if (on && !vhs.playing) vhs.t0 = performance.now() - vhs.frozen;   // resume where we froze
+  if (!on && vhs.playing) vhs.frozen = Math.min(TAPE_MS, performance.now() - vhs.t0);
+  vhs.playing = on;
+  $(".qt").classList.toggle("is-paused", !on);
+  $("#vhsMode").textContent = on ? "" : "❚❚ PAUSED";
+  $("#vhsMode").classList.toggle("show", !on);
+  clearInterval(vhs.timer); vhs.timer = null;
+  if (on && !reduced) vhs.timer = setInterval(() => vhsGo((vhs.i + 1) % DATA.tapes.length), TAPE_MS);
 }
+function vhsToggle() { vhsSetPlaying(!vhs.playing); }
 function vhsHold() {
-  // manual nav pauses auto-advance briefly
+  // manual nav restarts the auto-advance clock
   if (!vhs.playing) return;
   clearInterval(vhs.timer);
-  vhs.timer = setInterval(() => vhsGo((vhs.i + 1) % DATA.tapes.length), 6000);
-}
-function vhsEject() {
-  SFX.eject();
-  vhs.gen++;
-  clearInterval(vhs.timer); vhs.playing = false;
-  $("#vhsPlay").textContent = "▶";
-  $("#vhsMode").textContent = "⏏ EJECT";
-  $("#vhsRole").textContent = "NO TAPE";
-  $("#vhsOrg").textContent = ""; $("#vhsWhen").textContent = "";
-  $("#vhsNote").textContent = "insert work.vhs to continue (press ▶)";
-  $$(".vhs__seg").forEach((s) => s.classList.remove("cur", "done"));
-}
-function vhsCounter() {
-  setInterval(() => {
-    if (!vhs.playing) return;
-    vhs.sec++;
-    const h = String((vhs.sec / 3600) | 0).padStart(2, "0"),
-          m = String(((vhs.sec / 60) | 0) % 60).padStart(2, "0"),
-          s = String(vhs.sec % 60).padStart(2, "0");
-    $("#vhsCounter").textContent = `${h}:${m}:${s}`;
-  }, 1000);
+  vhs.timer = setInterval(() => vhsGo((vhs.i + 1) % DATA.tapes.length), TAPE_MS);
 }
 let vhsStarted = false;
 function startVHS() {
   if (vhsStarted) return; vhsStarted = true;
-  vhs.playing = true;
-  $("#vhsPlay").textContent = "❚❚";
+  vhsSetPlaying(true);
   vhsGo(0);
-  if (!reduced) vhs.timer = setInterval(() => vhsGo((vhs.i + 1) % DATA.tapes.length), 6000);
 }
 
 /* ============================================================
@@ -636,7 +655,7 @@ function juice() {
   });
 
   // hover blips + click thocks on all interactive bits (delegated)
-  const HOVER_SEL = "button, a, .filetree li, .folder, .vhs__seg, .trophy, .ports a";
+  const HOVER_SEL = "button, a, .filetree li, .folder, .qt__chapters li, .trophy, .ports a";
   document.addEventListener("pointerover", (e) => {
     const el = e.target.closest(HOVER_SEL);
     if (el && !el.dataset.hovered) {
@@ -646,7 +665,7 @@ function juice() {
     }
   });
   document.addEventListener("pointerdown", (e) => {
-    if (e.target.closest("button, a, .filetree li, .vhs__seg")) SFX.click();
+    if (e.target.closest("button, a, .filetree li, .qt__chapters li, .qt__scrub")) SFX.click();
   });
 
   // press squash on buttons
@@ -691,7 +710,6 @@ clock();
 spotlight();
 renderMeters();
 renderVHS();
-vhsCounter();
 window.__openFirstProject = renderFinder();
 renderTrophies();
 renderTicker();
