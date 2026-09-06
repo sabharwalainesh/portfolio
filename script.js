@@ -1,12 +1,12 @@
 /* ============================================================
-   PHOSPHOR OS v4 — Ainesh Sabharwal
+   PHOSPHOR OS v4, Ainesh Sabharwal
    Fullscreen snap "apps". Edit everything in DATA.
    ============================================================ */
 
 const DATA = {
   name: "Ainesh Sabharwal",
   role: "CS @ UC Berkeley",
-  tagline: "I build systems that feel tactile — compression trees, audio synths,\non-device AI, native apps that mirror between your devices.",
+  tagline: "I build systems that feel tactile: compression trees, audio synths,\non-device AI, native apps that mirror between your devices.",
   resumeFile: "Ainesh_Sabharwal_Resume.pdf",
 
   ascii: [
@@ -19,14 +19,14 @@ const DATA = {
   ].join("\n"),
 
   about: [
-    { c: "cm", t: "// about.txt — last saved: today" },
+    { c: "cm", t: "// about.txt, last saved: today" },
     { c: "", t: "" },
     { c: "kw", t: "const ", x: 'name = "Ainesh Sabharwal";' },
-    { c: "kw", t: "const ", x: 'school = "UC Berkeley — Computing, Data Science & Society";' },
+    { c: "kw", t: "const ", x: 'school = "UC Berkeley, Computing, Data Science & Society";' },
     { c: "kw", t: "const ", x: "gradYear = 2030;" },
     { c: "", t: "" },
     { c: "cm", t: "// Graduated Bridgeland HS (Cypress, TX) ranked 2 of 921." },
-    { c: "cm", t: "// Got here by building things that fight back —" },
+    { c: "cm", t: "// Got here by building things that fight back -" },
     { c: "cm", t: "// Huffman trees, Karplus-Strong synths, a peer-to-peer notes app." },
     { c: "", t: "" },
     { c: "kw", t: "focus", x: " = ['on-device AI', 'retrieval systems', 'native apps'];" },
@@ -47,7 +47,7 @@ const DATA = {
     { role: "Lead Instructor", org: "iCode", when: "Oct 2025 – Mar 2026",
       note: "Taught programming fundamentals to K-12 through hands-on projects; guided students building and debugging their own software and hardware." },
     { role: "Student Researcher", org: "Algoverse AI Research Program", when: "Aug 2024 – May 2025",
-      note: "Applied research on Retrieval-Augmented Generation for grounded QA — retrieval, embeddings, and prompting strategies to raise answer accuracy over source docs." },
+      note: "Applied research on Retrieval-Augmented Generation for grounded QA, retrieval, embeddings, and prompting strategies to raise answer accuracy over source docs." },
     { role: "B.A. Computer Science", org: "UC Berkeley (CDSS)", when: "Class of 2030",
       note: "College of Computing, Data Science & Society. Currently: CS 61A, linear algebra & differential equations behind me." },
     { role: "Bridgeland High School", org: "Cypress, TX", when: "Class of 2026",
@@ -64,13 +64,13 @@ const DATA = {
     { name: "Bridgeland Arena Hub", tag: "TypeScript", meta: "3rd place, FBLA Nationals",
       body: "Event ticketing and box-office platform for a school venue.\n3rd place in Website Design at the FBLA National Leadership Conference (2025).", link: "" },
     { name: "DS&A Labs", tag: "Java", meta: "github.com/sabharwalainesh",
-      body: "Greedy-Huffman: file compression — min-priority-queue code tree, bit-packed to disk.\n20 Questions: guessing game on a binary question tree that learns via recursion + I/O.\nGuitar Hero: real-time plucked-string synthesis (Karplus-Strong) on a ring buffer.\nImage Enhancer: Swing editor with filters and full undo/redo on an array-based stack.",
+      body: "Greedy-Huffman: file compression, min-priority-queue code tree, bit-packed to disk.\n20 Questions: guessing game on a binary question tree that learns via recursion + I/O.\nGuitar Hero: real-time plucked-string synthesis (Karplus-Strong) on a ring buffer.\nImage Enhancer: Swing editor with filters and full undo/redo on an array-based stack.",
       link: "https://github.com/sabharwalainesh" },
   ],
 
   honors: [
     { ico: "①", b: "Class Rank 2 of 921", s: "Bridgeland High School" },
-    { ico: "▮", b: "3rd Place — Website Design", s: "FBLA National Leadership Conference" },
+    { ico: "▮", b: "3rd Place: Website Design", s: "FBLA National Leadership Conference" },
     { ico: "⇡", b: "Eagle Scout", s: "Boy Scouts of America" },
     { ico: "◆", b: "Black Belt", s: "Taekwondo" },
   ],
@@ -88,7 +88,7 @@ const DATA = {
     ["loc", "Berkeley, CA / Cypress, TX"],
     ["now playing", "CS 61A"],
     ["stack", "Java · TS · Python · Swift"],
-    ["award", "3rd @ FBLA Nationals — Website Design"],
+    ["award", "3rd @ FBLA Nationals, Website Design"],
     ["rank", "2 / 921"],
     ["fact", "Eagle Scout · TKD black belt"],
     ["uptime", "since 2008"],
@@ -96,7 +96,7 @@ const DATA = {
 };
 
 /* ============================================================
-   SFX — WebAudio synth, no files. Off by default; toggle in menubar.
+   SFX, WebAudio synth, no files. Off by default; toggle in menubar.
    ============================================================ */
 const SFX = (() => {
   let ctx = null, master = null, enabled = false, humOsc = null, vol = 0.55;
@@ -271,7 +271,7 @@ function spotlight() {
 }
 
 /* ============================================================
-   HERO — ascii banner + typed sub + shell
+   HERO, ascii banner + typed sub + shell
    ============================================================ */
 let heroDone = false;
 async function runHero() {
@@ -300,7 +300,7 @@ async function runHero() {
 
   const seq = [
     { t: "$ whoami\n" },
-    { html: `<span class="accent">${DATA.name}</span> — ${DATA.role}\n` },
+    { html: `<span class="accent">${DATA.name}</span>, ${DATA.role}\n` },
     { t: "$ cat mission.txt\n" },
     { t: DATA.tagline + "\n" },
   ];
@@ -332,13 +332,13 @@ function shell() {
     work: () => { goto("experience"); return "opening work.mp4 ... ▶"; },
     experience: () => cmds.work(),
     projects: () => { goto("projects"); return DATA.projects.map((p) => `▤ ${p.name}  (${p.tag})`).join("\n"); },
-    honors: () => { goto("honors"); return DATA.honors.map((h) => `★ ${h.b} — ${h.s}`).join("\n"); },
+    honors: () => { goto("honors"); return DATA.honors.map((h) => `★ ${h.b}, ${h.s}`).join("\n"); },
     contact: () => { goto("contact"); return `mail   ${DATA.contact.email}\ngithub ${DATA.contact.github}`; },
     links: () => { location.href = "links.html"; return "opening links.html ..."; },
     ask: () => { goto("ask"); return "opening ask.claude ..."; },
     resume: () => { window.open(DATA.resumeFile, "_blank"); return "opening " + DATA.resumeFile + " ..."; },
     theme: () => { cycleTheme(); return "phosphor recalibrated."; },
-    whoami: () => `${DATA.name} — ${DATA.role}`,
+    whoami: () => `${DATA.name}, ${DATA.role}`,
     ls: () => "about.txt  skills.sys  work.mp4  projects/  honors.md  ask.claude  contact.net  resume.pdf",
     sudo: () => "nice try.",
     clear: () => "\x00CLEAR",
@@ -396,7 +396,7 @@ async function runEditor() {
 }
 
 /* ============================================================
-   MONITOR — meters + ascii sparkline graph
+   MONITOR, meters + ascii sparkline graph
    ============================================================ */
 function renderMeters() {
   $("#meters").innerHTML = DATA.skills.map((s, i) => `
@@ -432,7 +432,7 @@ function runGraph() {
 }
 
 /* ============================================================
-   VHS DECK — experience
+   VHS DECK, experience
    ============================================================ */
 const TAPE_MS = 7000;                                   // seconds per "chapter"
 const vhs = { i: 0, playing: false, timer: null, gen: 0, t0: 0, frozen: 0 };
@@ -532,7 +532,7 @@ function startVHS() {
 }
 
 /* ============================================================
-   DESKTOP — widgets, stage manager rail, mac clock
+   DESKTOP, widgets, stage manager rail, mac clock
    ============================================================ */
 const apps = [
     ["hero",       "terminal",    "$_", "#111827"],
@@ -559,16 +559,31 @@ function renderDesktop() {
   const desk = $("#desktop");
   desk.addEventListener("pointermove", (e) => { if (e.clientX - desk.getBoundingClientRect().left < 210) pop(); }, { passive: true });
   // wheel → step one app per deliberate scroll gesture; trackpad momentum is swallowed during the cooldown
+  const innerCanScroll = (el, dy) => {
+    for (let n = el; n && n !== document.body; n = n.parentElement) {
+      const cs = getComputedStyle(n);
+      if (/(auto|scroll)/.test(cs.overflowY) && n.scrollHeight > n.clientHeight + 1) {
+        if (dy > 0 && n.scrollTop + n.clientHeight < n.scrollHeight - 1) return true;
+        if (dy < 0 && n.scrollTop > 0) return true;
+      }
+    }
+    return false;
+  };
   let acc = 0, lastStep = 0, settle;
   addEventListener("wheel", (e) => {
     pop(1800);
-    if (e.target.closest(".window__body, .chat__scroll, .finder__grid, .finder__preview, .chat__side")) return; // let inner content scroll
+    if (innerCanScroll(e.target, e.deltaY)) { acc = 0; return; }   // let content that still has room scroll
     const now = performance.now();
-    if (now - lastStep < 1100 || swapping) { acc = 0; return; }   // momentum tail of the last gesture: ignore
+    if (now - lastStep < 1000 || swapping) { acc = 0; return; }    // momentum tail of the last gesture: ignore
     acc += e.deltaY;
-    clearTimeout(settle); settle = setTimeout(() => { acc = 0; }, 220);  // gesture ended without reaching the threshold
+    clearTimeout(settle); settle = setTimeout(() => { acc = 0; }, 220);
     if (Math.abs(acc) > 240) {
       lastStep = now; const dir = acc > 0 ? 1 : -1; acc = 0;
+      // inside the video: scroll walks the chapters first, then leaves the app at either end
+      if (currentApp?.id === "experience") {
+        const n = DATA.tapes.length, k = vhs.i + dir;
+        if (k >= 0 && k < n) { vhsGo(k, true); lastStep = now - 400; return; }
+      }
       const order = apps.map((a) => a[0]); const k = order.indexOf(currentApp?.id ?? "hero");
       showApp(order[(k + dir + order.length) % order.length]);
     }
@@ -620,35 +635,35 @@ async function stageSwap(card) {
 }
 
 /* ============================================================
-   ASK — Claude-style chat over the same data
+   ASK, Claude-style chat over the same data
    ============================================================ */
 function chatAnswer(q) {
   const t = q.toLowerCase(), c = DATA.contact;
   const li = (a) => `<ul>${a.map((x) => `<li>${x}</li>`).join("")}</ul>`;
   if (/project|built|build|made|ship/.test(t))
     return `<p>Ainesh has shipped a handful of things. The highlights:</p>` + li(DATA.projects.map((p) =>
-      `<b>${esc(p.name)}</b> <i>(${esc(p.tag)})</i> — ${esc(p.body.split("\n")[0])}${p.link ? ` <a href="${esc(p.link)}" target="_blank" rel="noopener">repo ↗</a>` : ""}`)) +
+      `<b>${esc(p.name)}</b> <i>(${esc(p.tag)})</i>, ${esc(p.body.split("\n")[0])}${p.link ? ` <a href="${esc(p.link)}" target="_blank" rel="noopener">repo ↗</a>` : ""}`)) +
       `<p>Want details on any one of them? Ask, or open the <a href="#projects" data-goto="projects">projects folder</a>.</p>`;
   if (/skill|stack|language|tool|know|tech/.test(t))
-    return `<h4>Languages & tools</h4>` + li(DATA.skills.map((k) => `<b>${esc(k.g)}</b> — ${esc(k.v)} <i>(${k.pct}%)</i>`));
+    return `<h4>Languages & tools</h4>` + li(DATA.skills.map((k) => `<b>${esc(k.g)}</b>, ${esc(k.v)} <i>(${k.pct}%)</i>`));
   if (/honor|award|won|win|achiev|rank|eagle|belt/.test(t))
-    return `<p>A few things he's earned:</p>` + li(DATA.honors.map((h) => `<b>${esc(h.b)}</b> — ${esc(h.s)}`));
+    return `<p>A few things he's earned:</p>` + li(DATA.honors.map((h) => `<b>${esc(h.b)}</b>, ${esc(h.s)}`));
   if (/work|experience|job|intern|research|teach|icode|algoverse/.test(t))
     return `<h4>Experience</h4>` + li(DATA.tapes.map((x) => `<b>${esc(x.role)}</b> @ ${esc(x.org)} <i>(${esc(x.when)})</i><br>${esc(x.note)}`));
   if (/contact|email|reach|linkedin|instagram|github|hire|message/.test(t))
     return `<p>Fastest is email. All the ways:</p>` + li([
-      `Email — <a href="mailto:${c.email}">${c.email}</a>`,
-      `LinkedIn — <a href="${c.linkedin}" target="_blank" rel="noopener">${c.linkedin.replace("https://www.", "")}</a>`,
-      `GitHub — <a href="${c.github}" target="_blank" rel="noopener">${c.github.replace("https://", "")}</a>`,
-      `Instagram — <a href="${c.instagram}" target="_blank" rel="noopener">${c.instagram.replace("https://www.", "").replace(/\/$/, "")}</a>`,
-      `Everything on one page — <a href="links.html">links.html</a>`]);
+      `Email, <a href="mailto:${c.email}">${c.email}</a>`,
+      `LinkedIn, <a href="${c.linkedin}" target="_blank" rel="noopener">${c.linkedin.replace("https://www.", "")}</a>`,
+      `GitHub, <a href="${c.github}" target="_blank" rel="noopener">${c.github.replace("https://", "")}</a>`,
+      `Instagram, <a href="${c.instagram}" target="_blank" rel="noopener">${c.instagram.replace("https://www.", "").replace(/\/$/, "")}</a>`,
+      `Everything on one page, <a href="links.html">links.html</a>`]);
   if (/resume|cv/.test(t))
     return `<p>Here's the PDF: <a href="${DATA.resumeFile}" target="_blank" rel="noopener">${DATA.resumeFile} ↗</a></p>`;
   if (/who|about|ainesh|yourself|intro|school|berkeley/.test(t))
-    return `<p><b>${esc(DATA.name)}</b> is a Computer Science student at <b>UC Berkeley</b> (College of Computing, Data Science & Society, class of 2030). He graduated from Bridgeland High School in Cypress, TX ranked 2 of 921.</p><p>${esc(DATA.tagline)}</p><p>He's interested in on-device AI, retrieval systems and native apps — and is <b>open to internships</b>.</p>`;
+    return `<p><b>${esc(DATA.name)}</b> is a Computer Science student at <b>UC Berkeley</b> (College of Computing, Data Science & Society, class of 2030). He graduated from Bridgeland High School in Cypress, TX ranked 2 of 921.</p><p>${esc(DATA.tagline)}</p><p>He's interested in on-device AI, retrieval systems and native apps, and is <b>open to internships</b>.</p>`;
   if (/hi|hello|hey|yo\b/.test(t))
     return `<p>Hey! I'm a small Claude-flavoured guide to this portfolio. Ask me about Ainesh's <b>projects</b>, <b>skills</b>, <b>experience</b>, <b>honors</b>, or how to <b>contact</b> him.</p>`;
-  return `<p>I only know about Ainesh — try asking about his <b>projects</b>, <b>skills</b>, <b>experience</b>, <b>honors</b>, <b>resume</b>, or how to <b>contact</b> him.</p>`;
+  return `<p>I only know about Ainesh, try asking about his <b>projects</b>, <b>skills</b>, <b>experience</b>, <b>honors</b>, <b>resume</b>, or how to <b>contact</b> him.</p>`;
 }
 let chatBusy = false;
 async function chatSend(q) {
@@ -750,7 +765,7 @@ function renderFinder() {
     else { // every other "place" just shows an empty folder
       $$(".folder", grid).forEach((f) => f.classList.add("is-hidden"));
       status.textContent = "0 items";
-      preview.innerHTML = `<p class="finder__hint">nothing here — try <b>projects</b></p>`;
+      preview.innerHTML = `<p class="finder__hint">nothing here, try <b>projects</b></p>`;
     }
   }));
   $("#finderShare").addEventListener("click", () => { const p = P[sel]; if (p && p.link) window.open(p.link, "_blank", "noopener"); });
@@ -799,7 +814,7 @@ function renderTicker() {
 }
 
 /* ============================================================
-   SCREEN SWITCHER — snap scroll, one app at a time
+   SCREEN SWITCHER, snap scroll, one app at a time
    ============================================================ */
 const started = {};
 let lastScreen = null;
@@ -897,7 +912,7 @@ function initTheme() {
 }
 
 /* ============================================================
-   JUICE — global hover/click sfx, 3D tilt, sfx toggle
+   JUICE, global hover/click sfx, 3D tilt, sfx toggle
    ============================================================ */
 function juice() {
   // sfx toggle
@@ -958,7 +973,7 @@ function juice() {
 /* ============================================================
    INIT
    ============================================================ */
-document.title = `${DATA.name} — portfolio`;
+document.title = `${DATA.name}, portfolio`;
 initTheme();
 clock();
 spotlight();
