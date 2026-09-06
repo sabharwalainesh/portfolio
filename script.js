@@ -213,7 +213,7 @@ async function decodeTo(el) {
   el.textContent = final;
 }
 
-window.goto = (id) => { document.getElementById(id).scrollIntoView({ behavior: reduced ? "auto" : "smooth" }); };
+window.goto = (id) => showApp(id);
 
 /* ============================================================
    BOOT
@@ -533,12 +533,14 @@ function renderDesktop() {
   $("#ringWidget").innerHTML = DATA.skills.slice(0, 4).map((k) =>
     `<div class="ring"><div class="ring__c" style="--p:${k.pct}"><span>${esc(k.g)}</span></div>${k.pct}%</div>`).join("");
   const apps = [
+    ["hero",       "terminal",    "$_", "#111827"],
     ["about",      "about.txt",   "▯", "#3b82f6"],
     ["skills",     "skills.sys",  "≣", "#22c55e"],
     ["experience", "work.mp4",    "▶", "#f97316"],
     ["projects",   "projects/",   "▤", "#0ea5e9"],
     ["honors",     "honors.md",   "★", "#eab308"],
     ["ask",        "ask.claude",  "✳", "#d97757"],
+    ["contact",    "contact.net", "◍", "#8b5cf6"],
   ];
   const stage = $("#stage");
   stage.innerHTML = apps.map(([id, name, g, c]) => `
@@ -551,9 +553,9 @@ function renderDesktop() {
   // rail pops open when the pointer nears the left edge or the user scrolls over the desktop
   let hold;
   const pop = (ms = 1600) => { stage.classList.add("is-open"); clearTimeout(hold); hold = setTimeout(() => stage.classList.remove("is-open"), ms); };
-  const desk = $(".desktop");
+  const desk = $("#desktop");
   desk.addEventListener("pointermove", (e) => { if (e.clientX - desk.getBoundingClientRect().left < 210) pop(); }, { passive: true });
-  desk.addEventListener("wheel", () => pop(), { passive: true });
+  addEventListener("wheel", () => pop(), { passive: true });
   stage.addEventListener("pointerenter", () => pop(60000));
   stage.addEventListener("pointerleave", () => pop(600));
   setTimeout(() => pop(2600), 1800);
@@ -567,26 +569,40 @@ function renderDesktop() {
 let swapping = false;
 async function stageSwap(card) {
   if (swapping) return; swapping = true;
-  const desk = $(".desktop"), term = $(".window--term");
-  const id = card.dataset.goto, name = $(".stage__name", card).textContent;
-  if (reduced) { goto(id); swapping = false; return; }
+  const desk = $("#desktop"), id = card.dataset.goto, name = $(".stage__name", card).textContent;
+  const cur = currentApp && $(".window", currentApp);
+  const target = document.getElementById(id);
+  if (reduced || !cur) { activate(target); swapping = false; return; }
   SFX.whoosh();
-  const d = desk.getBoundingClientRect(), from = $(".stage__thumb", card).getBoundingClientRect(), to = term.getBoundingClientRect();
+  const d = desk.getBoundingClientRect(), from = $(".stage__thumb", card).getBoundingClientRect();
+  // slot the new window will occupy: peek at it off-screen
+  target.classList.add("is-off"); target.style.visibility = "hidden";
+  const to = $(".window", target).getBoundingClientRect();
+  target.classList.remove("is-off"); target.style.visibility = "";
+  // ghost grows from the thumbnail into the slot
   const ghost = document.createElement("div");
   ghost.className = "stage__ghost"; ghost.innerHTML = `<i></i><span>${esc(name)}</span>`;
   ghost.style.left = (from.left - d.left) + "px"; ghost.style.top = (from.top - d.top) + "px";
   ghost.style.width = to.width + "px"; ghost.style.height = to.height + "px";
   ghost.style.transform = `scale(${from.width / to.width}, ${from.height / to.height})`;
   desk.append(ghost);
-  card.classList.add("is-leaving"); term.classList.add("is-parking");
+  // current window parks into the rail slot that will represent it
+  const curCard = $(`.stage__card[data-goto="${currentApp.id}"]`);
+  curCard.classList.remove("is-active"); curCard.style.visibility = "hidden";
+  const park = $(".stage__thumb", curCard).getBoundingClientRect(), c = cur.getBoundingClientRect();
+  cur.style.transformOrigin = "0 0";
+  cur.classList.add("is-parking");
+  cur.style.transform = `translate(${park.left - c.left}px, ${park.top - c.top}px) scale(${park.width / c.width}, ${park.height / c.height}) rotateY(20deg)`;
+  card.classList.add("is-leaving");
   void ghost.offsetWidth;
   ghost.style.transform = `translate(${to.left - from.left}px, ${to.top - from.top}px) scale(1)`;
-  await sleep(560);
-  goto(id);
-  await sleep(500);
+  await sleep(520);
+  activate(target);
+  curCard.style.visibility = "";
+  cur.classList.remove("is-parking"); cur.style.transform = ""; cur.style.transformOrigin = "";
   ghost.style.opacity = "0";
-  await sleep(250); ghost.remove();
-  card.classList.remove("is-leaving"); term.classList.remove("is-parking"); $("#stage").classList.remove("is-open");
+  await sleep(220); ghost.remove();
+  card.classList.remove("is-leaving"); $("#stage").classList.remove("is-open");
   swapping = false;
 }
 
@@ -652,6 +668,7 @@ function renderChat() {
   $("#chatForm").addEventListener("submit", (e) => { e.preventDefault(); const i = $("#chatInput"); const q = i.value; i.value = ""; chatSend(q); });
   $$("[data-ask]").forEach((li) => li.addEventListener("click", () => { $("#chatInput").value = ""; chatSend(li.dataset.ask); }));
   $("#chatShare").addEventListener("click", () => location.href = "links.html");
+  $("#chatNew")?.addEventListener("click", () => { $("#chatMsgs").innerHTML = ""; chatSend("hi"); });
 }
 let chatStarted = false;
 async function startChat() {
@@ -775,6 +792,8 @@ let lastScreen = null;
 function activate(screen) {
   $$(".screen").forEach((s) => s.classList.toggle("is-on", s === screen));
   const id = screen.id;
+  currentApp = screen;
+  $$(".stage__card").forEach((c) => c.classList.toggle("is-active", c.dataset.goto === id));
   $("#crumbFile").textContent = screen.dataset.file;
   $$("#filetree li").forEach((li) => li.classList.toggle("is-active", li.dataset.goto === id));
   $$("#mobilenav button").forEach((b) => {
@@ -797,23 +816,18 @@ function activate(screen) {
     if (id === "contact") runNet();
   }
 }
-function screenSwitcher() {
-  const cont = $("#screens");
-  const screens = $$(".screen");
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e) => { if (e.isIntersecting) activate(e.target); });
-  }, { root: cont, threshold: 0.6 });
-  screens.forEach((s) => io.observe(s));
-
-  cont.addEventListener("scroll", () => {
-    const p = cont.scrollTop / (cont.scrollHeight - cont.clientHeight || 1);
-    $("#scrollProgress").style.width = (p * 100) + "%";
-  }, { passive: true });
-
-  $$("#filetree li, #mobilenav button").forEach((li) => li.addEventListener("click", () =>
-    document.getElementById(li.dataset.goto).scrollIntoView({ behavior: reduced ? "auto" : "smooth" })));
+let currentApp = null;
+function showApp(id) {
+  const next = document.getElementById(id);
+  if (!next || next === currentApp) return;
+  const card = $(`.stage__card[data-goto="${id}"]`);
+  if (card && currentApp && !reduced) return stageSwap(card);
+  activate(next);
 }
-
+function screenSwitcher() {
+  $$("#mobilenav button").forEach((b) => b.addEventListener("click", () => showApp(b.dataset.goto)));
+  activate($("#hero"));
+}
 /* ============================================================
    THEME
    ============================================================ */

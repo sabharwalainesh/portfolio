@@ -61,36 +61,9 @@
 
   <div class="layout">
 
-    <!-- ===== FILE TREE RAIL ===== -->
-    <aside class="filetree" id="filetree">
-      <div class="filetree__head">DISK ▸ /ainesh</div>
-      <ul>
-        <li data-goto="hero"><span class="cur">›</span><span class="fi"></span> desktop</li>
-        <li data-goto="about"><span class="cur">›</span><span class="fi">▯</span> about.txt</li>
-        <li data-goto="skills"><span class="cur">›</span><span class="fi">≣</span> skills.sys</li>
-        <li data-goto="experience"><span class="cur">›</span><span class="fi">▶</span> work.mp4</li>
-        <li data-goto="projects"><span class="cur">›</span><span class="fi">▤</span> projects/</li>
-        <li data-goto="honors"><span class="cur">›</span><span class="fi">★</span> honors.md</li>
-        <li data-goto="ask"><span class="cur">›</span><span class="fi">✳</span> ask.claude</li>
-        <li data-goto="contact"><span class="cur">›</span><span class="fi">◍</span> contact.net</li>
-      </ul>
-      <pre class="filetree__ascii" aria-hidden="true">
-   .---.
-  /_____\
-  [`---']
-  |  =  |
-  |_____|
- [::::::::]
-      </pre>
-      <div class="filetree__foot">8 items · scroll ▼</div>
-    </aside>
 
-    <!-- ===== FULLSCREEN SECTIONS ===== -->
-    <main class="screens" id="screens">
-
-      <!-- HERO / macOS DESKTOP -->
-      <section class="screen screen--desktop" id="hero" data-file="desktop">
-        <div class="desktop">
+    <!-- ===== DESKTOP: fixed wallpaper, one app window at a time, Stage Manager rail ===== -->
+    <main class="desktop" id="desktop">
           <div class="desktop__wall" aria-hidden="true">
             <div class="desktop__clouds"></div>
             <svg class="desktop__city" viewBox="0 0 1600 300" preserveAspectRatio="none"><path d="M0 300V210h40v-60h30v60h25v-90h35v90h20V120h45v180h20v-70h30v70h25V90h40v210h30v-40h35v40h20V150h50v150h25v-100h30v100h20V70h45v230h25v-50h35v50h20V140h40v160h30v-80h35v80h20V60h50v240h25v-60h30v60h20V130h45v170h30v-40h30v40h25V100h40v200h20v-90h35v90h25V160h45v140h20v-60h30v60h30V80h40v220h25v-50h35v50h20V140h50v160h25v-90h30v90h20V110h45v190h30v-40h35v40h20V170h40v130h30V90h35v210h20V150h50v150h25v-70h30v70h20V60h45v240h30v-40h35v40h20V130h40v170h30v-80h35v80h20V170h50v130H1600z" fill="currentColor"/></svg>
@@ -124,7 +97,12 @@
           <!-- stage manager rail (left) -->
           <div class="stage" id="stage"></div>
 
-          <!-- terminal window -->
+
+      <div class="apps" id="screens">
+
+      <!-- HOME / terminal -->
+      <section class="screen screen--home" id="hero" data-file="desktop">
+        <!-- terminal window -->
           <div class="window window--term" data-app="shell">
             <div class="window__bar">
               <span class="tb-traffic"><i></i><i></i><i></i></span>
@@ -140,10 +118,9 @@
                 <span class="term__caret" aria-hidden="true">▋</span>
               </div>
               <div id="termScroll" class="term__scrollout"></div>
-              <p class="term__tip">try <code>help</code> · <code>projects</code> · <code>resume</code> — or just scroll ▼</p>
+              <p class="term__tip">try <code>help</code> · <code>projects</code> · <code>resume</code> — or scroll to open the rail ◀</p>
             </div>
           </div>
-        </div>
       </section>
 
       <!-- ABOUT / EDITOR -->
@@ -307,12 +284,31 @@
       </section>
 
       <!-- ASK / CLAUDE -->
-      <section class="screen screen--flush" id="ask" data-file="ask.claude">
+      <section class="screen" id="ask" data-file="ask.claude">
         <div class="window window--chat" data-app="chat">
           <div class="chat">
+            <aside class="chat__side">
+              <div class="chat__sidetop">
+                <span class="tb-traffic"><i></i><i></i><i></i></span>
+                <span class="chat__sideicons"><i title="search">⌕</i><i title="new chat" id="chatNew">✎</i></span>
+              </div>
+              <ul class="chat__list">
+                <li class="cur"><span class="chat__spark">✳</span>Claude</li>
+                <li data-ask="what projects has he built?"><span class="chat__glyph">▤</span>Projects</li>
+                <li data-ask="what are his skills?"><span class="chat__glyph">≣</span>Skills</li>
+              </ul>
+              <div class="chat__h">Projects</div>
+              <ul class="chat__list">
+                <li class="chat__proj" data-ask="tell me about ainesh">Ainesh's Portfolio</li>
+              </ul>
+              <div class="chat__h">More</div>
+              <ul class="chat__list">
+                <li class="chat__proj" data-ask="resume">Ainesh's Resume</li>
+                <li class="chat__proj" data-ask="how do I contact him?">Contact</li>
+              </ul>
+            </aside>
             <div class="chat__main">
               <div class="chat__top">
-                <span class="tb-traffic chat__traffic"><i></i><i></i><i></i></span>
                 <span class="chat__model">Claude <small>Fable 5.1</small> ⌄</span>
                 <span class="chat__topright"><button class="chat__share" id="chatShare">⇧ Share</button><span class="chat__avatar">A</span></span>
               </div>
@@ -355,6 +351,7 @@
         </div>
       </section>
 
+      </div>
     </main>
   </div>
 
