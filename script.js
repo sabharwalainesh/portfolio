@@ -79,6 +79,7 @@ const DATA = {
     email: "aineshsab@berkeley.edu",
     github: "https://github.com/sabharwalainesh",
     linkedin: "https://www.linkedin.com/in/ainesh-sabharwal",
+    instagram: "https://www.instagram.com/aineshsabharwal/",
     phone: "832-302-6497",
   },
 
@@ -315,6 +316,7 @@ function shell() {
   <span class="k">honors</span>     awards
   <span class="k">contact</span>    reach me
   <span class="k">resume</span>     open the PDF
+  <span class="k">links</span>      all my links (one page)
   <span class="k">theme</span>      cycle phosphor colour
   <span class="k">clear</span>      wipe screen`,
     about: () => { goto("about"); return "opening about.txt in nano ..."; },
@@ -324,6 +326,7 @@ function shell() {
     projects: () => { goto("projects"); return DATA.projects.map((p) => `▤ ${p.name}  (${p.tag})`).join("\n"); },
     honors: () => { goto("honors"); return DATA.honors.map((h) => `★ ${h.b} — ${h.s}`).join("\n"); },
     contact: () => { goto("contact"); return `mail   ${DATA.contact.email}\ngithub ${DATA.contact.github}`; },
+    links: () => { location.href = "links.html"; return "opening links.html ..."; },
     resume: () => { window.open(DATA.resumeFile, "_blank"); return "opening " + DATA.resumeFile + " ..."; },
     theme: () => { cycleTheme(); return "phosphor recalibrated."; },
     whoami: () => `${DATA.name} — ${DATA.role}`,
@@ -545,7 +548,9 @@ async function runNet() {
     ["mail", `mailto:${c.email}`, c.email],
     ["github", c.github, c.github.replace("https://", "")],
     ["linkedin", c.linkedin, c.linkedin.replace("https://www.", "")],
+    ["instagram", c.instagram, c.instagram.replace("https://www.", "").replace(/\/$/, "")],
     ["resume", DATA.resumeFile, DATA.resumeFile],
+    ["links", "links.html", "all links → links.html"],
   ];
   $("#ports").innerHTML = rows.map(([k, href, label], i) =>
     `<li style="--i:${i}"><a href="${esc(href)}"${href.startsWith("mailto") ? "" : ' target="_blank" rel="noopener"'}><span class="jack"></span><span class="pk">${k}</span>${esc(label)}</a></li>`).join("");
@@ -565,6 +570,11 @@ function activate(screen) {
   const id = screen.id;
   $("#crumbFile").textContent = screen.dataset.file;
   $$("#filetree li").forEach((li) => li.classList.toggle("is-active", li.dataset.goto === id));
+  $$("#mobilenav button").forEach((b) => {
+    const on = b.dataset.goto === id;
+    b.classList.toggle("on", on);
+    if (on) b.scrollIntoView({ block: "nearest", inline: "center", behavior: reduced ? "auto" : "smooth" });
+  });
   if (lastScreen && lastScreen !== screen) { SFX.whoosh(); SFX.open(); }
   lastScreen = screen;
 
@@ -592,7 +602,7 @@ function screenSwitcher() {
     $("#scrollProgress").style.width = (p * 100) + "%";
   }, { passive: true });
 
-  $$("#filetree li").forEach((li) => li.addEventListener("click", () =>
+  $$("#filetree li, #mobilenav button").forEach((li) => li.addEventListener("click", () =>
     document.getElementById(li.dataset.goto).scrollIntoView({ behavior: reduced ? "auto" : "smooth" })));
 }
 
