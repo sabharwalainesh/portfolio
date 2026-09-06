@@ -203,6 +203,10 @@ body[data-theme="cyan"] .desktop__wall { filter: hue-rotate(-15deg) saturate(1.1
 .stage__card.is-active { display: none; }
 .stage__card.is-leaving { transition: transform .3s cubic-bezier(.3, .7, .3, 1), opacity .2s; transform: translateX(-120%) rotateY(30deg) scale(.7); opacity: 0; }
 .stage__thumb { position: absolute; left: 22px; top: 0; right: 0; bottom: 8px; border-radius: 6px; background: var(--panel); border: 1px solid var(--edge); overflow: hidden; }
+.stage__snap { position: absolute; left: 0; top: 0; transform-origin: 0 0; pointer-events: none; user-select: none; }
+.stage__snap .window { position: static !important; inset: auto !important; opacity: 1 !important; transform: none !important; border-radius: 0; box-shadow: none; }
+.stage__snap .window__bar::after, .stage__snap .crt-flicker { display: none; }
+.stage__thumb.has-snap::before, .stage__thumb.has-snap .stage__lines { display: none; }
 .stage__thumb::before { content: ""; display: block; height: 10px; background: var(--panel-bar); border-bottom: 1px solid var(--edge); }
 .stage__lines { padding: 6px 8px; display: flex; flex-direction: column; gap: 4px; }
 .stage__lines i { display: block; height: 3px; border-radius: 2px; background: var(--phos); opacity: .55; }

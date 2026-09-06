@@ -616,6 +616,7 @@ async function stageSwap(card) {
   curCard.style.visibility = "";
   card.classList.remove("is-leaving");
   swapping = false;
+  refreshThumbs();
 }
 
 /* ============================================================
@@ -829,6 +830,30 @@ function activate(screen) {
     if (id === "contact") runNet();
   }
 }
+// live previews: clone each app's window into its rail card, scaled to fit
+function refreshThumbs() {
+  const slot = $("#screens").getBoundingClientRect();
+  if (!slot.width) return;
+  $$(".stage__card").forEach((card) => {
+    const id = card.dataset.goto, screen = document.getElementById(id), thumb = $(".stage__thumb", card);
+    const win = screen && $(".window", screen);
+    if (!win) return;
+    // the terminal is smaller than the slot; measure the real window box for everything
+    const r = screen.classList.contains("is-on") ? win.getBoundingClientRect() : null;
+    const W = r && r.width ? r.width : (id === "hero" ? slot.width * 0.65 : slot.width);
+    const H = r && r.height ? r.height : (id === "hero" ? slot.height * 0.64 : slot.height);
+    const k = (thumb.clientWidth - 2) / W;
+    const snap = win.cloneNode(true);
+    snap.querySelectorAll("[id]").forEach((n) => n.removeAttribute("id"));
+    snap.querySelectorAll("[contenteditable]").forEach((n) => n.removeAttribute("contenteditable"));
+    snap.querySelectorAll("input, button, textarea").forEach((n) => { n.tabIndex = -1; n.disabled = true; });
+    snap.style.width = W + "px"; snap.style.height = H + "px";
+    const holder = document.createElement("div");
+    holder.className = "stage__snap"; holder.style.transform = `scale(${k})`; holder.append(snap);
+    $(".stage__snap", thumb)?.remove(); thumb.append(holder); thumb.classList.add("has-snap");
+  });
+}
+
 // pre-render the typewriter-style apps once (instantly) so a swapped-in window is never blank
 function primeApps() {
   const was = reduced; reduced = true;
@@ -839,6 +864,8 @@ function primeApps() {
     started.honors = true; $$("#honors h2.decode").forEach(decodeTo);
     started.contact = true; runNet();
   } finally { reduced = was; }
+  refreshThumbs();
+  setInterval(refreshThumbs, 4000);
 }
 let currentApp = null;
 function showApp(id) {
