@@ -609,38 +609,37 @@ async function stageSwap(card) {
   if (reduced || !cur) { activate(target); swapping = false; return; }
   SFX.whoosh();
   const stage = $("#stage"), curCard = $(`.stage__card[data-goto="${currentApp.id}"]`);
-  // Put the rail in its final open state *before measuring*: mid-transition or closed
-  // cards would hand us the wrong boxes and the windows would land off their cards.
+
+  // The two apps trade places: the clicked card's slot is where the current window
+  // minimises to, and the window being opened grows out of that same slot.
   stage.classList.add("is-open", "no-anim");
-  curCard.classList.remove("is-active");                 // the outgoing app's card takes its slot back
-  curCard.style.visibility = "hidden";
-  refreshThumbs();                                       // the card a window lands on must already look like it
+  refreshThumbs();                                       // the card taking the slot must look like the window landing on it
+  stage.insertBefore(curCard, card);                     // outgoing app's card moves into the clicked card's place...
+  card.classList.add("is-active");                       // ...as the clicked one leaves the rail, so no slot shifts
+  curCard.classList.remove("is-active");
+  curCard.classList.add("is-landing");                   // its icon and label fade in while the window shrinks onto it
   void stage.offsetWidth;
-  const from = $(".stage__thumb", card).getBoundingClientRect();
-  const park = $(".stage__thumb", curCard).getBoundingClientRect();
+  const slot = $(".stage__thumb", curCard).getBoundingClientRect();
   stage.classList.remove("no-anim");
 
-  // show the target alongside the current one, measure where it lands
+  // show the target alongside the current one and measure where each one has to travel
   target.classList.add("is-on");
   const to = win.getBoundingClientRect(), c = cur.getBoundingClientRect();
 
-  // incoming grows out of its card, outgoing shrinks onto its own - same clock, both opaque
   win.style.transformOrigin = "0 0"; win.style.transition = "none";
-  win.style.transform = `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${from.width / to.width}, ${from.height / to.height})`;
+  win.style.transform = `translate(${slot.left - to.left}px, ${slot.top - to.top}px) scale(${slot.width / to.width}, ${slot.height / to.height})`;
   cur.style.transformOrigin = "0 0";
   void win.offsetWidth;
   win.style.transition = ""; win.classList.add("is-flying");
-  win.style.transform = "";
+  win.style.transform = "";                              // grows out of the slot
   cur.classList.add("is-parking");
-  cur.style.transform = `translate(${park.left - c.left}px, ${park.top - c.top}px) scale(${park.width / c.width}, ${park.height / c.height})`;
-  card.classList.add("is-leaving");
-  await sleep(480);                                      // let the outgoing window finish shrinking onto its rail card
-  curCard.style.visibility = "";                         // card appears underneath, exactly where the window landed
-  await new Promise((r) => requestAnimationFrame(r));    // paint the card before the window goes, so the swap is seamless
-  activate(target);
+  cur.style.transform = `translate(${slot.left - c.left}px, ${slot.top - c.top}px) scale(${slot.width / c.width}, ${slot.height / c.height})`;  // shrinks into it
+
+  await sleep(480);
+  activate(target);                                      // card is already sitting under the window, so nothing flickers
   win.classList.remove("is-flying"); win.style.transformOrigin = "";
   cur.classList.remove("is-parking"); cur.style.transform = ""; cur.style.transformOrigin = "";
-  card.classList.remove("is-leaving");
+  curCard.classList.remove("is-landing");
   setTimeout(() => stage.classList.remove("is-open"), 900);   // hold the rail out so the parked card is seen landing
   swapping = false;
   refreshThumbs();
@@ -924,7 +923,7 @@ function initTheme() {
 }
 
 /* ============================================================
-   JUICE, global hover/click sfx, 3D tilt, sfx toggle
+   JUICE, global hover/click sfx, sfx toggle
    ============================================================ */
 function juice() {
   // sfx toggle
@@ -957,26 +956,6 @@ function juice() {
     b.addEventListener("pointerup", () => b.classList.remove("squash"), { once: true });
     b.addEventListener("pointerleave", () => b.classList.remove("squash"), { once: true });
   });
-
-  // 3D tilt on the active window, following the cursor
-  if (!reduced) {
-    let raf = 0;
-    addEventListener("pointermove", (e) => {
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        raf = 0;
-        const win = $(".screen.is-on .window");
-        if (!win) return;
-        const r = win.getBoundingClientRect();
-        // only tilt when cursor near/over the window
-        const cx = (e.clientX - (r.left + r.width / 2)) / r.width;
-        const cy = (e.clientY - (r.top + r.height / 2)) / r.height;
-        if (Math.abs(cx) > 0.9 || Math.abs(cy) > 0.9) { win.style.setProperty("--rx", "0deg"); win.style.setProperty("--ry", "0deg"); return; }
-        win.style.setProperty("--ry", (cx * 2.4).toFixed(2) + "deg");
-        win.style.setProperty("--rx", (-cy * 2.0).toFixed(2) + "deg");
-      });
-    }, { passive: true });
-  }
 
   // theme click zap
   $("#themeToggle").addEventListener("click", () => SFX.glitch());
