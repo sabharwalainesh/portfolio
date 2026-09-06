@@ -410,25 +410,66 @@ let graphTimer = null;
 function runGraph() {
   if (graphTimer) return;
   const N = 64;
+
+  // The meters are driven by what the visitor actually does, not by random noise:
+  // cpu follows pointer speed, net spikes on input and app switches, mem grows with
+  // the number of apps that have been opened and then holds.
+  let pointerLoad = 0, netBurst = 0, px = 0, py = 0, pt = 0;
+  addEventListener("pointermove", (e) => {
+    const now = performance.now(), dt = Math.max(16, now - pt);
+    const speed = Math.hypot(e.clientX - px, e.clientY - py) / dt;   // px per ms
+    px = e.clientX; py = e.clientY; pt = now;
+    pointerLoad = Math.min(1, pointerLoad + Math.min(0.42, speed * 0.16));
+  }, { passive: true });
+  const burst = (amt) => { netBurst = Math.min(1, netBurst + amt); };
+  window.__netBurst = burst;                                          // stageSwap taps this too
+  addEventListener("pointerdown", () => burst(0.55));
+  addEventListener("keydown", () => burst(0.3));
+  addEventListener("wheel", () => burst(0.22), { passive: true });
+
+  // scope every lookup to the real monitor: the rail's preview clones also carry
+  // .graph markup and sit earlier in the DOM, so bare selectors hit the clone
+  const root = $("#cpuGraph");
   const series = {
-    cpu: { v: 0.55, hist: [], out: $("#gCpu"), fmt: (v) => Math.round(v * 100) + "%" },
-    net: { v: 0.35, hist: [], out: $("#gNet"), fmt: (v) => Math.round(v * 900) + " kb/s" },
-    mem: { v: 0.62, hist: [], out: $("#gMem"), fmt: (v) => Math.round(v * 100) + "%" },
+    cpu: { v: 0.06, hist: [], out: $("#gCpu", root), fmt: (v) => Math.round(v * 100) + "%" },
+    net: { v: 0.02, hist: [], out: $("#gNet", root), fmt: (v) => (v < 0.02 ? "idle" : Math.round(v * 1400) + " kb/s") },
+    mem: { v: 0.3,  hist: [], out: $("#gMem", root), fmt: (v) => Math.round(v * 100) + "%" },
   };
-  $$(".graph__bars").forEach((g) => { g.innerHTML = Array.from({ length: N }, () => "<i></i>").join(""); });
+  $$(".graph__bars", root).forEach((g) => { g.innerHTML = Array.from({ length: N }, () => "<i></i>").join(""); });
   for (const k in series) series[k].hist = Array.from({ length: N }, () => series[k].v);
+
   const draw = () => {
+    const apps = Object.keys(started).length || 1;
+    const target = {
+      cpu: 0.05 + pointerLoad * 0.92,
+      net: 0.015 + netBurst * 0.95,
+      mem: Math.min(0.94, 0.26 + apps * 0.055 + Math.random() * 0.015),
+    };
+    pointerLoad *= 0.78;                                              // settles back to idle when the pointer stops
+    netBurst *= 0.72;
+    const appsEl = $("#gApps", root);
+    appsEl.textContent = apps;
+    appsEl.nextSibling.nodeValue = apps === 1 ? " app open" : " apps open";
+
     for (const k in series) {
       const s = series[k];
-      s.v = Math.min(1, Math.max(0.04, s.v + (Math.random() - 0.5) * (k === "mem" ? 0.08 : 0.3)));
+      s.v += (target[k] - s.v) * (k === "mem" ? 0.12 : 0.55);         // mem drifts, cpu/net react fast
       s.hist.push(s.v); s.hist = s.hist.slice(-N);
-      const bars = $(`.graph__bars[data-g="${k}"]`).children;
-      s.hist.forEach((v, i) => { bars[i].style.height = (v * 100) + "%"; });
+      const bars = $(`.graph__bars[data-g="${k}"]`, root).children;
+      let peak = 0;
+      s.hist.forEach((v, i) => {
+        const b = bars[i];
+        b.style.height = (v * 100) + "%";
+        b.className = v > 0.82 ? "hot" : v > 0.6 ? "warm" : "";
+        if (v > peak) peak = v;
+      });
+      $(`.graph[data-graph="${k}"] .graph__peak`, root).style.bottom = (peak * 100) + "%";
       s.out.textContent = s.fmt(s.v);
+      $(`.graph[data-graph="${k}"]`, root).classList.toggle("is-live", s.v > 0.35);
     }
   };
   draw();
-  if (!reduced) graphTimer = setInterval(draw, 220);
+  if (!reduced) graphTimer = setInterval(draw, 140);
 }
 
 /* ============================================================
@@ -607,7 +648,7 @@ async function stageSwap(card) {
   const id = card.dataset.goto, target = document.getElementById(id);
   const cur = currentApp && $(".window", currentApp), win = $(".window", target);
   if (reduced || !cur) { activate(target); swapping = false; return; }
-  SFX.whoosh();
+  SFX.whoosh(); window.__netBurst?.(0.9);
   const stage = $("#stage"), curCard = $(`.stage__card[data-goto="${currentApp.id}"]`);
 
   // The two apps trade places: the clicked card's slot is where the current window
@@ -833,6 +874,7 @@ function activate(screen) {
   $$(".screen").forEach((s) => s.classList.toggle("is-on", s === screen));
   const id = screen.id;
   currentApp = screen;
+  if (id === "skills") runGraph();                       // idempotent; the monitor only ticks while it can be seen
   $$(".stage__card").forEach((c) => c.classList.toggle("is-active", c.dataset.goto === id));
   $("#crumbFile").textContent = screen.dataset.file;
   $$("#filetree li").forEach((li) => li.classList.toggle("is-active", li.dataset.goto === id));
@@ -849,7 +891,7 @@ function activate(screen) {
     if (id === "hero") runHero();
     if (id === "ask") startChat();
     if (id === "about") runEditor();
-    if (id === "skills") { $$("#skills h2.decode").forEach(decodeTo); runGraph(); }
+    if (id === "skills") $$("#skills h2.decode").forEach(decodeTo);
     if (id === "experience") startVHS();
     if (id === "projects") window.__openFirstProject?.();
     if (id === "honors") { $$("#honors h2.decode").forEach(decodeTo); setTimeout(() => SFX.ding(), 500); }
@@ -885,7 +927,7 @@ function primeApps() {
   const was = reduced; reduced = true;
   try {
     started.about = true; runEditor();
-    started.skills = true; $$("#skills h2.decode").forEach(decodeTo); runGraph();
+    started.skills = true; $$("#skills h2.decode").forEach(decodeTo);
     started.projects = true; window.__openFirstProject?.();
     started.honors = true; $$("#honors h2.decode").forEach(decodeTo);
     started.contact = true; runNet();

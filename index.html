@@ -146,9 +146,21 @@
             <h2 class="decode" data-text="// mounted volumes">// mounted volumes</h2>
             <div class="meters" id="meters"></div>
             <div class="monitor__graphs" id="cpuGraph">
-              <div class="graph"><span class="graph__t">cpu <b id="gCpu">--%</b></span><div class="graph__bars" data-g="cpu"></div></div>
-              <div class="graph"><span class="graph__t">net <b id="gNet">-- kb/s</b></span><div class="graph__bars" data-g="net"></div></div>
-              <div class="graph"><span class="graph__t">mem <b id="gMem">--%</b></span><div class="graph__bars" data-g="mem"></div></div>
+              <div class="graph" data-graph="cpu">
+                <span class="graph__t">cpu <b id="gCpu">--%</b></span>
+                <div class="graph__plot"><span class="graph__peak"></span><div class="graph__bars" data-g="cpu"></div></div>
+                <span class="graph__hint">move the pointer</span>
+              </div>
+              <div class="graph" data-graph="net">
+                <span class="graph__t">net <b id="gNet">-- kb/s</b></span>
+                <div class="graph__plot"><span class="graph__peak"></span><div class="graph__bars" data-g="net"></div></div>
+                <span class="graph__hint">click, type or scroll</span>
+              </div>
+              <div class="graph" data-graph="mem">
+                <span class="graph__t">mem <b id="gMem">--%</b></span>
+                <div class="graph__plot"><span class="graph__peak"></span><div class="graph__bars" data-g="mem"></div></div>
+                <span class="graph__hint"><i id="gApps">1</i> app open</span>
+              </div>
             </div>
           </div>
         </div>

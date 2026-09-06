@@ -326,9 +326,19 @@ h2.decode { font-family: var(--font-display); font-size: 24px; color: var(--phos
 .graph { border: 1px solid var(--edge); border-radius: 5px; background: var(--bg-soft); padding: .55rem .7rem .6rem; display: flex; flex-direction: column; min-height: 0; }
 .graph__t { font-size: 11.5px; letter-spacing: .1em; color: var(--ink-dim); text-transform: uppercase; margin-bottom: .45rem; }
 .graph__t b { color: var(--amber); font-weight: 400; margin-left: .4rem; font-family: var(--font-display); font-size: 16px; letter-spacing: .05em; }
-.graph__bars { flex: 1; min-height: 0; display: flex; align-items: flex-end; gap: 2px; border-bottom: 1px solid var(--edge); }
-.graph__bars i { flex: 1; height: 0; background: var(--phos); opacity: .75; box-shadow: 0 0 6px var(--phos-glow); transition: height .2s linear; }
-.graph__bars i:last-child { opacity: 1; background: var(--phos-bright); }
+.graph__plot { position: relative; flex: 1; min-height: 0; }
+.graph__bars { position: absolute; inset: 0; display: flex; align-items: flex-end; gap: 2px; border-bottom: 1px solid var(--edge); }
+.graph__bars i { flex: 1; height: 0; background: var(--phos); opacity: .7; box-shadow: 0 0 6px var(--phos-glow); transition: height .18s linear, background .3s, opacity .3s; }
+.graph__bars i.warm { background: var(--amber); box-shadow: 0 0 7px color-mix(in srgb, var(--amber) 55%, transparent); opacity: .85; }
+.graph__bars i.hot { background: var(--rose); box-shadow: 0 0 9px color-mix(in srgb, var(--rose) 60%, transparent); opacity: 1; }
+.graph__bars i:last-child { opacity: 1; filter: brightness(1.35); }
+/* peak line, sits where the highest sample in the window was */
+.graph__peak { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: repeating-linear-gradient(90deg, var(--ink-dim) 0 3px, transparent 3px 7px); opacity: .5; transition: bottom .35s var(--ease); pointer-events: none; }
+.graph__hint { font-size: 10px; letter-spacing: .08em; color: var(--edge); margin-top: .35rem; text-transform: uppercase; transition: color .2s; }
+.graph__hint i { font-style: normal; color: var(--ink-dim); }
+.graph:hover .graph__hint { color: var(--ink-dim); }
+.graph.is-live { border-color: color-mix(in srgb, var(--phos) 45%, var(--edge)); box-shadow: 0 0 18px -8px var(--phos-glow); }
+.graph.is-live .graph__t { color: var(--ink); }
 
 /* ===================== QUICKTIME (experience) ===================== */
 .window--qt { width: 100%; }
