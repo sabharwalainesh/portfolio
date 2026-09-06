@@ -191,9 +191,13 @@ const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-async function typeInto(el, text, speed = 16) {
+async function typeInto(el, text, speed = 16, alive = () => true) {
   if (reduced) { el.append(text); return; }
-  for (const ch of text) { el.append(ch); await sleep(ch === "\n" ? speed * 5 : speed + Math.random() * speed); }
+  for (const ch of text) {
+    if (!alive()) return;
+    el.append(ch);
+    await sleep(ch === "\n" ? speed * 5 : speed + Math.random() * speed);
+  }
 }
 async function decodeTo(el) {
   const final = el.dataset.text || el.textContent;
@@ -409,7 +413,7 @@ function runGraph() {
 /* ============================================================
    VHS DECK — experience
    ============================================================ */
-const vhs = { i: 0, playing: false, timer: null, sec: 0 };
+const vhs = { i: 0, playing: false, timer: null, sec: 0, gen: 0 };
 function renderVHS() {
   $("#vhsTimeline").innerHTML = DATA.tapes.map((_, i) => `<span class="vhs__seg" data-i="${i}"></span>`).join("");
   $$(".vhs__seg").forEach((s) => s.addEventListener("click", () => vhsGo(+s.dataset.i, true)));
@@ -423,6 +427,8 @@ function renderVHS() {
 }
 async function vhsGo(i, manual = false) {
   vhs.i = i;
+  const gen = ++vhs.gen;              // cancel any in-flight typing from a previous tape
+  const alive = () => vhs.gen === gen;
   const t = DATA.tapes[i];
   const track = $("#vhsTracking");
   SFX.clunk();
@@ -435,10 +441,12 @@ async function vhsGo(i, manual = false) {
   });
   const role = $("#vhsRole"), org = $("#vhsOrg"), when = $("#vhsWhen"), note = $("#vhsNote");
   role.textContent = ""; org.textContent = ""; when.textContent = ""; note.textContent = "";
-  await typeInto(role, t.role, 18);
+  await typeInto(role, t.role, 18, alive);
+  if (!alive()) return;
   org.textContent = "@ " + t.org;
   when.textContent = t.when;
-  await typeInto(note, t.note, 6);
+  await typeInto(note, t.note, 6, alive);
+  if (!alive()) return;
   if (manual) vhsHold();
 }
 function vhsToggle() {
@@ -456,6 +464,7 @@ function vhsHold() {
 }
 function vhsEject() {
   SFX.eject();
+  vhs.gen++;
   clearInterval(vhs.timer); vhs.playing = false;
   $("#vhsPlay").textContent = "▶";
   $("#vhsMode").textContent = "⏏ EJECT";
