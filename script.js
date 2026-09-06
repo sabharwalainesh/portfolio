@@ -608,6 +608,8 @@ async function stageSwap(card) {
   const cur = currentApp && $(".window", currentApp), win = $(".window", target);
   if (reduced || !cur) { activate(target); swapping = false; return; }
   SFX.whoosh();
+  const stage = $("#stage");
+  stage.classList.add("is-open");                       // the rail must be out, so both windows land where the cards are
   const from = $(".stage__thumb", card).getBoundingClientRect();
   // show the target alongside the current one, measure where it lands
   target.classList.add("is-on");
@@ -627,12 +629,13 @@ async function stageSwap(card) {
   cur.classList.add("is-parking");
   cur.style.transform = `translate(${park.left - c.left}px, ${park.top - c.top}px) scale(${park.width / c.width}, ${park.height / c.height}) rotateY(32deg)`;
   card.classList.add("is-leaving");
-  await sleep(370);
+  await sleep(420);                                      // let the outgoing window finish shrinking into the rail
   activate(target);
   win.classList.remove("is-flying"); win.style.transformOrigin = "";
   cur.classList.remove("is-parking"); cur.style.transform = ""; cur.style.transformOrigin = "";
-  curCard.style.visibility = "";
+  curCard.style.visibility = "";                         // its card takes over exactly where the window landed
   card.classList.remove("is-leaving");
+  stage.classList.remove("is-open");
   swapping = false;
   refreshThumbs();
 }
