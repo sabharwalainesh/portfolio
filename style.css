@@ -25,6 +25,7 @@
   --tick-h: 30px;
   --dock-h: 78px;
   --tilt: 13deg;                       /* Stage Manager card angle */
+  --persp: 900px;
 }
 body[data-theme="amber"] {
   --ink: #f4e6c6; --ink-dim: #a98d5e;
@@ -145,7 +146,6 @@ button { font: inherit; }
 /* ---- fullscreen snapping screens: only one frame visible ---- */
 /* apps live in an absolutely-positioned slot on the desktop; only the active one is shown */
 .apps { position: absolute; top: 44px; left: 196px; right: 26px; bottom: calc(var(--dock-h) + 14px); z-index: 6; }
-.apps.in-swap, .apps.in-swap > .screen { transform-style: preserve-3d; }
 .screen { position: absolute; inset: 0; display: none; align-items: stretch; justify-content: stretch; padding: 0; }
 .screen.is-on { display: flex; }
 .screen.is-off { display: flex; pointer-events: none; }
@@ -161,7 +161,7 @@ button { font: inherit; }
   transition: box-shadow .4s, border-color .4s;
 }
 /* ===================== macOS DESKTOP (hero) ===================== */
-.desktop { position: relative; width: 100%; height: 100%; overflow: hidden; perspective: 1500px; perspective-origin: 0 50%; font-family: -apple-system, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif; color: #fff; }
+.desktop { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: -apple-system, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif; color: #fff; }
 .desktop__wall { position: absolute; inset: 0; background: linear-gradient(180deg, #0f2440 0%, #274f80 30%, #5f8bb8 58%, #a99a86 72%, #4d5750 82%, #1f2823 100%); }
 .desktop__clouds { position: absolute; inset: 0 0 35% 0; opacity: .45;
   background:
@@ -201,13 +201,13 @@ body[data-theme="cyan"] .desktop__wall { filter: hue-rotate(-15deg) saturate(1.1
 .deskicon__folder::before { content: ""; position: absolute; left: 0; top: -7px; width: 40%; height: 12px; border-radius: 5px 5px 0 0; background: #2f8bf0; }
 
 /* stage manager rail — hidden off the left edge, slides in with a spring */
-.stage { position: absolute; left: 0; top: 48px; bottom: calc(var(--dock-h) + 14px); width: 180px; display: flex; flex-direction: column; justify-content: center; gap: 18px; z-index: 4; transform-style: preserve-3d; padding-left: 10px; }
+.stage { position: absolute; left: 0; top: 48px; bottom: calc(var(--dock-h) + 14px); width: 180px; display: flex; flex-direction: column; justify-content: center; gap: 18px; z-index: 4; padding-left: 10px; }
 .stage__card { position: relative; width: 150px; height: 74px; cursor: pointer; transform-origin: 22px 0;
-  transform: translateX(-72%) rotateY(30deg) scale(.86); opacity: .55;
+  transform: translateX(-72%) perspective(var(--persp)) rotateY(30deg) scale(.86); opacity: .55;
   transition: transform .42s cubic-bezier(.2, .85, .25, 1), opacity .3s, filter .3s; transition-delay: calc(var(--i, 0) * 28ms);
   filter: drop-shadow(0 10px 18px rgba(0,0,0,.5)); }
-.stage.is-open .stage__card { transform: rotateY(var(--tilt)); opacity: 1; }
-.stage.is-open .stage__card:hover { transform: translateX(8px) rotateY(calc(var(--tilt) * .45)) scale(1.05); }
+.stage.is-open .stage__card { transform: perspective(var(--persp)) rotateY(var(--tilt)); opacity: 1; }
+.stage.is-open .stage__card:hover { transform: translateX(8px) perspective(var(--persp)) rotateY(calc(var(--tilt) * .45)) scale(1.05); }
 .stage__card.is-active { display: none; }
 .stage.no-anim .stage__card { transition: none !important; }
 .stage.no-tilt .stage__card { transform: none !important; }   /* measured flat, so the landing box is exact */

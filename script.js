@@ -6,7 +6,7 @@
 const DATA = {
   name: "ainesh sabharwal",
   role: "cs @ uc berkeley",
-  tagline: "i like making stuff people actually use. mostly ios apps,\nsome ai things, and whatever i get curious about at 2am.",
+  tagline: "i build ios apps and ai tools that run on-device.\nmostly interested in software that stays fast and gets out of your way.",
   resumeFile: "Ainesh_Sabharwal_Resume.pdf",
 
   ascii: [
@@ -21,63 +21,62 @@ const DATA = {
   about: [
     { c: "cm", t: "// about.txt, last saved: today" },
     { c: "", t: "" },
-    { c: "kw", t: "const ", x: 'name = "ainesh";' },
+    { c: "kw", t: "const ", x: 'name = "ainesh sabharwal";' },
     { c: "kw", t: "const ", x: 'school = "uc berkeley, cdss";' },
     { c: "kw", t: "const ", x: "grad = 2030;" },
     { c: "", t: "" },
-    { c: "cm", t: "// grew up in cypress, tx. now in berkeley." },
-    { c: "cm", t: "// got into cs because i got tired of waiting around" },
-    { c: "cm", t: "// for someone else to build the thing i wanted." },
-    { c: "cm", t: "// been shipping side projects ever since." },
+    { c: "cm", t: "// from cypress, tx. finished high school 2nd in a class of 921." },
+    { c: "cm", t: "// started building side projects then and never really stopped," },
+    { c: "cm", t: "// usually because i wanted a tool that didn't exist yet." },
     { c: "", t: "" },
-    { c: "kw", t: "into", x: "  = ['ios apps', 'on-device ai', 'search that works'];" },
-    { c: "kw", t: "also", x: "  = ['eagle scout', 'tkd black belt', 'way too much coffee'];" },
+    { c: "kw", t: "focus", x: " = ['ios apps', 'on-device ai', 'retrieval and search'];" },
+    { c: "kw", t: "also", x: "  = ['eagle scout', 'taekwondo black belt'];" },
     { c: "", t: "" },
-    { c: "cm", t: "// looking for internships. say hi." },
+    { c: "cm", t: "// currently looking for summer internships." },
   ],
 
   skills: [
     { g: "lang",  pct: 92, v: "java · typescript · python · swift" },
-    { g: "web",   pct: 84, v: "html/css · full-stack apps · dashboards" },
-    { g: "ai/ml", pct: 78, v: "rag · running models on-device · vision, speech, coreml" },
+    { g: "web",   pct: 84, v: "html/css · full-stack apps · dashboards and analytics" },
+    { g: "ai/ml", pct: 78, v: "rag · on-device inference · vision, speech, core ml" },
     { g: "ds&a",  pct: 88, v: "stacks · queues · ring buffers · heaps · trees · greedy" },
     { g: "tools", pct: 80, v: "git / github · xcode · eclipse" },
   ],
 
   tapes: [
     { role: "lead instructor", org: "icode", when: "oct 2025 - mar 2026", logo: "assets/logos/icode.png",
-      note: "taught k-12 kids to code. half the job was convincing them the bug was a typo. it usually was." },
+      note: "taught programming to k-12 students through project-based classes, and helped them debug their own software and hardware." },
     { role: "student researcher", org: "algoverse ai research", when: "aug 2024 - may 2025", logo: "assets/logos/algoverse.png",
-      note: "worked on rag, basically getting a model to go look something up before answering instead of guessing." },
+      note: "research on retrieval-augmented generation: having a model pull from source documents before answering, and measuring whether the answers actually got better." },
     { role: "b.a. computer science", org: "uc berkeley (cdss)", when: "class of 2030", logo: "assets/logos/berkeley.png",
       note: "college of computing, data science & society. currently taking cs 61a." },
     { role: "bridgeland high school", org: "cypress, tx", when: "class of 2026", logo: "assets/logos/bridgeland.png",
-      note: "rank 2 of 921. java, ap physics c, and a lot of fbla and tsa." },
+      note: "rank 2 of 921. data structures and algorithms in java, ap physics c, fbla and tsa." },
   ],
 
   projects: [
-    { name: "drawly", tag: "swift / swiftui", meta: "building it now",
-      body: "notes app for iphone + mac. you type or sketch on one and it shows up on the\nother instantly, straight device to device, no server in the middle.\n\nit also reads your handwriting, transcribes voice notes, and can summarize a\npage for you, all on the phone itself. sketches export as clean svg.", link: "" },
+    { name: "drawly", tag: "swift / swiftui", meta: "in progress",
+      body: "notes app for iphone and mac. typing and sketches sync live between paired\ndevices over a direct peer-to-peer connection, with icloud as backup.\n\nhandwriting recognition, voice transcription and summarization all run on the\ndevice itself. sketches export to vector svg.", link: "" },
     { name: "apathyai", tag: "python · contributor", meta: "on-device copilot",
-      body: "desktop assistant that runs entirely on your machine, nothing sent anywhere.\nit reads what's on screen, sums up long documents, and fills in the boring\nspreadsheet and form stuff for you.", link: "https://github.com/qurashisohaib/ApathyAI" },
+      body: "desktop assistant that runs entirely on-device, so nothing leaves the machine.\nit reads on-screen context to summarize long documents and suggest\nspreadsheet and form entries.", link: "https://github.com/qurashisohaib/ApathyAI" },
     { name: "huddlehub", tag: "typescript", meta: "fbla 25-26",
-      body: "site for finding and reviewing local businesses. search, save the ones you like,\nleave reviews.\n\nowners get their own dashboard to manage listings and see how people\nare finding them.", link: "" },
-    { name: "bridgeland arena hub", tag: "typescript", meta: "3rd at fbla nationals",
-      body: "ticketing site for our school's arena. pick seats, buy tickets, run the box office.\n\ntook 3rd in website design at fbla nationals in 2025.", link: "" },
+      body: "full-stack site for finding, reviewing and saving local businesses.\n\nowners get a dashboard to manage their listing and see how people are\nfinding them.", link: "" },
+    { name: "bridgeland arena hub", tag: "typescript", meta: "3rd, fbla nationals",
+      body: "ticketing and box office platform for a school venue: seat selection,\ncheckout and event management.\n\ntook 3rd in website design at fbla nationals in 2025.", link: "" },
     { name: "ds&a labs", tag: "java", meta: "github.com/sabharwalainesh",
-      body: "a pile of things i built to actually understand data structures instead of\njust reading about them:\n\nfile compressor that builds a huffman tree and packs it down to bits.\na 20 questions game that gets better the more you play it.\nguitar string simulator that sounds shockingly real for a ring buffer.\nimage editor with filters and undo that never breaks.",
+      body: "a set of java projects i built to work through data structures properly:\n\nhuffman compressor that builds a code tree and packs the output to bits.\n20 questions, a guessing game on a binary tree that grows as you play.\nkarplus-strong guitar synthesis running on a ring buffer.\nimage editor with filters and undo backed by a stack.",
       link: "https://github.com/sabharwalainesh" },
   ],
 
   honors: [
-    { ico: "①", b: "rank 2 of 921", s: "bridgeland high school", tag: "school", c: "#ffcf6b",
-      note: "second in my graduating class. a lot of late nights went into that one." },
+    { ico: "①", b: "rank 2 of 921", s: "bridgeland high school", tag: "academics", c: "#ffcf6b",
+      note: "second in my graduating class, across four years of coursework." },
     { ico: "▮", b: "3rd place, website design", s: "fbla nationals", tag: "competition", c: "#5fb0ff",
-      note: "built the whole site myself and it made the podium at nationals." },
+      note: "built the site end to end and placed third at the national conference." },
     { ico: "⇡", b: "eagle scout", s: "boy scouts of america", tag: "service", c: "#7fdc7f",
-      note: "highest rank in scouts. took years and one very long service project." },
+      note: "highest rank in scouts bsa, earned through a service project i led." },
     { ico: "◆", b: "black belt", s: "taekwondo", tag: "discipline", c: "#ff8f8f",
-      note: "first dan. mostly taught me how to keep showing up when it's not fun." },
+      note: "first dan, after years of training and gradings." },
   ],
 
   contact: {
@@ -767,7 +766,6 @@ async function stageSwap(card) {
 
   // The two apps trade places: the clicked card's slot is where the current window
   // minimises to, and the window being opened grows out of that same slot.
-  $("#screens").classList.add("in-swap");                // shared 3D space, only while the windows are flying
   stage.classList.add("is-open", "no-anim", "no-tilt");
   refreshThumbs();                                       // the card taking the slot must look like the window landing on it
   stage.insertBefore(curCard, card);                     // outgoing app's card moves into the clicked card's place...
@@ -777,20 +775,22 @@ async function stageSwap(card) {
   void stage.offsetWidth;
   const slot = $(".stage__thumb", curCard).getBoundingClientRect();
   stage.classList.remove("no-anim", "no-tilt");
-  const tilt = getComputedStyle(document.body).getPropertyValue("--tilt").trim() || "13deg";
+  const css = getComputedStyle(document.body);
+  const tilt = css.getPropertyValue("--tilt").trim() || "13deg";
+  const persp = css.getPropertyValue("--persp").trim() || "900px";   // same perspective the cards use
 
   // show the target alongside the current one and measure where each one has to travel
   target.classList.add("is-on");
   const to = win.getBoundingClientRect(), c = cur.getBoundingClientRect();
 
   win.style.transformOrigin = "0 0"; win.style.transition = "none";
-  win.style.transform = `translate(${slot.left - to.left}px, ${slot.top - to.top}px) rotateY(${tilt}) scale(${slot.width / to.width}, ${slot.height / to.height})`;
+  win.style.transform = `translate(${slot.left - to.left}px, ${slot.top - to.top}px) perspective(${persp}) rotateY(${tilt}) scale(${slot.width / to.width}, ${slot.height / to.height})`;
   cur.style.transformOrigin = "0 0";
   void win.offsetWidth;
   win.style.transition = ""; win.classList.add("is-flying");
   win.style.transform = "";                              // grows out of the slot
   cur.classList.add("is-parking");
-  cur.style.transform = `translate(${slot.left - c.left}px, ${slot.top - c.top}px) rotateY(${tilt}) scale(${slot.width / c.width}, ${slot.height / c.height})`;  // shrinks into it, at the card's own angle
+  cur.style.transform = `translate(${slot.left - c.left}px, ${slot.top - c.top}px) perspective(${persp}) rotateY(${tilt}) scale(${slot.width / c.width}, ${slot.height / c.height})`;  // shrinks into it, at the card's own angle
 
   await sleep(480);
   activate(target);                                      // card is already sitting under the window, so nothing flickers
@@ -798,7 +798,6 @@ async function stageSwap(card) {
   cur.classList.remove("is-parking"); cur.style.transform = ""; cur.style.transformOrigin = "";
   cur.style.removeProperty("--dx"); cur.style.removeProperty("--dy");   // parked windows return to their slot
   curCard.classList.remove("is-landing");
-  $("#screens").classList.remove("in-swap");
   setTimeout(() => stage.classList.remove("is-open"), 900);   // hold the rail out so the parked card is seen landing
   swapping = false;
   refreshThumbs();
@@ -811,29 +810,29 @@ function chatAnswer(q) {
   const t = q.toLowerCase(), c = DATA.contact;
   const li = (a) => `<ul>${a.map((x) => `<li>${x}</li>`).join("")}</ul>`;
   if (/project|built|build|made|ship/.test(t))
-    return `<p>here's what he's built so far:</p>` + li(DATA.projects.map((p) =>
+    return `<p>what he's built so far:</p>` + li(DATA.projects.map((p) =>
       `<b>${esc(p.name)}</b> <i>(${esc(p.tag)})</i>, ${esc(p.body.split("\n")[0])}${p.link ? ` <a href="${esc(p.link)}" target="_blank" rel="noopener">repo ↗</a>` : ""}`)) +
-      `<p>ask about any of them, or just open the <a href="#projects" data-goto="projects">projects folder</a>.</p>`;
+      `<p>ask about any of them, or open the <a href="#projects" data-goto="projects">projects folder</a>.</p>`;
   if (/skill|stack|language|tool|know|tech/.test(t))
-    return `<p>stuff he works with:</p>` + li(DATA.skills.map((k) => `<b>${esc(k.g)}</b>, ${esc(k.v)}`));
+    return `<p>what he works with:</p>` + li(DATA.skills.map((k) => `<b>${esc(k.g)}</b>, ${esc(k.v)}`));
   if (/honor|award|won|win|achiev|rank|eagle|belt/.test(t))
-    return `<p>a few things he's picked up:</p>` + li(DATA.honors.map((h) => `<b>${esc(h.b)}</b>, ${esc(h.s)}`));
+    return `<p>a few things he's earned:</p>` + li(DATA.honors.map((h) => `<b>${esc(h.b)}</b>, ${esc(h.s)}`));
   if (/work|experience|job|intern|research|teach|icode|algoverse/.test(t))
-    return `<p>where he's been:</p>` + li(DATA.tapes.map((x) => `<b>${esc(x.role)}</b> @ ${esc(x.org)} <i>(${esc(x.when)})</i><br>${esc(x.note)}`));
+    return `<p>where he's worked and studied:</p>` + li(DATA.tapes.map((x) => `<b>${esc(x.role)}</b> @ ${esc(x.org)} <i>(${esc(x.when)})</i><br>${esc(x.note)}`));
   if (/contact|email|reach|linkedin|instagram|github|hire|message/.test(t))
-    return `<p>email is fastest, but any of these work:</p>` + li([
+    return `<p>email is the fastest way to reach him:</p>` + li([
       `email, <a href="mailto:${c.email}">${c.email}</a>`,
       `linkedin, <a href="${c.linkedin}" target="_blank" rel="noopener">${c.linkedin.replace("https://www.", "")}</a>`,
       `github, <a href="${c.github}" target="_blank" rel="noopener">${c.github.replace("https://", "")}</a>`,
       `instagram, <a href="${c.instagram}" target="_blank" rel="noopener">${c.instagram.replace("https://www.", "").replace(/\/$/, "")}</a>`,
-      `all of it on one page, <a href="links.html">links.html</a>`]);
+      `everything on one page, <a href="links.html">links.html</a>`]);
   if (/resume|cv/.test(t))
-    return `<p>here you go: <a href="${DATA.resumeFile}" target="_blank" rel="noopener">${DATA.resumeFile} ↗</a></p>`;
+    return `<p>here's the pdf: <a href="${DATA.resumeFile}" target="_blank" rel="noopener">${DATA.resumeFile} ↗</a></p>`;
   if (/who|about|ainesh|yourself|intro|school|berkeley/.test(t))
-    return `<p>ainesh is a cs student at <b>uc berkeley</b>, class of 2030. before that he was in cypress, tx, where he finished high school 2nd out of 921.</p><p>${esc(DATA.tagline)}</p><p>right now he's into ios apps and running ai models on-device, and he's <b>looking for internships</b>.</p>`;
+    return `<p>ainesh is a computer science student at <b>uc berkeley</b> (college of computing, data science & society, class of 2030). before that he was in cypress, tx, where he finished high school second in a class of 921.</p><p>${esc(DATA.tagline)}</p><p>he's currently <b>looking for summer internships</b>.</p>`;
   if (/hi|hello|hey|yo\b/.test(t))
-    return `<p>hey. i'm a little claude that only knows about ainesh. ask me about his <b>projects</b>, <b>skills</b>, <b>experience</b>, <b>honors</b>, or how to <b>reach him</b>.</p>`;
-  return `<p>i only really know about ainesh. try asking about his <b>projects</b>, <b>skills</b>, <b>experience</b>, <b>honors</b>, <b>resume</b>, or how to <b>reach him</b>.</p>`;
+    return `<p>hey. i'm a small claude that only knows about ainesh. ask about his <b>projects</b>, <b>skills</b>, <b>experience</b>, <b>honors</b>, or how to <b>reach him</b>.</p>`;
+  return `<p>i only know about ainesh. try his <b>projects</b>, <b>skills</b>, <b>experience</b>, <b>honors</b>, <b>resume</b>, or how to <b>reach him</b>.</p>`;
 }
 let chatBusy = false;
 async function chatSend(q) {
@@ -1171,8 +1170,9 @@ function showApp(id) {
   activate(next);
 }
 function screenSwitcher() {
+  // boot's finish() opens the terminal. Activating it here too meant runHero typed the
+  // greeting out behind the boot screen, and its guard then skipped the visible one.
   $$("#mobilenav button").forEach((b) => b.addEventListener("click", () => showApp(b.dataset.goto)));
-  activate($("#hero"));
 }
 /* ============================================================
    THEME
