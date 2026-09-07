@@ -577,7 +577,7 @@ async function vhsGo(i, manual = false) {
   const alive = () => vhs.gen === gen;
   const t = DATA.tapes[i];
   const flash = $("#vhsTracking");
-  SFX.clunk();
+  if (!vhsPriming) SFX.clunk();
   if (!reduced) { flash.classList.remove("roll"); void flash.offsetWidth; flash.classList.add("roll"); }
   $("#vhsTape").textContent = `chapter ${i + 1} / ${DATA.tapes.length}`;
   const badge = $("#vhsLogo"), img = $("#vhsLogoImg");
@@ -587,11 +587,12 @@ async function vhsGo(i, manual = false) {
   vhsPaint();
   const role = $("#vhsRole"), org = $("#vhsOrg"), when = $("#vhsWhen"), note = $("#vhsNote");
   role.textContent = ""; org.textContent = ""; when.textContent = ""; note.textContent = "";
-  await typeInto(role, t.role, 18, alive);
+  const inst = vhsPriming;                 // the prime pass paints in one go, even after `reduced` is restored
+  if (inst) role.append(t.role); else await typeInto(role, t.role, 18, alive);
   if (!alive()) return;
   org.textContent = "@ " + t.org;
   when.textContent = t.when;
-  await typeInto(note, t.note, 6, alive);
+  if (inst) note.append(t.note); else await typeInto(note, t.note, 6, alive);
   if (!alive()) return;
   if (manual) vhsHold();
 }
@@ -612,11 +613,18 @@ function vhsHold() {
   clearInterval(vhs.timer);
   vhs.timer = setInterval(() => vhsGo((vhs.i + 1) % DATA.tapes.length), TAPE_MS);
 }
-let vhsStarted = false;
+let vhsStarted = false, vhsPriming = false, vhsPrimed = false;
+// draw chapter one instantly, so the window is never a black pane while it flies in
+function primeVHS() {
+  if (vhsPrimed || vhsStarted) return;
+  vhsPriming = true;
+  try { vhsGo(0); } finally { vhsPriming = false; }
+  vhsPrimed = true;
+}
 function startVHS() {
   if (vhsStarted) return; vhsStarted = true;
   vhsSetPlaying(true);
-  vhsGo(0);
+  if (!vhsPrimed) vhsGo(0);        // already painted by the prime pass, so don't wipe and retype it
 }
 
 /* ============================================================
@@ -1170,6 +1178,7 @@ function primeApps() {
     started.projects = true; window.__openFirstProject?.();
     started.honors = true; $$("#honors h2.decode").forEach(decodeTo);
     started.contact = true; runNet();
+    primeVHS();
   } finally { reduced = was; }
   refreshThumbs();
   setInterval(refreshThumbs, 4000);
