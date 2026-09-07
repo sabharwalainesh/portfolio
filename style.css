@@ -139,8 +139,9 @@ button { font: inherit; }
 
 /* ---- fullscreen snapping screens: only one frame visible ---- */
 /* apps live in an absolutely-positioned slot on the desktop; only the active one is shown */
-.apps { position: absolute; top: 44px; left: 196px; right: 26px; bottom: calc(var(--dock-h) + 14px); z-index: 6; transform-style: preserve-3d; }
-.screen { position: absolute; inset: 0; display: none; align-items: stretch; justify-content: stretch; padding: 0; transform-style: preserve-3d; }
+.apps { position: absolute; top: 44px; left: 196px; right: 26px; bottom: calc(var(--dock-h) + 14px); z-index: 6; }
+.apps.in-swap, .apps.in-swap > .screen { transform-style: preserve-3d; }
+.screen { position: absolute; inset: 0; display: none; align-items: stretch; justify-content: stretch; padding: 0; }
 .screen.is-on { display: flex; }
 .screen.is-off { display: flex; pointer-events: none; }
 
@@ -232,6 +233,7 @@ body[data-theme="cyan"] .desktop__wall { filter: hue-rotate(-15deg) saturate(1.1
 
 .window--term .window__body { flex: 0 1 auto; }
 .screen.is-on .window {
+  transform: translate(var(--dx, 0px), var(--dy, 0px));
   box-shadow: 0 22px 74px rgba(0,0,0,.62), 0 0 44px -12px var(--phos-glow);
   border-color: color-mix(in srgb, var(--phos) 32%, var(--edge));
   transition: box-shadow .4s, border-color .4s;
@@ -240,6 +242,9 @@ body[data-theme="cyan"] .desktop__wall { filter: hue-rotate(-15deg) saturate(1.1
 .window.is-flying { transition: transform .46s cubic-bezier(.42, .04, .22, 1) !important; opacity: 1; z-index: 3; }
 .window.is-parking { transition: transform .46s cubic-bezier(.42, .04, .22, 1) !important; opacity: 1; z-index: 2; }
 
+.window__bar, .window__bar--qt, .finder__toolbar, .chat__top { cursor: grab; }
+.window.is-dragging { cursor: grabbing; transition: none !important; box-shadow: 0 34px 80px rgba(0,0,0,.7), 0 0 44px -10px var(--phos-glow) !important; }
+.window.is-dragging .window__bar, .window.is-dragging .finder__toolbar, .window.is-dragging .chat__top { cursor: grabbing; }
 .window__bar {
   position: relative; display: flex; align-items: center; gap: .6rem;
   padding: .45rem .8rem;

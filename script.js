@@ -605,6 +605,54 @@ function startVHS() {
 }
 
 /* ============================================================
+   WINDOW DRAGGING, a small nudge, not a full window manager
+   ============================================================ */
+const DRAG_HANDLE = ".window__bar, .finder__toolbar, .chat__top";
+const DRAG_LIMIT = 90;                                   // px in each direction
+function windowDragging() {
+  if (reduced) return;
+  addEventListener("pointerdown", (e) => {
+    if (e.button !== 0) return;
+    const handle = e.target.closest(DRAG_HANDLE);
+    if (!handle || e.target.closest("button, a, input, [contenteditable]")) return;
+    const win = handle.closest(".window");
+    if (!win || swapping) return;
+
+    const x0 = e.clientX, y0 = e.clientY;
+    const dx0 = parseFloat(win.style.getPropertyValue("--dx")) || 0;
+    const dy0 = parseFloat(win.style.getPropertyValue("--dy")) || 0;
+    let dx = dx0, dy = dy0, raf = 0, moved = false;
+    const clamp = (v) => Math.max(-DRAG_LIMIT, Math.min(DRAG_LIMIT, v));
+    const paint = () => {
+      raf = 0;
+      win.style.setProperty("--dx", dx + "px");
+      win.style.setProperty("--dy", dy + "px");
+    };
+    const move = (ev) => {
+      dx = clamp(dx0 + ev.clientX - x0);
+      dy = clamp(dy0 + ev.clientY - y0);
+      if (!moved && Math.hypot(ev.clientX - x0, ev.clientY - y0) > 3) { moved = true; win.classList.add("is-dragging"); }
+      if (moved && !raf) raf = requestAnimationFrame(paint);
+    };
+    const up = () => {
+      removeEventListener("pointermove", move);
+      removeEventListener("pointerup", up);
+      if (raf) { cancelAnimationFrame(raf); raf = 0; }
+      if (moved) { paint(); SFX.clunk(); }               // land on the last position, not the last painted one
+      win.classList.remove("is-dragging");
+    };
+    addEventListener("pointermove", move, { passive: true });
+    addEventListener("pointerup", up, { passive: true });
+  });
+  // double-click the title bar to put a nudged window back
+  addEventListener("dblclick", (e) => {
+    const win = e.target.closest(DRAG_HANDLE)?.closest(".window");
+    if (!win) return;
+    win.style.removeProperty("--dx"); win.style.removeProperty("--dy");
+  });
+}
+
+/* ============================================================
    DESKTOP, widgets, stage manager rail, mac clock
    ============================================================ */
 const apps = [
@@ -703,6 +751,7 @@ async function stageSwap(card) {
 
   // The two apps trade places: the clicked card's slot is where the current window
   // minimises to, and the window being opened grows out of that same slot.
+  $("#screens").classList.add("in-swap");                // shared 3D space, only while the windows are flying
   stage.classList.add("is-open", "no-anim", "no-tilt");
   refreshThumbs();                                       // the card taking the slot must look like the window landing on it
   stage.insertBefore(curCard, card);                     // outgoing app's card moves into the clicked card's place...
@@ -731,7 +780,9 @@ async function stageSwap(card) {
   activate(target);                                      // card is already sitting under the window, so nothing flickers
   win.classList.remove("is-flying"); win.style.transformOrigin = "";
   cur.classList.remove("is-parking"); cur.style.transform = ""; cur.style.transformOrigin = "";
+  cur.style.removeProperty("--dx"); cur.style.removeProperty("--dy");   // parked windows return to their slot
   curCard.classList.remove("is-landing");
+  $("#screens").classList.remove("in-swap");
   setTimeout(() => stage.classList.remove("is-open"), 900);   // hold the rail out so the parked card is seen landing
   swapping = false;
   refreshThumbs();
@@ -1177,6 +1228,7 @@ renderDesktop();
 renderChat();
 renderTrophies();
 renderDock();
+windowDragging();
 screenSwitcher();
 juice();
 boot();
