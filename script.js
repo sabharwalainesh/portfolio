@@ -719,13 +719,13 @@ async function stageSwap(card) {
   const to = win.getBoundingClientRect(), c = cur.getBoundingClientRect();
 
   win.style.transformOrigin = "0 0"; win.style.transition = "none";
-  win.style.transform = `translate(${slot.left - to.left}px, ${slot.top - to.top}px) scale(${slot.width / to.width}, ${slot.height / to.height}) rotateY(${tilt})`;
+  win.style.transform = `translate(${slot.left - to.left}px, ${slot.top - to.top}px) rotateY(${tilt}) scale(${slot.width / to.width}, ${slot.height / to.height})`;
   cur.style.transformOrigin = "0 0";
   void win.offsetWidth;
   win.style.transition = ""; win.classList.add("is-flying");
   win.style.transform = "";                              // grows out of the slot
   cur.classList.add("is-parking");
-  cur.style.transform = `translate(${slot.left - c.left}px, ${slot.top - c.top}px) scale(${slot.width / c.width}, ${slot.height / c.height}) rotateY(${tilt})`;  // shrinks into it, at the card's own angle
+  cur.style.transform = `translate(${slot.left - c.left}px, ${slot.top - c.top}px) rotateY(${tilt}) scale(${slot.width / c.width}, ${slot.height / c.height})`;  // shrinks into it, at the card's own angle
 
   await sleep(480);
   activate(target);                                      // card is already sitting under the window, so nothing flickers
