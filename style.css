@@ -216,6 +216,12 @@ body[data-theme="cyan"] .desktop__wall { filter: hue-rotate(-15deg) saturate(1.1
 .stage__card.is-landing .stage__app, .stage__card.is-landing .stage__name { animation: stageChromeIn .5s ease .1s both; }
 @keyframes stageChromeIn { from { opacity: 0; transform: scale(.72); } to { opacity: 1; transform: none; } }
 .stage__card.is-landing .stage__name { transform-origin: 0 50%; }
+/* the slot itself stays empty while the window shrinks onto it: no placeholder box,
+   just the desktop showing through until the window itself is the thumbnail */
+.stage__card.is-landing .stage__thumb { background: transparent; border-color: transparent; }
+.stage__card.is-landing .stage__thumb::before,
+.stage__card.is-landing .stage__lines,
+.stage__card.is-landing .stage__snap { visibility: hidden; }
 .stage__thumb { position: absolute; left: 22px; top: 0; right: 0; bottom: 8px; border-radius: 6px; background: var(--panel); border: 1px solid var(--edge); overflow: hidden; }
 .stage__snap { position: absolute; left: 0; top: 0; transform-origin: 0 0; pointer-events: none; user-select: none; }
 .stage__snap .window { position: static !important; inset: auto !important; opacity: 1 !important; transform: none !important; border-radius: 0; box-shadow: none; }
