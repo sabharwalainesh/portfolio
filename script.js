@@ -690,10 +690,23 @@ function renderDesktop() {
     </div>`).join("");
   $$(".stage__card").forEach((c, i) => { c.style.setProperty("--i", i); c.addEventListener("click", () => stageSwap(c)); });
   // rail pops open when the pointer nears the left edge or the user scrolls over the desktop
-  let hold;
-  const pop = (ms = 1600) => { stage.classList.add("is-open"); clearTimeout(hold); hold = setTimeout(() => stage.classList.remove("is-open"), ms); };
+  // The rail is out whenever one of these is true. Everything nudges a flag and calls
+  // sync(); nothing sets its own timer, so the states cannot fight each other.
   const desk = $("#desktop");
-  desk.addEventListener("pointermove", (e) => { if (e.clientX - desk.getBoundingClientRect().left < 210) pop(); }, { passive: true });
+  let overRail = false, nearEdge = false, peekUntil = 0, railTimer = 0;
+  const railWants = () => overRail || nearEdge || swapping || performance.now() < peekUntil;
+  const sync = () => {
+    clearTimeout(railTimer);
+    const open = railWants();
+    stage.classList.toggle("is-open", open);
+    if (open) railTimer = setTimeout(sync, 200);              // re-check until nothing wants it open
+  };
+  const pop = (ms = 1600) => { peekUntil = Math.max(peekUntil, performance.now() + ms); sync(); };
+  desk.addEventListener("pointermove", (e) => {
+    const near = e.clientX - desk.getBoundingClientRect().left < 210;
+    if (near !== nearEdge) { nearEdge = near; sync(); }
+  }, { passive: true });
+  desk.addEventListener("pointerleave", () => { nearEdge = false; sync(); });
   // wheel → step one app per deliberate scroll gesture; trackpad momentum is swallowed during the cooldown
   const innerCanScroll = (el, dy) => {
     for (let n = el; n && n !== document.body; n = n.parentElement) {
@@ -745,10 +758,10 @@ function renderDesktop() {
     lastStep = now;
     step(dy < 0 ? 1 : -1);                                                // swipe up moves forward
   }, { passive: true });
-  stage.addEventListener("pointerenter", () => pop(60000));
-  stage.addEventListener("pointerleave", () => pop(600));
+  stage.addEventListener("pointerenter", () => { overRail = true; sync(); });
+  stage.addEventListener("pointerleave", () => { overRail = false; peekUntil = performance.now() + 400; sync(); });
+  window.__railSync = sync;                              // the swap holds it open while it runs
   setTimeout(() => pop(2600), 1800);
-  desk.addEventListener("pointerdown", (e) => { if (!e.target.closest(".stage")) stage.classList.remove("is-open"); });
   // mac clock
   const tick = () => { $("#macClock").textContent = new Date().toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).replace(",", ""); };
   tick(); setInterval(tick, 30000);
@@ -798,7 +811,7 @@ async function stageSwap(card) {
   cur.classList.remove("is-parking"); cur.style.transform = ""; cur.style.transformOrigin = "";
   cur.style.removeProperty("--dx"); cur.style.removeProperty("--dy");   // parked windows return to their slot
   curCard.classList.remove("is-landing");
-  setTimeout(() => stage.classList.remove("is-open"), 900);   // hold the rail out so the parked card is seen landing
+  window.__railSync?.();                                 // rail closes on its own once nothing wants it open
   swapping = false;
   refreshThumbs();
 }

@@ -209,6 +209,7 @@ body[data-theme="cyan"] .desktop__wall { filter: hue-rotate(-15deg) saturate(1.1
 .stage.is-open .stage__card { transform: perspective(var(--persp)) rotateY(var(--tilt)); opacity: 1; }
 .stage.is-open .stage__card:hover { transform: translateX(8px) perspective(var(--persp)) rotateY(calc(var(--tilt) * .45)) scale(1.05); }
 .stage__card.is-active { display: none; }
+.stage:not(.is-open) .stage__card { transition-delay: 0s; }   /* stagger on the way out only */
 .stage.no-anim .stage__card { transition: none !important; }
 .stage.no-tilt .stage__card { transform: none !important; }   /* measured flat, so the landing box is exact */
 /* a card taking over a slot: its chrome fades in while the window shrinks onto it */
