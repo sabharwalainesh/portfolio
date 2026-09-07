@@ -305,19 +305,34 @@ let heroDone = false;
 async function runHero() {
   if (heroDone) return; heroDone = true;
   const bannerEl = $("#heroAscii"), sub = $("#heroSub");
+  const hi = $("#heroHi"), caret = $("#heroCaret"), box = $("#heroBanner");
+  const GREETING = "hi, i'm";
 
-  // ascii banner: reveal by columns
+  // the greeting types itself, then the name wipes in behind a bright edge
   const rows = DATA.ascii.split("\n");
   const width = Math.max(...rows.map((r) => r.length));
-  if (reduced) { bannerEl.textContent = DATA.ascii; fitBanner(); }
+  if (reduced) { hi.textContent = GREETING; caret.classList.add("is-hidden"); bannerEl.textContent = DATA.ascii; fitBanner(); }
   else {
-    for (let c = 0; c <= width; c += 3) {
-      bannerEl.textContent = rows.map((r) => r.slice(0, c)).join("\n");
-      await sleep(14);
+    await sleep(180);
+    for (const ch of GREETING) {
+      hi.append(ch);
+      SFX.key();
+      await sleep(ch === "," ? 190 : 95 + Math.random() * 70);   // a beat after the comma
     }
+    caret.classList.add("is-done");
+    await sleep(320);
+    box.classList.add("is-wiping");
+    for (let c = 0; c <= width; c += 2) {
+      bannerEl.textContent = rows.map((r) => r.slice(0, c)).join("\n");
+      box.style.setProperty("--wipe", (bannerEl.scrollWidth || 0) + "px");
+      await sleep(12);
+    }
+    box.classList.remove("is-wiping");
     bannerEl.textContent = DATA.ascii;
     fitBanner();
+    caret.classList.add("is-hidden");
     bannerEl.classList.add("glitch");
+    SFX.glitch();
     setTimeout(() => bannerEl.classList.remove("glitch"), 900);
   }
   // periodic glitch
@@ -835,9 +850,9 @@ async function chatSend(q) {
     const tmp = document.createElement("div"); tmp.innerHTML = html;
     const text = tmp.textContent; let shown = 0;
     while (shown < text.length) {
-      shown += 3 + Math.floor(Math.random() * 4);
+      shown += 1 + Math.floor(Math.random() * 2);
       body.textContent = text.slice(0, shown); scroll.scrollTop = scroll.scrollHeight;
-      await sleep(14);
+      await sleep(24);
     }
     body.innerHTML = html;
   }
