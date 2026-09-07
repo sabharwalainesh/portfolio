@@ -72,7 +72,7 @@
           <!-- mac menu bar -->
           <div class="macbar">
             <span class="macbar__apple"></span>
-            <b>Finder</b><span>File</span><span>Edit</span><span>View</span><span>Go</span><span>Window</span><span>Help</span>
+            <b>finder</b><span>file</span><span>edit</span><span>view</span><span>go</span><span>window</span><span>help</span>
             <span class="macbar__right">
               <i title="claude">✳</i><i title="bluetooth">ᛒ</i><i title="battery">100% ▭</i><i title="wifi">📶</i>
               <span id="macClock">Sat Sep 5  6:08 PM</span>
@@ -110,7 +110,7 @@
                 <span class="term__caret" aria-hidden="true">▋</span>
               </div>
               <div id="termScroll" class="term__scrollout"></div>
-              <p class="term__tip">try <code>help</code> · <code>projects</code> · <code>resume</code> - or scroll to open the rail ◀</p>
+              <p class="term__tip">try <code>help</code> · <code>projects</code> · <code>resume</code> · or just scroll ◀</p>
             </div>
           </div>
       </section>
@@ -121,8 +121,8 @@
           <div class="window__bar">
             <span class="tb-traffic"><i></i><i></i><i></i></span>
             <span class="tb-title">about.txt - nano</span>
-            <span class="tb-menu">File&nbsp; Edit&nbsp; View</span>
-            <span class="tb-actions" id="aboutStatus">NORMAL</span>
+            <span class="tb-menu">file&nbsp; edit&nbsp; view</span>
+            <span class="tb-actions" id="aboutStatus">normal</span>
           </div>
           <div class="window__body">
             <div class="editor">
@@ -139,7 +139,7 @@
         <div class="window" data-app="monitor">
           <div class="window__bar">
             <span class="tb-traffic"><i></i><i></i><i></i></span>
-            <span class="tb-title">skills.sys - resource monitor</span>
+            <span class="tb-title">skills.sys</span>
             <span class="tb-actions"><i class="dot live"></i>polling <span id="pollRate">1000ms</span></span>
           </div>
           <div class="window__body">
@@ -227,21 +227,21 @@
             <aside class="finder__side">
               <span class="tb-traffic finder__traffic"><i></i><i></i><i></i></span>
               <ul class="finder__list">
-                <li data-fnav="recents"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Recents</li>
-                <li data-fnav="shared"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="14" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="19" cy="6" r="2.5" fill="currentColor"/></svg>Shared</li>
+                <li data-fnav="recents"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>recents</li>
+                <li data-fnav="shared"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="14" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="19" cy="6" r="2.5" fill="currentColor"/></svg>shared</li>
               </ul>
-              <div class="finder__h">Favorites</div>
+              <div class="finder__h">favorites</div>
               <ul class="finder__list">
-                <li data-fnav="apps"><svg viewBox="0 0 24 24"><path d="M12 3l3 8h-6zM5 21l3-8h8l3 8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Applications</li>
-                <li data-fnav="desktop"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 20h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Desktop<span class="finder__cloud">☁</span></li>
+                <li data-fnav="apps"><svg viewBox="0 0 24 24"><path d="M12 3l3 8h-6zM5 21l3-8h8l3 8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>applications</li>
+                <li data-fnav="desktop"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 20h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>desktop<span class="finder__cloud">☁</span></li>
                 <li class="cur" data-fnav="projects"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>projects<span class="finder__cloud">☁</span></li>
-                <li data-fnav="downloads"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v9m-3-3l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Downloads</li>
+                <li data-fnav="downloads"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v9m-3-3l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>downloads</li>
               </ul>
-              <div class="finder__h">Locations</div>
+              <div class="finder__h">locations</div>
               <ul class="finder__list">
                 <li data-fnav="disk"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8" cy="15" r="1.4" fill="currentColor"/></svg>phosphor</li>
               </ul>
-              <div class="finder__h">Tags</div>
+              <div class="finder__h">tags</div>
               <ul class="finder__list finder__tags" id="finderTags"></ul>
             </aside>
 
@@ -260,7 +260,7 @@
                     <button class="finder__tool" title="tags"><svg viewBox="0 0 24 24"><path d="M3 12V4h8l9 9-8 8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.5" cy="8.5" r="1.4" fill="currentColor"/></svg></button>
                     <button class="finder__tool" title="more"><svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="18" cy="12" r="1.7" fill="currentColor"/></svg></button>
                   </span>
-                  <label class="finder__search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 16l4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><input id="finderSearch" type="search" placeholder="Search" autocomplete="off" /></label>
+                  <label class="finder__search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 16l4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><input id="finderSearch" type="search" placeholder="search" autocomplete="off" /></label>
                 </span>
               </div>
               <div class="finder__content">
@@ -278,14 +278,14 @@
         <div class="window" data-app="trophy">
           <div class="window__bar">
             <span class="tb-traffic"><i></i><i></i><i></i></span>
-            <span class="tb-title">honors.md - achievements</span>
+            <span class="tb-title">honors.md</span>
             <span class="tb-actions"><i class="dot live"></i>all unlocked</span>
           </div>
           <div class="window__body">
             <div class="honors__head">
               <div>
                 <h2 class="decode" data-text="$ cat honors.md">$ cat honors.md</h2>
-                <p class="honors__sub">four badges, no cheat codes</p>
+                <p class="honors__sub">four of these. no cheat codes.</p>
               </div>
               <div class="honors__ring" id="honorsRing"><span><b id="honorsCount">0</b>/4</span></div>
             </div>
@@ -304,40 +304,40 @@
                 <span class="chat__sideicons"><i title="search">⌕</i><i title="new chat" id="chatNew">✎</i></span>
               </div>
               <ul class="chat__list">
-                <li class="cur"><span class="chat__spark">✳</span>Claude</li>
-                <li data-ask="what projects has he built?"><span class="chat__glyph">▤</span>Projects</li>
-                <li data-ask="what are his skills?"><span class="chat__glyph">≣</span>Skills</li>
+                <li class="cur"><span class="chat__spark">✳</span>claude</li>
+                <li data-ask="what projects has he built?"><span class="chat__glyph">▤</span>projects</li>
+                <li data-ask="what are his skills?"><span class="chat__glyph">≣</span>skills</li>
               </ul>
-              <div class="chat__h">Projects</div>
+              <div class="chat__h">projects</div>
               <ul class="chat__list">
-                <li class="chat__proj" data-ask="tell me about ainesh">Ainesh's Portfolio</li>
+                <li class="chat__proj" data-ask="tell me about ainesh">this portfolio</li>
               </ul>
-              <div class="chat__h">More</div>
+              <div class="chat__h">more</div>
               <ul class="chat__list">
-                <li class="chat__proj" data-ask="resume">Ainesh's Resume</li>
-                <li class="chat__proj" data-ask="how do I contact him?">Contact</li>
+                <li class="chat__proj" data-ask="resume">resume</li>
+                <li class="chat__proj" data-ask="how do I contact him?">contact</li>
               </ul>
             </aside>
             <div class="chat__main">
               <div class="chat__top">
-                <span class="chat__model">Claude <small>Fable 5.1</small> ⌄</span>
-                <span class="chat__topright"><button class="chat__share" id="chatShare">⇧ Share</button><span class="chat__avatar">A</span></span>
+                <span class="chat__model">claude <small>fable 5.1</small> ⌄</span>
+                <span class="chat__topright"><button class="chat__share" id="chatShare">⇧ share</button><span class="chat__avatar">A</span></span>
               </div>
               <div class="chat__scroll" id="chatScroll"></div>
               <div class="chat__chips">
-                <button data-ask="tell me about ainesh">About</button>
-                <button data-ask="what projects has he built?">Projects</button>
-                <button data-ask="what are his skills?">Skills</button>
-                <button data-ask="what's his experience?">Experience</button>
-                <button data-ask="what has he won?">Honors</button>
-                <button data-ask="how do I contact him?">Contact</button>
-                <button data-ask="resume">Resume</button>
+                <button data-ask="tell me about ainesh">about</button>
+                <button data-ask="what projects has he built?">projects</button>
+                <button data-ask="what are his skills?">skills</button>
+                <button data-ask="what's his experience?">experience</button>
+                <button data-ask="what has he won?">honors</button>
+                <button data-ask="how do I contact him?">contact</button>
+                <button data-ask="resume">resume</button>
               </div>
               <form class="chat__composer" id="chatForm">
-                <input id="chatInput" type="text" placeholder="Ask anything about Ainesh…" autocomplete="off" />
+                <input id="chatInput" type="text" placeholder="ask me about ainesh…" autocomplete="off" />
                 <button type="submit" title="send">↑</button>
               </form>
-              <div class="chat__disclaimer">Claude can make mistakes. Ainesh, less so.</div>
+              <div class="chat__disclaimer">claude can make mistakes. ainesh, less so.</div>
             </div>
           </div>
         </div>
@@ -348,7 +348,7 @@
         <div class="window" data-app="net">
           <div class="window__bar">
             <span class="tb-traffic"><i></i><i></i><i></i></span>
-            <span class="tb-title">contact.net - connection manager</span>
+            <span class="tb-title">contact.net</span>
             <span class="tb-actions"><i class="dot" id="netLed"></i><span id="netLabel">offline</span></span>
           </div>
           <div class="window__body">

@@ -4,9 +4,9 @@
    ============================================================ */
 
 const DATA = {
-  name: "Ainesh Sabharwal",
-  role: "CS @ UC Berkeley",
-  tagline: "I build systems that feel tactile: compression trees, audio synths,\non-device AI, native apps that mirror between your devices.",
+  name: "ainesh sabharwal",
+  role: "cs @ uc berkeley",
+  tagline: "i like making stuff people actually use. mostly ios apps,\nsome ai things, and whatever i get curious about at 2am.",
   resumeFile: "Ainesh_Sabharwal_Resume.pdf",
 
   ascii: [
@@ -21,62 +21,63 @@ const DATA = {
   about: [
     { c: "cm", t: "// about.txt, last saved: today" },
     { c: "", t: "" },
-    { c: "kw", t: "const ", x: 'name = "Ainesh Sabharwal";' },
-    { c: "kw", t: "const ", x: 'school = "UC Berkeley, Computing, Data Science & Society";' },
-    { c: "kw", t: "const ", x: "gradYear = 2030;" },
+    { c: "kw", t: "const ", x: 'name = "ainesh";' },
+    { c: "kw", t: "const ", x: 'school = "uc berkeley, cdss";' },
+    { c: "kw", t: "const ", x: "grad = 2030;" },
     { c: "", t: "" },
-    { c: "cm", t: "// Graduated Bridgeland HS (Cypress, TX) ranked 2 of 921." },
-    { c: "cm", t: "// Got here by building things that fight back -" },
-    { c: "cm", t: "// Huffman trees, Karplus-Strong synths, a peer-to-peer notes app." },
+    { c: "cm", t: "// grew up in cypress, tx. now in berkeley." },
+    { c: "cm", t: "// got into cs because i got tired of waiting around" },
+    { c: "cm", t: "// for someone else to build the thing i wanted." },
+    { c: "cm", t: "// been shipping side projects ever since." },
     { c: "", t: "" },
-    { c: "kw", t: "focus", x: " = ['on-device AI', 'retrieval systems', 'native apps'];" },
-    { c: "kw", t: "also", x: "  = ['Eagle Scout', 'Taekwondo black belt'];" },
+    { c: "kw", t: "into", x: "  = ['ios apps', 'on-device ai', 'search that works'];" },
+    { c: "kw", t: "also", x: "  = ['eagle scout', 'tkd black belt', 'way too much coffee'];" },
     { c: "", t: "" },
-    { c: "cm", t: "// status: open to internships" },
+    { c: "cm", t: "// looking for internships. say hi." },
   ],
 
   skills: [
-    { g: "lang",  pct: 92, v: "Java · TypeScript · Python · Swift" },
-    { g: "web",   pct: 84, v: "HTML/CSS · full-stack apps · dashboards & analytics" },
-    { g: "ai/ml", pct: 78, v: "RAG · on-device LLM inference · summarization · Vision/Speech/CoreML" },
-    { g: "ds&a",  pct: 88, v: "stacks · queues · ring buffers · priority queues · trees · greedy" },
-    { g: "tools", pct: 80, v: "Git / GitHub · Xcode · Eclipse" },
+    { g: "lang",  pct: 92, v: "java · typescript · python · swift" },
+    { g: "web",   pct: 84, v: "html/css · full-stack apps · dashboards" },
+    { g: "ai/ml", pct: 78, v: "rag · running models on-device · vision, speech, coreml" },
+    { g: "ds&a",  pct: 88, v: "stacks · queues · ring buffers · heaps · trees · greedy" },
+    { g: "tools", pct: 80, v: "git / github · xcode · eclipse" },
   ],
 
   tapes: [
-    { role: "Lead Instructor", org: "iCode", when: "Oct 2025 - Mar 2026", logo: "assets/logos/icode.png",
-      note: "Taught programming fundamentals to K-12 through hands-on projects; guided students building and debugging their own software and hardware." },
-    { role: "Student Researcher", org: "Algoverse AI Research Program", when: "Aug 2024 - May 2025", logo: "assets/logos/algoverse.png",
-      note: "Applied research on Retrieval-Augmented Generation for grounded QA, retrieval, embeddings, and prompting strategies to raise answer accuracy over source docs." },
-    { role: "B.A. Computer Science", org: "UC Berkeley (CDSS)", when: "Class of 2030", logo: "assets/logos/berkeley.png",
-      note: "College of Computing, Data Science & Society. Currently: CS 61A, linear algebra & differential equations behind me." },
-    { role: "Bridgeland High School", org: "Cypress, TX", when: "Class of 2026", logo: "assets/logos/bridgeland.png",
-      note: "Rank 2 of 921. Data structures & algorithms in Java, AP Physics C, FBLA, TSA." },
+    { role: "lead instructor", org: "icode", when: "oct 2025 - mar 2026", logo: "assets/logos/icode.png",
+      note: "taught k-12 kids to code. half the job was convincing them the bug was a typo. it usually was." },
+    { role: "student researcher", org: "algoverse ai research", when: "aug 2024 - may 2025", logo: "assets/logos/algoverse.png",
+      note: "worked on rag, basically getting a model to go look something up before answering instead of guessing." },
+    { role: "b.a. computer science", org: "uc berkeley (cdss)", when: "class of 2030", logo: "assets/logos/berkeley.png",
+      note: "college of computing, data science & society. currently taking cs 61a." },
+    { role: "bridgeland high school", org: "cypress, tx", when: "class of 2026", logo: "assets/logos/bridgeland.png",
+      note: "rank 2 of 921. java, ap physics c, and a lot of fbla and tsa." },
   ],
 
   projects: [
-    { name: "Drawly", tag: "Swift / SwiftUI", meta: "in progress",
-      body: "Native iPhone + Mac notes app. Typing and sketches mirror live between paired\ndevices over a direct peer-to-peer link (MultipeerConnectivity), iCloud as backup.\n\nOn-device OCR, speech transcription, and summarization (Vision, Speech, Core ML).\nExports PencilKit sketches to vector SVG.", link: "" },
-    { name: "ApathyAI", tag: "Python · contributor", meta: "on-device copilot",
-      body: "Desktop AI assistant that runs fully on-device inside a user's existing workflow.\nReads on-screen context to auto-summarize long documents and suggest\nspreadsheet / form fills.", link: "https://github.com/qurashisohaib/ApathyAI" },
-    { name: "HuddleHub", tag: "TypeScript", meta: "FBLA 25-26",
-      body: "Full-stack platform to browse, search, review, and bookmark local businesses.\nOwner dashboard for managing listings and tracking engagement analytics.", link: "" },
-    { name: "Bridgeland Arena Hub", tag: "TypeScript", meta: "3rd place, FBLA Nationals",
-      body: "Event ticketing and box-office platform for a school venue.\n3rd place in Website Design at the FBLA National Leadership Conference (2025).", link: "" },
-    { name: "DS&A Labs", tag: "Java", meta: "github.com/sabharwalainesh",
-      body: "Greedy-Huffman: file compression, min-priority-queue code tree, bit-packed to disk.\n20 Questions: guessing game on a binary question tree that learns via recursion + I/O.\nGuitar Hero: real-time plucked-string synthesis (Karplus-Strong) on a ring buffer.\nImage Enhancer: Swing editor with filters and full undo/redo on an array-based stack.",
+    { name: "drawly", tag: "swift / swiftui", meta: "building it now",
+      body: "notes app for iphone + mac. you type or sketch on one and it shows up on the\nother instantly, straight device to device, no server in the middle.\n\nit also reads your handwriting, transcribes voice notes, and can summarize a\npage for you, all on the phone itself. sketches export as clean svg.", link: "" },
+    { name: "apathyai", tag: "python · contributor", meta: "on-device copilot",
+      body: "desktop assistant that runs entirely on your machine, nothing sent anywhere.\nit reads what's on screen, sums up long documents, and fills in the boring\nspreadsheet and form stuff for you.", link: "https://github.com/qurashisohaib/ApathyAI" },
+    { name: "huddlehub", tag: "typescript", meta: "fbla 25-26",
+      body: "site for finding and reviewing local businesses. search, save the ones you like,\nleave reviews.\n\nowners get their own dashboard to manage listings and see how people\nare finding them.", link: "" },
+    { name: "bridgeland arena hub", tag: "typescript", meta: "3rd at fbla nationals",
+      body: "ticketing site for our school's arena. pick seats, buy tickets, run the box office.\n\ntook 3rd in website design at fbla nationals in 2025.", link: "" },
+    { name: "ds&a labs", tag: "java", meta: "github.com/sabharwalainesh",
+      body: "a pile of things i built to actually understand data structures instead of\njust reading about them:\n\nfile compressor that builds a huffman tree and packs it down to bits.\na 20 questions game that gets better the more you play it.\nguitar string simulator that sounds shockingly real for a ring buffer.\nimage editor with filters and undo that never breaks.",
       link: "https://github.com/sabharwalainesh" },
   ],
 
   honors: [
-    { ico: "①", b: "Class Rank 2 of 921", s: "Bridgeland High School", tag: "academics", c: "#ffcf6b",
-      note: "Second in a class of 921, the top quarter of one percent." },
-    { ico: "▮", b: "3rd Place: Website Design", s: "FBLA National Leadership Conference", tag: "competition", c: "#5fb0ff",
-      note: "Placed on the national podium for a site built end to end." },
-    { ico: "⇡", b: "Eagle Scout", s: "Boy Scouts of America", tag: "service", c: "#7fdc7f",
-      note: "The highest rank in Scouts BSA, earned through a led service project." },
-    { ico: "◆", b: "Black Belt", s: "Taekwondo", tag: "discipline", c: "#ff8f8f",
-      note: "Years of training, gradings and sparring to first dan." },
+    { ico: "①", b: "rank 2 of 921", s: "bridgeland high school", tag: "school", c: "#ffcf6b",
+      note: "second in my graduating class. a lot of late nights went into that one." },
+    { ico: "▮", b: "3rd place, website design", s: "fbla nationals", tag: "competition", c: "#5fb0ff",
+      note: "built the whole site myself and it made the podium at nationals." },
+    { ico: "⇡", b: "eagle scout", s: "boy scouts of america", tag: "service", c: "#7fdc7f",
+      note: "highest rank in scouts. took years and one very long service project." },
+    { ico: "◆", b: "black belt", s: "taekwondo", tag: "discipline", c: "#ff8f8f",
+      note: "first dan. mostly taught me how to keep showing up when it's not fun." },
   ],
 
   contact: {
@@ -100,10 +101,10 @@ const DATA = {
     ],
     // brand marks live in the dock the way real app icons do, and open the real thing
     links: [
-      ["github",    "GitHub",     "#1f2328"],
-      ["linkedin",  "LinkedIn",   "#0a66c2"],
-      ["instagram", "Instagram",  "#c13584"],
-      ["mail",      "Email me",   "#2f7de1"],
+      ["github",    "github",     "#1f2328"],
+      ["linkedin",  "linkedin",   "#0a66c2"],
+      ["instagram", "instagram",  "#c13584"],
+      ["mail",      "email me",   "#2f7de1"],
     ],
   },
 };
@@ -234,13 +235,13 @@ window.goto = (id) => showApp(id);
 async function boot() {
   const el = $("#bootLog"), bar = $("#bootBar"), bootEl = $("#boot");
   const lines = [
-    "PHOSPHOR OS  v4.0   (c) ainesh sabharwal",
+    "phosphor os  v4.0   (c) ainesh sabharwal",
     "",
-    "CPU ......... 1 x undergrad @ 3am",
-    "MEM ......... coffee: ok",
-    "DISK ........ mount /home/ainesh ................ ok",
-    "NET ......... berkeley.edu link up",
-    "VIDEO ....... PHOSPHOR VIDEO deck detected",
+    "cpu ......... 1 x undergrad @ 3am",
+    "mem ......... coffee: ok",
+    "disk ........ mount /home/ainesh ................ ok",
+    "net ......... berkeley.edu link up",
+    "video ....... video deck detected",
     "",
     "spawning apps: shell nano monitor vhs finder modem ...",
     "ready.",
@@ -306,7 +307,7 @@ async function runHero() {
   if (heroDone) return; heroDone = true;
   const bannerEl = $("#heroAscii"), sub = $("#heroSub");
   const hi = $("#heroHi"), caret = $("#heroCaret"), box = $("#heroBanner");
-  const GREETING = "hi, i'm";
+  const GREETING = "hi im";
 
   // the greeting types itself, then the name wipes in behind a bright edge
   const rows = DATA.ascii.split("\n");
@@ -317,7 +318,7 @@ async function runHero() {
     for (const ch of GREETING) {
       hi.append(ch);
       SFX.key();
-      await sleep(ch === "," ? 190 : 95 + Math.random() * 70);   // a beat after the comma
+      await sleep(ch === " " ? 170 : 100 + Math.random() * 80);
     }
     caret.classList.add("is-done");
     await sleep(320);
@@ -810,29 +811,29 @@ function chatAnswer(q) {
   const t = q.toLowerCase(), c = DATA.contact;
   const li = (a) => `<ul>${a.map((x) => `<li>${x}</li>`).join("")}</ul>`;
   if (/project|built|build|made|ship/.test(t))
-    return `<p>Ainesh has shipped a handful of things. The highlights:</p>` + li(DATA.projects.map((p) =>
+    return `<p>here's what he's built so far:</p>` + li(DATA.projects.map((p) =>
       `<b>${esc(p.name)}</b> <i>(${esc(p.tag)})</i>, ${esc(p.body.split("\n")[0])}${p.link ? ` <a href="${esc(p.link)}" target="_blank" rel="noopener">repo ↗</a>` : ""}`)) +
-      `<p>Want details on any one of them? Ask, or open the <a href="#projects" data-goto="projects">projects folder</a>.</p>`;
+      `<p>ask about any of them, or just open the <a href="#projects" data-goto="projects">projects folder</a>.</p>`;
   if (/skill|stack|language|tool|know|tech/.test(t))
-    return `<h4>Languages & tools</h4>` + li(DATA.skills.map((k) => `<b>${esc(k.g)}</b>, ${esc(k.v)} <i>(${k.pct}%)</i>`));
+    return `<p>stuff he works with:</p>` + li(DATA.skills.map((k) => `<b>${esc(k.g)}</b>, ${esc(k.v)}`));
   if (/honor|award|won|win|achiev|rank|eagle|belt/.test(t))
-    return `<p>A few things he's earned:</p>` + li(DATA.honors.map((h) => `<b>${esc(h.b)}</b>, ${esc(h.s)}`));
+    return `<p>a few things he's picked up:</p>` + li(DATA.honors.map((h) => `<b>${esc(h.b)}</b>, ${esc(h.s)}`));
   if (/work|experience|job|intern|research|teach|icode|algoverse/.test(t))
-    return `<h4>Experience</h4>` + li(DATA.tapes.map((x) => `<b>${esc(x.role)}</b> @ ${esc(x.org)} <i>(${esc(x.when)})</i><br>${esc(x.note)}`));
+    return `<p>where he's been:</p>` + li(DATA.tapes.map((x) => `<b>${esc(x.role)}</b> @ ${esc(x.org)} <i>(${esc(x.when)})</i><br>${esc(x.note)}`));
   if (/contact|email|reach|linkedin|instagram|github|hire|message/.test(t))
-    return `<p>Fastest is email. All the ways:</p>` + li([
-      `Email, <a href="mailto:${c.email}">${c.email}</a>`,
-      `LinkedIn, <a href="${c.linkedin}" target="_blank" rel="noopener">${c.linkedin.replace("https://www.", "")}</a>`,
-      `GitHub, <a href="${c.github}" target="_blank" rel="noopener">${c.github.replace("https://", "")}</a>`,
-      `Instagram, <a href="${c.instagram}" target="_blank" rel="noopener">${c.instagram.replace("https://www.", "").replace(/\/$/, "")}</a>`,
-      `Everything on one page, <a href="links.html">links.html</a>`]);
+    return `<p>email is fastest, but any of these work:</p>` + li([
+      `email, <a href="mailto:${c.email}">${c.email}</a>`,
+      `linkedin, <a href="${c.linkedin}" target="_blank" rel="noopener">${c.linkedin.replace("https://www.", "")}</a>`,
+      `github, <a href="${c.github}" target="_blank" rel="noopener">${c.github.replace("https://", "")}</a>`,
+      `instagram, <a href="${c.instagram}" target="_blank" rel="noopener">${c.instagram.replace("https://www.", "").replace(/\/$/, "")}</a>`,
+      `all of it on one page, <a href="links.html">links.html</a>`]);
   if (/resume|cv/.test(t))
-    return `<p>Here's the PDF: <a href="${DATA.resumeFile}" target="_blank" rel="noopener">${DATA.resumeFile} ↗</a></p>`;
+    return `<p>here you go: <a href="${DATA.resumeFile}" target="_blank" rel="noopener">${DATA.resumeFile} ↗</a></p>`;
   if (/who|about|ainesh|yourself|intro|school|berkeley/.test(t))
-    return `<p><b>${esc(DATA.name)}</b> is a Computer Science student at <b>UC Berkeley</b> (College of Computing, Data Science & Society, class of 2030). He graduated from Bridgeland High School in Cypress, TX ranked 2 of 921.</p><p>${esc(DATA.tagline)}</p><p>He's interested in on-device AI, retrieval systems and native apps, and is <b>open to internships</b>.</p>`;
+    return `<p>ainesh is a cs student at <b>uc berkeley</b>, class of 2030. before that he was in cypress, tx, where he finished high school 2nd out of 921.</p><p>${esc(DATA.tagline)}</p><p>right now he's into ios apps and running ai models on-device, and he's <b>looking for internships</b>.</p>`;
   if (/hi|hello|hey|yo\b/.test(t))
-    return `<p>Hey! I'm a small Claude-flavoured guide to this portfolio. Ask me about Ainesh's <b>projects</b>, <b>skills</b>, <b>experience</b>, <b>honors</b>, or how to <b>contact</b> him.</p>`;
-  return `<p>I only know about Ainesh, try asking about his <b>projects</b>, <b>skills</b>, <b>experience</b>, <b>honors</b>, <b>resume</b>, or how to <b>contact</b> him.</p>`;
+    return `<p>hey. i'm a little claude that only knows about ainesh. ask me about his <b>projects</b>, <b>skills</b>, <b>experience</b>, <b>honors</b>, or how to <b>reach him</b>.</p>`;
+  return `<p>i only really know about ainesh. try asking about his <b>projects</b>, <b>skills</b>, <b>experience</b>, <b>honors</b>, <b>resume</b>, or how to <b>reach him</b>.</p>`;
 }
 let chatBusy = false;
 async function chatSend(q) {
@@ -1176,7 +1177,7 @@ function screenSwitcher() {
 /* ============================================================
    THEME
    ============================================================ */
-const THEMES = ["green", "amber", "cyan"];
+const THEMES = ["green", "amber", "cyan", "pink"];
 function cycleTheme() {
   const next = THEMES[(THEMES.indexOf(document.body.dataset.theme) + 1) % THEMES.length];
   document.body.dataset.theme = next;
