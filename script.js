@@ -788,10 +788,10 @@ async function stageSwap(card) {
   // The two apps trade places: the clicked card's slot is where the current window
   // minimises to, and the window being opened grows out of that same slot.
   stage.classList.add("is-open", "no-anim", "no-tilt");
-  refreshThumbs();                                       // the card taking the slot must look like the window landing on it
   stage.insertBefore(curCard, card);                     // outgoing app's card moves into the clicked card's place...
   card.classList.add("is-active");                       // ...as the clicked one leaves the rail, so no slot shifts
   curCard.classList.remove("is-active");
+  refreshThumbs();                                       // now that it is visible it can be measured, so it looks like the window landing on it
   curCard.classList.add("is-landing");                   // its icon and label fade in while the window shrinks onto it
   void stage.offsetWidth;
   const slot = $(".stage__thumb", curCard).getBoundingClientRect();
@@ -1152,7 +1152,7 @@ function refreshThumbs() {
   $$(".stage__card").forEach((card) => {
     const id = card.dataset.goto, screen = document.getElementById(id), thumb = $(".stage__thumb", card);
     const win = screen && $(".window", screen);
-    if (!win) return;
+    if (!win || !thumb.clientWidth) return;   // hidden card (is-active): keep its last good snapshot
     // the terminal is smaller than the slot; measure the real window box for everything
     const r = screen.classList.contains("is-on") ? win.getBoundingClientRect() : null;
     const W = r && r.width ? r.width : (id === "hero" ? slot.width * 0.65 : slot.width);
