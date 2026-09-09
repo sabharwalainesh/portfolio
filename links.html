@@ -45,14 +45,24 @@
       color: var(--ink); border-bottom: 1px solid var(--edge);
       transition: border-color .18s, transform .18s var(--ease), box-shadow .18s, background .18s;
     }
-    .lk__row:hover { border-color: var(--phos); transform: translateY(-2px); box-shadow: 0 14px 30px -16px var(--phos-glow), 0 0 0 1px color-mix(in srgb, var(--phos) 22%, transparent); }
-    .lk__ico { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: var(--edge-soft); border: 1px solid var(--edge); color: var(--phos-bright); }
-    .lk__row:hover .lk__ico { background: color-mix(in srgb, var(--phos) 14%, transparent); border-color: color-mix(in srgb, var(--phos) 40%, var(--edge)); }
-    .lk__ico svg { width: 22px; height: 22px; display: block; }
+    .lk__row { --brand: var(--phos); }
+    .lk__row:hover { border-color: var(--brand); transform: translateY(-2px); box-shadow: 0 14px 30px -16px color-mix(in srgb, var(--brand) 60%, transparent), 0 0 0 1px color-mix(in srgb, var(--brand) 22%, transparent); }
+    .lk__ico {
+      width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center;
+      background: color-mix(in srgb, var(--brand) 12%, var(--edge-soft));
+      border: 1px solid color-mix(in srgb, var(--brand) 30%, var(--edge));
+      transition: background .18s, border-color .18s, box-shadow .18s;
+    }
+    .lk__row:hover .lk__ico { background: color-mix(in srgb, var(--brand) 22%, var(--edge-soft)); border-color: color-mix(in srgb, var(--brand) 60%, var(--edge)); box-shadow: 0 0 18px -6px color-mix(in srgb, var(--brand) 70%, transparent); }
+    .lk__ico svg { width: 23px; height: 23px; display: block; }
+    /* instagram's mark is a gradient, so the tile carries it */
+    .lk__ico--ig { background: linear-gradient(45deg, #f9ce34, #ee2a7b 48%, #6228d7); border-color: color-mix(in srgb, #ee2a7b 55%, var(--edge)); }
+    .lk__row:hover .lk__ico--ig { background: linear-gradient(45deg, #f9ce34, #ee2a7b 48%, #6228d7); }
+    .lk__go { transition: color .18s; }
     .lk__label { font-size: 15px; color: var(--ink); line-height: 1.25; }
     .lk__handle { font-size: 12.5px; color: var(--ink-dim); overflow-wrap: anywhere; }
     .lk__go { color: var(--ink-dim); font-size: 15px; }
-    .lk__row:hover .lk__go { color: var(--phos-bright); }
+    .lk__row:hover .lk__go { color: var(--brand); }
 
     /* --- portfolio callout --- */
     .lk__cta {
@@ -101,29 +111,29 @@
 
       <ul class="lk__links">
         <li style="--i:0">
-          <a class="lk__row" href="mailto:aineshsab@berkeley.edu">
-            <span class="lk__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M3 7l9 6 9-6" stroke-linecap="round"/></svg></span>
+          <a class="lk__row" href="mailto:aineshsab@berkeley.edu" style="--brand:#ea4335">
+            <span class="lk__ico"><svg viewBox="0 0 24 18" aria-hidden="true"><path fill="#4285f4" d="M1.636 18h3.819V8.727L0 4.5v11.864C0 17.263.732 18 1.636 18z"/><path fill="#34a853" d="M18.545 18h3.819c.904 0 1.636-.737 1.636-1.636V4.5l-5.455 4.227z"/><path fill="#fbbc04" d="M18.545 1.636v7.091L24 4.5V2.455c0-1.86-2.104-2.92-3.6-1.8z"/><path fill="#ea4335" d="M5.455 8.727V1.636L12 6.545l6.545-4.909v7.091L12 13.636z"/><path fill="#c5221f" d="M0 2.455V4.5l5.455 4.227V1.636L3.6.655C2.104-.465 0 .595 0 2.455z"/></svg></span>
             <span><span class="lk__label">email</span><br /><span class="lk__handle">aineshsab@berkeley.edu</span></span>
             <span class="lk__go">&rarr;</span>
           </a>
         </li>
         <li style="--i:1">
-          <a class="lk__row" href="https://www.linkedin.com/in/ainesh-sabharwal" target="_blank" rel="noopener">
-            <span class="lk__ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9.5 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95C21 8.75 22 11 22 14.1V21h-4v-6.1c0-1.45-.03-3.3-2.05-3.3-2.05 0-2.36 1.57-2.36 3.2V21h-4z"/></svg></span>
+          <a class="lk__row" href="https://www.linkedin.com/in/ainesh-sabharwal" target="_blank" rel="noopener" style="--brand:#0a66c2">
+            <span class="lk__ico"><svg viewBox="0 0 24 24" fill="#0a66c2" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9.5 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95C21 8.75 22 11 22 14.1V21h-4v-6.1c0-1.45-.03-3.3-2.05-3.3-2.05 0-2.36 1.57-2.36 3.2V21h-4z"/></svg></span>
             <span><span class="lk__label">linkedin</span><br /><span class="lk__handle">in/ainesh-sabharwal</span></span>
             <span class="lk__go">&#8599;</span>
           </a>
         </li>
         <li style="--i:2">
-          <a class="lk__row" href="https://github.com/sabharwalainesh" target="_blank" rel="noopener">
-            <span class="lk__ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03A9.5 9.5 0 0 1 12 6.8c.85 0 1.71.12 2.51.35 1.91-1.3 2.75-1.03 2.75-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.85-2.34 4.7-4.57 4.95.36.31.68.92.68 1.85v2.75c0 .26.18.58.69.48A10 10 0 0 0 12 2z"/></svg></span>
+          <a class="lk__row" href="https://github.com/sabharwalainesh" target="_blank" rel="noopener" style="--brand:#f0f6fc">
+            <span class="lk__ico"><svg viewBox="0 0 24 24" fill="#f0f6fc" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03A9.5 9.5 0 0 1 12 6.8c.85 0 1.71.12 2.51.35 1.91-1.3 2.75-1.03 2.75-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.85-2.34 4.7-4.57 4.95.36.31.68.92.68 1.85v2.75c0 .26.18.58.69.48A10 10 0 0 0 12 2z"/></svg></span>
             <span><span class="lk__label">github</span><br /><span class="lk__handle">sabharwalainesh</span></span>
             <span class="lk__go">&#8599;</span>
           </a>
         </li>
         <li style="--i:3">
-          <a class="lk__row" href="https://www.instagram.com/aineshsabharwal/" target="_blank" rel="noopener">
-            <span class="lk__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></span>
+          <a class="lk__row" href="https://www.instagram.com/aineshsabharwal/" target="_blank" rel="noopener" style="--brand:#ee2a7b">
+            <span class="lk__ico lk__ico--ig"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.15" fill="#fff" stroke="none"/></svg></span>
             <span><span class="lk__label">instagram</span><br /><span class="lk__handle">@aineshsabharwal</span></span>
             <span class="lk__go">&#8599;</span>
           </a>
