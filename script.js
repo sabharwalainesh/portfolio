@@ -42,22 +42,6 @@ const DATA = {
     { c: "cm", t: "// currently looking for summer internships." },
   ],
 
-  // right rail of about.txt, so the page is not just one column of text
-  aboutSide: [
-    { h: "whoami", rows: [
-      ["from", "cypress, tx"],
-      ["now", "berkeley, ca"],
-      ["degree", "b.a. computer science '29"],
-      ["status", "open to summer internships"],
-    ] },
-    { h: "currently", live: true, rows: [
-      ["research", "local laws observatory, urap"],
-      ["class", "cs 61a"],
-      ["building", "drawly"],
-    ] },
-    { h: "stack", chips: ["swift", "typescript", "python", "java", "react", "core ml"] },
-  ],
-
   skills: [
     { g: "lang",  pct: 92, v: "java · typescript · python · swift" },
     { g: "web",   pct: 84, v: "html/css · full-stack apps · dashboards and analytics" },
@@ -396,7 +380,7 @@ function shell() {
   <span class="k">links</span>      all my links (one page)
   <span class="k">theme</span>      cycle phosphor colour
   <span class="k">clear</span>      wipe screen`,
-    about: () => { goto("about"); return "opening about.txt in nano ..."; },
+    about: () => { goto("about"); return "opening about.txt ..."; },
     skills: () => { goto("skills"); return DATA.skills.map((s) => `${s.g.padEnd(6)} ${"█".repeat(Math.round(s.pct / 6))} ${s.pct}%`).join("\n"); },
     work: () => { goto("experience"); return "opening work.mp4 ... ▶"; },
     experience: () => cmds.work(),
@@ -445,7 +429,9 @@ function shell() {
 let editorDone = false;
 async function runEditor() {
   if (editorDone) return; editorDone = true;
-  renderAboutSide();
+  $$("[data-about-open]", $("#about")).forEach((button) => {
+    button.addEventListener("click", () => goto(button.dataset.aboutOpen));
+  });
   const code = $("#aboutCode"), gutter = $("#aboutGutter"), lnEl = $("#aboutLn");
   const fast = reduced;
   let prev = null;
@@ -472,30 +458,6 @@ async function runEditor() {
   cur.className = "cursor"; cur.textContent = " ";
   prev ? prev.append(cur) : code.append(cur);
   $("#aboutStatus").textContent = "SAVED \u2713";
-}
-
-function renderAboutSide() {
-  const rail = $("#aboutSide");
-  if (!rail || rail.dataset.done) return;
-  rail.dataset.done = "1";
-  const c = DATA.contact;
-  rail.innerHTML = DATA.aboutSide.map((card) => `
-    <section class="arail__card">
-      <h3 class="arail__h">${card.live ? `<i class="arail__dot"></i>` : ""}${esc(card.h)}</h3>
-      ${card.rows ? `<dl class="arail__rows">${card.rows.map(([k, v]) =>
-        `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>` : ""}
-      ${card.chips ? `<ul class="arail__chips">${card.chips.map((x) =>
-        `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
-    </section>`).join("") + `
-    <section class="arail__card">
-      <h3 class="arail__h">elsewhere</h3>
-      <ul class="arail__links">
-        <li><a href="${esc(c.github)}" target="_blank" rel="noopener">github</a></li>
-        <li><a href="${esc(c.linkedin)}" target="_blank" rel="noopener">linkedin</a></li>
-        <li><a href="mailto:${esc(c.email)}">${esc(c.email)}</a></li>
-        <li><a href="${esc(DATA.resumeFile)}" target="_blank" rel="noopener">resume.pdf</a></li>
-      </ul>
-    </section>`;
 }
 
 /* ============================================================

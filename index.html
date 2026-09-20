@@ -115,22 +115,57 @@
           </div>
       </section>
 
-      <!-- ABOUT / EDITOR -->
-      <section class="screen" id="about" data-file="about.txt">
-        <div class="window" data-app="editor">
+      <!-- ABOUT / PERSONAL README -->
+      <section class="screen" id="about" data-file="about.txt" aria-labelledby="aboutHeading">
+        <div class="window window--about" data-app="editor">
           <div class="window__bar">
             <span class="tb-traffic"><i></i><i></i><i></i></span>
-            <span class="tb-title">about.txt - nano</span>
-            <span class="tb-menu">file&nbsp; edit&nbsp; view</span>
-            <span class="tb-actions" id="aboutStatus">normal</span>
+            <span class="tb-title">about.txt — a personal readme</span>
+            <span class="tb-actions">read mode</span>
           </div>
-          <div class="window__body">
-            <div class="editor">
-              <div class="editor__gutter" id="aboutGutter"></div>
-              <pre class="editor__code" id="aboutCode"></pre>
-              <aside class="editor__rail arail" id="aboutSide"></aside>
+          <div class="window__body about-page">
+            <div class="about-intro">
+              <div class="about-intro__copy">
+                <p class="about-greeting">Hey, I’m Ainesh.</p>
+                <h2 id="aboutHeading">Curiosity in.<br>Software out.</h2>
+                <p class="about-lede">I build iOS apps and AI tools that run on-device. I like software that stays fast, feels quiet, and gets out of your way.</p>
+                <div class="about-actions">
+                  <button class="about-action about-action--primary" data-about-open="projects">Explore my projects <span aria-hidden="true">↗</span></button>
+                  <a class="about-action" href="Ainesh_Sabharwal_Resume.pdf" target="_blank" rel="noopener">Read my résumé</a>
+                </div>
+              </div>
+              <aside class="about-id" aria-label="Ainesh’s profile">
+                <div class="about-id__top"><span>human behind the screen</span><span aria-hidden="true">✳</span></div>
+                <div class="about-id__art" aria-hidden="true">
+                  <svg viewBox="0 0 260 160" fill="none"><path d="M30 128h200M50 140h160" stroke="currentColor" opacity=".2"/><path d="M64 24h132v94H64z" fill="#101f2a" stroke="currentColor" stroke-width="3"/><path d="M74 34h112v70H74z" fill="#07121b"/><path d="M101 89V61h7V47h21v14h7v28h-9V75h-17v14zm9-23h17V55h-17zM146 48h24v8h-17v10h17v23h-26v-8h18v-8h-16z" fill="currentColor"/><path d="M117 118v11h26v-11M102 132h56" stroke="currentColor" stroke-width="3"/><path d="M39 39v14m-7-7h14M215 80v18m-9-9h18" stroke="currentColor" stroke-width="2"/><path d="M206 24h5v5h-5zM43 100h4v4h-4z" fill="currentColor"/></svg>
+                </div>
+                <p class="about-id__name">Ainesh Sabharwal</p>
+                <p class="about-id__school">Computer science @ UC Berkeley</p>
+                <div class="about-id__route"><span>Cypress, TX</span><span aria-hidden="true">········→</span><span>Berkeley, CA</span></div>
+                <div class="about-id__footer"><span>CDSS / Class of 2029</span><span aria-hidden="true">▥ ▥ ▥</span></div>
+              </aside>
             </div>
-            <div class="editor__statusbar"><span>utf-8</span><span>txt</span><span id="aboutLn">ln 1</span><span class="editor__hint">^X exit &nbsp; ^O save</span></div>
+
+            <div class="about-notes">
+              <section class="about-story">
+                <h3>A little backstory</h3>
+                <p>I’m from Cypress, Texas. I started building side projects because I wanted tools that didn’t exist yet. I never really stopped.</p>
+                <p>Now at Berkeley, I’m exploring how thoughtful interfaces and on-device intelligence can make everyday tools better.</p>
+                <div class="about-offline"><span>Outside the editor</span><p>🧭 Eagle Scout <span aria-hidden="true">/</span> 🥋 Taekwondo black belt</p></div>
+              </section>
+              <section class="about-current">
+                <h3><span class="about-status-dot" aria-hidden="true"></span>On my desk right now</h3>
+                <button class="about-current__item" data-about-open="projects"><span class="about-current__icon" aria-hidden="true">✎</span><span><strong>Drawly</strong><span>A notes app with handwriting and speech models that stay on your device.</span></span><span class="about-current__arrow" aria-hidden="true">↗</span></button>
+                <button class="about-current__item" data-about-open="experience"><span class="about-current__icon" aria-hidden="true">⌕</span><span><strong>Local Laws Observatory</strong><span>Research at Berkeley: making U.S. local law searchable.</span></span><span class="about-current__arrow" aria-hidden="true">↗</span></button>
+              </section>
+            </div>
+
+            <div class="about-connect"><p><span class="about-status-dot" aria-hidden="true"></span>Open to summer internships</p><a href="mailto:aineshsab@berkeley.edu">Let’s build something together <span aria-hidden="true">↗</span></a></div>
+            <details class="about-source">
+              <summary><span aria-hidden="true">&lt;/&gt;</span> View the source version <span class="about-source__hint">about.txt</span></summary>
+              <div class="editor"><div class="editor__gutter" id="aboutGutter" aria-hidden="true"></div><pre class="editor__code" id="aboutCode"></pre></div>
+              <div class="editor__statusbar"><span>utf-8</span><span id="aboutLn">ln 1</span><span id="aboutStatus">normal</span></div>
+            </details>
           </div>
         </div>
       </section>

@@ -900,3 +900,74 @@ a, button { -webkit-tap-highlight-color: transparent; }
   .dotgrid, .crt-flicker, .crt-power, .qt__grain { display: none; }
   .screens { scroll-snap-type: none; }
 }
+
+/* Personal readme: a human introduction inside the phosphor desktop. */
+.window--about { --about-muted: #a9b7bd; }
+.window--about .about-page { padding: clamp(22px, 3.5vw, 52px); color: #e6edf0; display: block; background: #0c151e; }
+.about-intro { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(250px, .85fr); align-items: center; gap: clamp(24px, 4vw, 64px); }
+.about-greeting { font: 16px/1.5 var(--font-mono); color: var(--phos); margin-bottom: 16px; }
+.about-intro h2 { font-size: clamp(38px, 4.7vw, 72px); font-weight: 650; letter-spacing: -.055em; line-height: 1.02; margin-bottom: 22px; }
+.about-lede { max-width: 47ch; color: var(--about-muted); font-size: 16px; line-height: 1.75; }
+.about-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 25px; }
+.about-action { display: inline-flex; align-items: center; justify-content: center; gap: 18px; padding: 11px 15px; border: 1px solid #344650; border-radius: 6px; background: transparent; color: #e6edf0; font: 500 13px/1.5 var(--font-mono); cursor: pointer; text-decoration: none; }
+.about-action--primary { background: var(--phos); border-color: var(--phos); color: #07121b; }
+.about-action:hover { background: #1b2d38; border-color: var(--phos); color: #fff; }
+.about-action--primary:hover { background: var(--phos-bright); color: #07121b; }
+.about-page :is(a, button, summary):focus-visible { outline: 2px solid var(--phos-bright); outline-offset: 5px; }
+.about-id { background: #122430; border: 1px solid #375363; border-radius: 12px; padding: 18px 22px 0; transform: rotate(2deg); box-shadow: 8px 12px 0 #070e16; color: #e6edf0; }
+.about-id__top { display: flex; justify-content: space-between; align-items: center; gap: 12px; font: 10px/1.4 var(--font-mono); color: #b4c9d6; }
+.about-id__top > :last-child { color: var(--amber); font-size: 22px; }
+.about-id__art { margin: 8px 0 12px; color: var(--phos); background-image: radial-gradient(#365160 1px, transparent 1px); background-size: 12px 12px; border-radius: 4px; }
+.about-id__art svg { display: block; width: 100%; height: 155px; }
+.about-id__name { font-size: 23px; font-weight: 650; letter-spacing: -.035em; }
+.about-id__school { font-size: 12px; color: #b4c9d6; margin-top: 2px; }
+.about-id__route { display: flex; align-items: center; justify-content: space-between; gap: 5px; margin: 20px 0; font: 10px/1.5 var(--font-mono); }
+.about-id__route > :nth-child(2) { color: var(--phos); overflow: hidden; white-space: nowrap; }
+.about-id__footer { border-top: 1px dashed #45616f; padding: 12px 0; display: flex; justify-content: space-between; align-items: center; color: #b4c9d6; font: 10px/1.5 var(--font-mono); }
+.about-id__footer > :last-child { font-size: 20px; line-height: 1; color: var(--phos); }
+.about-notes { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 70px); margin-top: 45px; padding-top: 28px; border-top: 1px solid #293c49; }
+.about-notes h3 { font-size: 18px; font-weight: 550; letter-spacing: -.02em; margin-bottom: 16px; display: flex; align-items: center; gap: 9px; }
+.about-story > p { font-size: 14px; line-height: 1.8; color: var(--about-muted); max-width: 58ch; }
+.about-story > p + p { margin-top: 10px; }
+.about-offline { margin-top: 22px; }
+.about-offline > span { font: 10px/1.5 var(--font-mono); color: var(--about-muted); }
+.about-offline p { font-size: 12px; margin-top: 6px; }
+.about-offline p span { margin: 0 7px; color: #607c8c; }
+.about-status-dot { display: inline-block; flex-shrink: 0; width: 6px; height: 6px; border-radius: 50%; background: var(--phos); box-shadow: 0 0 0 4px color-mix(in srgb, var(--phos) 10%, transparent); }
+.about-current__item { width: 100%; display: grid; grid-template-columns: 34px minmax(0, 1fr) 16px; gap: 12px; text-align: left; padding: 15px 0; background: transparent; border: 0; border-bottom: 1px solid #293c49; color: #e6edf0; cursor: pointer; }
+.about-current__item:first-of-type { padding-top: 4px; }
+.about-current__icon { height: 34px; display: grid; place-items: center; border-radius: 9px; background: #223744; font-size: 25px; color: var(--phos); }
+.about-current__item strong { display: block; font-size: 14px; font-weight: 550; margin-bottom: 5px; }
+.about-current__item strong + span { display: block; font-size: 12px; color: var(--about-muted); line-height: 1.7; }
+.about-current__arrow { color: var(--about-muted); }
+.about-current__item:hover strong, .about-current__item:hover .about-current__arrow { color: var(--phos); }
+.about-connect { margin-top: 32px; padding: 16px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-top: 1px solid #293c49; font-size: 12px; }
+.about-connect p { display: flex; align-items: center; gap: 10px; color: var(--about-muted); }
+.about-connect a { color: var(--phos); border: 0; }
+.about-connect a span { margin-left: 6px; }
+.about-source { margin-top: 8px; font-family: var(--font-mono); }
+.about-source summary { display: flex; align-items: center; gap: 10px; color: var(--about-muted); font-size: 11px; cursor: pointer; padding: 12px 0; list-style: none; }
+.about-source summary::-webkit-details-marker { display: none; }
+.about-source summary::after { content: '+'; color: var(--phos); font-size: 17px; }
+.about-source[open] summary::after { content: '−'; }
+.about-source__hint { margin-left: auto; color: var(--about-muted); }
+.about-source .editor { overflow: visible; }
+.about-source .editor__code { font-size: 12px; line-height: 1.7; overflow-wrap: anywhere; }
+.about-source .editor__gutter { display: none; }
+@media (max-width: 1050px) {
+  .about-intro { grid-template-columns: minmax(0, 1fr) 245px; gap: 24px; }
+  .about-intro h2 { font-size: 44px; }
+  .about-id { padding: 14px 16px 0; }
+  .about-id__name { font-size: 21px; }
+  .about-lede { font-size: 14px; }
+  .about-action { font-size: 11px; padding: 10px 12px; }
+}
+@media (max-width: 700px) {
+  .window--about .about-page { padding: 25px 20px; }
+  .about-intro { grid-template-columns: 1fr; gap: 32px; }
+  .about-intro h2 { font-size: clamp(38px, 9vw, 54px); }
+  .about-id { width: min(100% - 8px, 340px); justify-self: center; }
+  .about-id__art svg { height: 130px; }
+  .about-notes { grid-template-columns: 1fr; margin-top: 32px; gap: 28px; }
+  .about-connect { align-items: flex-start; flex-direction: column; }
+}
