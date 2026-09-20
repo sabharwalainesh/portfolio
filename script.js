@@ -58,13 +58,13 @@ const DATA = {
 
   projects: [
     { name: "drawly", tag: "swift / swiftui", meta: "in progress",
-      body: "notes app for iphone and mac. typing and sketches sync live between paired\ndevices over a direct peer-to-peer connection, with icloud as backup.\n\nhandwriting recognition, voice transcription and summarization all run on the\ndevice itself. sketches export to vector svg.", link: "" },
+      body: "notes app for iphone and mac. typing and sketches sync live between paired\ndevices over a direct peer-to-peer connection, with icloud as backup.\n\nhandwriting recognition, voice transcription and summarization all run on the\ndevice itself. sketches export to vector svg.", link: "https://github.com/sabharwalainesh/drawly" },
     { name: "apathyai", tag: "python · contributor", meta: "on-device copilot",
       body: "desktop assistant that runs entirely on-device, so nothing leaves the machine.\nit reads on-screen context to summarize long documents and suggest\nspreadsheet and form entries.", link: "https://github.com/qurashisohaib/ApathyAI" },
     { name: "huddlehub", tag: "typescript", meta: "fbla 25-26",
-      body: "full-stack site for finding, reviewing and saving local businesses.\n\nowners get a dashboard to manage their listing and see how people are\nfinding them.", link: "" },
+      body: "full-stack site for finding, reviewing and saving local businesses.\n\nowners get a dashboard to manage their listing and see how people are\nfinding them.", link: "https://github.com/sabharwalainesh/huddle" },
     { name: "bridgeland arena hub", tag: "typescript", meta: "3rd, fbla nationals",
-      body: "ticketing and box office platform for a school venue: seat selection,\ncheckout and event management.\n\ntook 3rd in website design at fbla nationals in 2025.", link: "" },
+      body: "ticketing and box office platform for a school venue: seat selection,\ncheckout and event management.\n\ntook 3rd in website design at fbla nationals in 2025.", link: "https://github.com/sabharwalainesh/bridgeland-arena-hub" },
     { name: "ds&a labs", tag: "java", meta: "github.com/sabharwalainesh",
       body: "a set of java projects i built to work through data structures properly:\n\nhuffman compressor that builds a code tree and packs the output to bits.\n20 questions, a guessing game on a binary tree that grows as you play.\nkarplus-strong guitar synthesis running on a ring buffer.\nimage editor with filters and undo backed by a stack.",
       link: "https://github.com/sabharwalainesh" },
