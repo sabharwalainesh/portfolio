@@ -1,94 +1,1215 @@
 %PDF-1.4
-%“Œ‹ž ReportLab Generated PDF document (opensource)
+%âãÏÓ
 1 0 obj
 <<
-/F1 2 0 R /F2 3 0 R /F3 4 0 R /F4 6 0 R
+/Producer (pypdf)
 >>
 endobj
 2 0 obj
 <<
-/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+/Type /Pages
+/Count 1
+/Kids [ 4 0 R ]
 >>
 endobj
 3 0 obj
 <<
-/BaseFont /Times-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+/Type /Catalog
+/Pages 2 0 R
 >>
 endobj
 4 0 obj
 <<
-/BaseFont /Times-Roman /Encoding /WinAnsiEncoding /Name /F3 /Subtype /Type1 /Type /Font
+/Annots [ 5 0 R ]
+/Contents 6 0 R
+/MediaBox [ 0 0 612 792 ]
+/Resources <<
+/Font <<
+/F1 7 0 R
+/F1-0 8 0 R
+/F2 9 0 R
+/F2-0 10 0 R
+/F3 11 0 R
+/F3-0 12 0 R
+/F4 13 0 R
+/F4-0 14 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Parent 2 0 R
 >>
 endobj
 5 0 obj
 <<
 /A <<
-/S /URI /Type /Action /URI (mailto:aineshsab@berkeley.edu)
->> /Border [ 0 0 0 ] /Rect [ 154.962 732.4 244.476 743.2 ] /Subtype /Link /Type /Annot
+/S /URI
+/Type /Action
+/URI (mailto\072aineshsab\100berkeley\056edu)
+>>
+/Border [ 0 0 0 ]
+/Rect [ 139.959 732.4 229.473 743.2 ]
+/Subtype /Link
+/Type /Annot
 >>
 endobj
 6 0 obj
 <<
-/BaseFont /Times-Italic /Encoding /WinAnsiEncoding /Name /F4 /Subtype /Type1 /Type /Font
+/Length 10924
 >>
+stream
+q
+1 0 0 1 0 0 cm
+BT
+/F1 12 Tf
+14.4 TL
+ET
+q
+1 0 0 1 36 745.2 cm
+q
+0 0 0 rg
+BT
+1 0 0 1 0 2 Tm
+/F2 16 Tf
+18 TL
+207.544 0 Td
+(Ainesh Sabharwal) Tj
+T*
+-207.544 0 Td
+ET
+Q
+Q
+q
+1 0 0 1 36 732.2 cm
+q
+BT
+1 0 0 1 0 2 Tm
+52.164 0 Td
+11 TL
+/F3 9 Tf
+0 0 0 rg
+(Cypress\054 TX \174 ) Tj
+(aineshsab\100berkeley\056edu) Tj
+( \174 832\055302\0556497 \174 linkedin\056com\057in\057ainesh\055sabharwal \174 github\056com\057sabharwalainesh) Tj
+T*
+-52.164 0 Td
+ET
+Q
+Q
+q
+1 0 0 1 26 713.2 cm
+q
+BT
+1 0 0 1 0 2 Tm
+13 TL
+/F2 11 Tf
+0 0 0 rg
+(E) Tj
+/F2 9 Tf
+(DUCATION) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 26 711.45 cm
+q
+0.75 w
+1 J
+0 0 0 RG
+n
+0 0 m
+560 0 l
+S
+Q
+Q
+q
+1 0 0 1 36 696.45 cm
+q
+0 0 0 rg
+BT
+/F1 10 Tf
+12 TL
+ET
+q
+1 0 0 1 0 0 cm
+q
+0 0 0 rg
+BT
+1 0 0 1 0 2 Tm
+/F2 10 Tf
+12 TL
+(University of California\054 Berkeley) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 384.912 0 cm
+q
+0 0 0 rg
+BT
+1 0 0 1 0 2 Tm
+/F3 10 Tf
+12 TL
+94.698 0 Td
+(Berkeley\054 CA) Tj
+T*
+-94.698 0 Td
+ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 36 672.45 cm
+q
+0 0 0 rg
+BT
+/F1 10 Tf
+12 TL
+ET
+q
+1 0 0 1 0 0 cm
+q
+0 0 0 rg
+BT
+1 0 0 1 0 14 Tm
+/F4 10 Tf
+12 TL
+(Bachelor of Arts in Computer Science\054 College of Computing\054 Data Science\054 and Society\056) Tj
+T*
+(First\055year student\073 classified as sophomore due to AP and transfer credits\056) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 384.912 12 cm
+q
+0 0 0 rg
+BT
+1 0 0 1 0 2 Tm
+/F4 10 Tf
+12 TL
+90.538 0 Td
+(Expected 2029) Tj
+T*
+-90.538 0 Td
+ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 36 660.45 cm
+q
+0 0 0 rg
+BT
+1 0 0 1 0 2 Tm
+/F3 10 Tf
+12 TL
+(Relevant Coursework\072 Linear Algebra and Differential Equations\054 Computer Science 61A\054 Data Structures and Algorithms \050Java\051) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 36 648.45 cm
+q
+0 0 0 rg
+BT
+/F1 10 Tf
+12 TL
+ET
+q
+1 0 0 1 0 0 cm
+q
+0 0 0 rg
+BT
+1 0 0 1 0 2 Tm
+/F2 10 Tf
+12 TL
+(Bridgeland High School) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 384.912 0 cm
+q
+0 0 0 rg
+BT
+1 0 0 1 0 2 Tm
+/F3 10 Tf
+12 TL
+99.138 0 Td
+(Cypress\054 TX) Tj
+T*
+-99.138 0 Td
+ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 36 636.45 cm
+q
+0 0 0 rg
+BT
+/F1 10 Tf
+12 TL
+ET
+q
+1 0 0 1 0 0 cm
+q
+0 0 0 rg
+BT
+1 0 0 1 0 2 Tm
+/F4 10 Tf
+12 TL
+(Class Rank 2 of 921\056 GPA\072 4\0560\0574\0560 unweighted\056) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 384.912 0 cm
+q
+0 0 0 rg
+BT
+1 0 0 1 0 2 Tm
+/F4 10 Tf
+12 TL
+129.688 0 Td
+(2026) Tj
+T*
+-129.688 0 Td
+ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 26 617.45 cm
+q
+BT
+1 0 0 1 0 2 Tm
+13 TL
+/F2 11 Tf
+0 0 0 rg
+(S) Tj
+/F2 9 Tf
+(KILLS) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 26 615.7 cm
+q
+0.75 w
+1 J
+0 0 0 RG
+n
+0 0 m
+560 0 l
+S
+Q
+Q
+q
+1 0 0 1 36 600.7 cm
+q
+BT
+1 0 0 1 0 2 Tm
+12 TL
+/F2 10 Tf
+0 0 0 rg
+(Languages\072) Tj
+/F3 10 Tf
+( Java\054 TypeScript\054 Python\054 Swift) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 36 588.7 cm
+q
+BT
+1 0 0 1 0 2 Tm
+12 TL
+/F2 10 Tf
+0 0 0 rg
+(Web and Full\055Stack\072) Tj
+/F3 10 Tf
+( React\054 HTML\057CSS\054 full\055stack web applications\054 dashboards and analytics) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 36 576.7 cm
+q
+BT
+1 0 0 1 0 2 Tm
+12 TL
+/F2 10 Tf
+0 0 0 rg
+(AI \057 ML\072) Tj
+/F3 10 Tf
+( Retrieval\055Augmented Generation \050RAG\051\054 on\055device LLM inference\054 document summarization) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 36 564.7 cm
+q
+BT
+1 0 0 1 0 2 Tm
+12 TL
+/F2 10 Tf
+0 0 0 rg
+(CS Foundations\072) Tj
+/F3 10 Tf
+( stacks\054 queues\054 ring buffers\054 priority queues\054 trees\054 recursion\054 greedy algorithms) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 36 552.7 cm
+q
+BT
+1 0 0 1 0 2 Tm
+12 TL
+/F2 10 Tf
+0 0 0 rg
+(Tools\072) Tj
+/F3 10 Tf
+( Git\054 GitHub\054 Eclipse) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 26 533.7 cm
+q
+BT
+1 0 0 1 0 2 Tm
+13 TL
+/F2 11 Tf
+0 0 0 rg
+(E) Tj
+/F2 9 Tf
+(XPERIENCE) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 26 531.95 cm
+q
+0.75 w
+1 J
+0 0 0 RG
+n
+0 0 m
+560 0 l
+S
+Q
+Q
+
+q
+1 0 0 1 0 -60 cm
+q
+1 0 0 1 36 492.95 cm
+q
+BT
+1 0 0 1 6 2 Tm
+/F1 10 Tf
+12 TL
+0 0 0 rg
+<7f> Tj
+ET
+0 0 0 rg
+BT
+1 0 0 1 15.5 2 Tm
+/F3 10 Tf
+12 TL
+(Led coding and STEM classes for K\05512 students\054 teaching programming fundamentals through hands\055on projects\056) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 36 467.95 cm
+q
+BT
+1 0 0 1 6 14 Tm
+/F1 10 Tf
+12 TL
+0 0 0 rg
+<7f> Tj
+ET
+0 0 0 rg
+BT
+1 0 0 1 15.5 14 Tm
+/F3 10 Tf
+12 TL
+(Collaborated with the lead director to rebuild the standardized curriculum after identifying that the original material was above) Tj
+T*
+(students\047 level\056) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 36 430.95 cm
+q
+BT
+1 0 0 1 6 2 Tm
+/F1 10 Tf
+12 TL
+0 0 0 rg
+<7f> Tj
+ET
+0 0 0 rg
+BT
+1 0 0 1 15.5 2 Tm
+/F3 10 Tf
+12 TL
+(Conducted applied research on Retrieval\055Augmented Generation \050RAG\051 systems for grounded question answering\056) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 36 417.95 cm
+q
+BT
+1 0 0 1 6 2 Tm
+/F1 10 Tf
+12 TL
+0 0 0 rg
+<7f> Tj
+ET
+0 0 0 rg
+BT
+1 0 0 1 15.5 2 Tm
+/F3 10 Tf
+12 TL
+(Explored retrieval\054 embeddings\054 and prompting strategies to improve answer accuracy against source documents\056) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 36 392.95 cm
+q
+BT
+1 0 0 1 6 14 Tm
+/F1 10 Tf
+12 TL
+0 0 0 rg
+<7f> Tj
+ET
+0 0 0 rg
+BT
+1 0 0 1 15.5 14 Tm
+/F3 10 Tf
+12 TL
+(Developed AI\055generated question pipelines and evaluated output faithfulness until the project reached a stage requiring faculty) Tj
+T*
+(involvement to assess generated questions\056) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 26 373.95 cm
+q
+BT
+1 0 0 1 0 2 Tm
+13 TL
+/F2 11 Tf
+0 0 0 rg
+(P) Tj
+/F2 9 Tf
+(ROJECTS) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 26 372.2 cm
+q
+0.75 w
+1 J
+0 0 0 RG
+n
+0 0 m
+560 0 l
+S
+Q
+Q
+q
+1 0 0 1 36 357.2 cm
+q
+0 0 0 rg
+BT
+/F1 10 Tf
+12 TL
+ET
+q
+1 0 0 1 0 0 cm
+q
+BT
+1 0 0 1 0 2 Tm
+12 TL
+/F2 10 Tf
+0 0 0 rg
+(Data Structures and Algorithms Labs github\056com\057sabharwalainesh) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 384.912 12 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 36 345.2 cm
+q
+0 0 0 rg
+BT
+/F1 10 Tf
+12 TL
+ET
+q
+1 0 0 1 0 0 cm
+q
+0 0 0 rg
+BT
+1 0 0 1 0 2 Tm
+/F4 10 Tf
+12 TL
+(Java) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 384.912 12 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 36 321.2 cm
+q
+BT
+1 0 0 1 6 14 Tm
+/F1 10 Tf
+12 TL
+0 0 0 rg
+<7f> Tj
+ET
+0 0 0 rg
+BT
+1 0 0 1 15.5 14 Tm
+/F3 10 Tf
+12 TL
+(Implemented Huffman compression\054 a 20 Questions binary decision tree with file\055backed learning\054 real\055time audio synthesis via) Tj
+T*
+(Karplus\055Strong on a custom ring buffer\054 and a Java Swing image editor with undo\057redo backed by a custom array\055based stack\056) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 36 308.2 cm
+q
+0 0 0 rg
+BT
+/F1 10 Tf
+12 TL
+ET
+q
+1 0 0 1 0 0 cm
+q
+0 0 0 rg
+BT
+1 0 0 1 0 2 Tm
+/F2 10 Tf
+12 TL
+(HuddleHub) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 384.912 12 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 36 296.2 cm
+q
+0 0 0 rg
+BT
+/F1 10 Tf
+12 TL
+ET
+q
+1 0 0 1 0 0 cm
+q
+0 0 0 rg
+BT
+1 0 0 1 0 2 Tm
+/F4 10 Tf
+12 TL
+(Full\055Stack Local Business Platform\054 TypeScript\054 FBLA 2025\05526) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 384.912 12 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 36 272.2 cm
+q
+BT
+1 0 0 1 6 14 Tm
+/F1 10 Tf
+12 TL
+0 0 0 rg
+<7f> Tj
+ET
+0 0 0 rg
+BT
+1 0 0 1 15.5 14 Tm
+/F3 10 Tf
+12 TL
+(Built a full\055stack web application to browse\054 search\054 review\054 and bookmark local businesses\054 including an owner dashboard to) Tj
+T*
+(manage listings and track engagement analytics\073 placed 2nd in Texas at the FBLA state competition\056) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 36 259.2 cm
+q
+0 0 0 rg
+BT
+/F1 10 Tf
+12 TL
+ET
+q
+1 0 0 1 0 0 cm
+q
+0 0 0 rg
+BT
+1 0 0 1 0 2 Tm
+/F2 10 Tf
+12 TL
+(Bridgeland Arena Hub) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 384.912 12 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 36 247.2 cm
+q
+0 0 0 rg
+BT
+/F1 10 Tf
+12 TL
+ET
+q
+1 0 0 1 0 0 cm
+q
+0 0 0 rg
+BT
+1 0 0 1 0 2 Tm
+/F4 10 Tf
+12 TL
+(Event Ticketing and Box Office Platform\054 React\057TypeScript\054 FBLA 2024\05525) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 384.912 12 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 36 223.2 cm
+q
+BT
+1 0 0 1 6 14 Tm
+/F1 10 Tf
+12 TL
+0 0 0 rg
+<7f> Tj
+ET
+0 0 0 rg
+BT
+1 0 0 1 15.5 14 Tm
+/F3 10 Tf
+12 TL
+(Built a ticketing platform for an event venue covering event browsing\054 seat selection\054 purchase flow\054 and a staff\055side dashboard for) Tj
+T*
+(managing events and tracking sales\073 placed 3rd in the nation at the FBLA National Leadership Conference\056) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 36 210.2 cm
+q
+0 0 0 rg
+BT
+/F1 10 Tf
+12 TL
+ET
+q
+1 0 0 1 0 0 cm
+q
+BT
+1 0 0 1 0 2 Tm
+12 TL
+/F2 10 Tf
+0 0 0 rg
+(ApathyAI github\056com\057qurashisohaib\057ApathyAI) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 384.912 12 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 36 198.2 cm
+q
+0 0 0 rg
+BT
+/F1 10 Tf
+12 TL
+ET
+q
+1 0 0 1 0 0 cm
+q
+0 0 0 rg
+BT
+1 0 0 1 0 2 Tm
+/F4 10 Tf
+12 TL
+(On\055Device AI Copilot\054 Python\054 Contributor) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 384.912 12 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 36 174.2 cm
+q
+BT
+1 0 0 1 6 14 Tm
+/F1 10 Tf
+12 TL
+0 0 0 rg
+<7f> Tj
+ET
+0 0 0 rg
+BT
+1 0 0 1 15.5 14 Tm
+/F3 10 Tf
+12 TL
+(Contributed to an open\055source desktop AI assistant that runs fully on\055device\073 implemented on\055screen context reading to) Tj
+T*
+(auto\055summarize documents and suggest spreadsheet and form fills\056) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 26 155.2 cm
+q
+BT
+1 0 0 1 0 2 Tm
+13 TL
+/F2 11 Tf
+0 0 0 rg
+(A) Tj
+/F2 9 Tf
+(WARDS) Tj
+/F2 11 Tf
+( \046 H) Tj
+/F2 9 Tf
+(ONORS) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 26 153.45 cm
+q
+0.75 w
+1 J
+0 0 0 RG
+n
+0 0 m
+560 0 l
+S
+Q
+Q
+q
+1 0 0 1 36 138.45 cm
+q
+BT
+1 0 0 1 6 2 Tm
+/F1 10 Tf
+12 TL
+0 0 0 rg
+<7f> Tj
+ET
+0 0 0 rg
+BT
+1 0 0 1 15.5 2 Tm
+/F3 10 Tf
+12 TL
+(3rd Place\054 Website Design\054 FBLA National Leadership Conference \0502025\051) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 36 125.45 cm
+q
+BT
+1 0 0 1 6 2 Tm
+/F1 10 Tf
+12 TL
+0 0 0 rg
+<7f> Tj
+ET
+0 0 0 rg
+BT
+1 0 0 1 15.5 2 Tm
+/F3 10 Tf
+12 TL
+(2nd Place\054 Texas State\054 FBLA Website Design Competition \0502025\05526\051) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 36 112.45 cm
+q
+BT
+1 0 0 1 6 2 Tm
+/F1 10 Tf
+12 TL
+0 0 0 rg
+<7f> Tj
+ET
+0 0 0 rg
+BT
+1 0 0 1 15.5 2 Tm
+/F3 10 Tf
+12 TL
+(Eagle Scout\054 Boy Scouts of America) Tj
+T*
+ET
+Q
+Q
+q
+1 0 0 1 36 99.45 cm
+q
+BT
+1 0 0 1 6 2 Tm
+/F1 10 Tf
+12 TL
+0 0 0 rg
+<7f> Tj
+ET
+0 0 0 rg
+BT
+1 0 0 1 15.5 2 Tm
+/F3 10 Tf
+12 TL
+(Black Belt\054 Taekwondo) Tj
+T*
+ET
+Q
+Q
+
+Q
+
+Q
+
+q
+0.0 0.0 612 792 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+BT
+/F2-0 10 Tf
+12 TL
+ET
+BT
+1 0 0 1 36 517 Tm
+(Undergraduate Research Apprentice) Tj
+T*
+ET
+BT
+/F3-0 10 Tf
+12 TL
+ET
+BT
+1 0 0 1 494.73 517 Tm
+(Sep 2026 \055 Present) Tj
+T*
+ET
+BT
+/F4-0 10 Tf
+12 TL
+ET
+BT
+1 0 0 1 36 505 Tm
+(Local Laws Observatory \174 UC Berkeley URAP) Tj
+T*
+ET
+BT
+/F3-0 10 Tf
+12 TL
+ET
+n
+44.85 493.5 m
+44.85 494.1351 44.33513 494.65 43.7 494.65 c
+43.06487 494.65 42.55 494.1351 42.55 493.5 c
+42.55 492.8649 43.06487 492.35 43.7 492.35 c
+44.33513 492.35 44.85 492.8649 44.85 493.5 c
+f*
+BT
+1 0 0 1 51.5 493 Tm
+(Contributing to research infrastructure for collecting\054 organizing\054 searching\054 and analyzing U\056S\056 local laws\056) Tj
+T*
+ET
+n
+44.85 480.5 m
+44.85 481.1351 44.33513 481.65 43.7 481.65 c
+43.06487 481.65 42.55 481.1351 42.55 480.5 c
+42.55 479.8649 43.06487 479.35 43.7 479.35 c
+44.33513 479.35 44.85 479.8649 44.85 480.5 c
+f*
+BT
+1 0 0 1 51.5 480 Tm
+(Project work includes legal document data quality\054 search and retrieval\054 and AI evaluation against source text\056) Tj
+T*
+ET
+BT
+/F2-0 10 Tf
+12 TL
+ET
+BT
+1 0 0 1 36 458.95 Tm
+(Lead Instructor) Tj
+T*
+ET
+BT
+/F3-0 10 Tf
+12 TL
+ET
+BT
+1 0 0 1 485.57 458.95 Tm
+(Oct 2025 \055 Mar 2026) Tj
+T*
+ET
+BT
+/F4-0 10 Tf
+12 TL
+ET
+BT
+1 0 0 1 36 446.95 Tm
+(iCode) Tj
+T*
+ET
+BT
+/F2-0 10 Tf
+12 TL
+ET
+BT
+1 0 0 1 36 396.95 Tm
+(Student Researcher) Tj
+T*
+ET
+BT
+/F3-0 10 Tf
+12 TL
+ET
+BT
+1 0 0 1 481.12 396.95 Tm
+(Aug 2024 \055 May 2025) Tj
+T*
+ET
+BT
+/F4-0 10 Tf
+12 TL
+ET
+BT
+1 0 0 1 36 384.95 Tm
+(Algoverse AI Research Program) Tj
+T*
+ET
+Q
+
+
+endstream
 endobj
 7 0 obj
 <<
-/Annots [ 5 0 R ] /Contents 11 0 R /MediaBox [ 0 0 612 792 ] /Parent 10 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 
-  /Trans <<
-
->> /Type /Page
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 8 0 obj
 <<
-/PageMode /UseNone /Pages 10 0 R /Type /Catalog
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 9 0 obj
 <<
-/Author (\(anonymous\)) /CreationDate (D:20260909042340+00'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20260909042340+00'00') /Producer (ReportLab PDF Library - \(opensource\)) 
-  /Subject (\(unspecified\)) /Title (\(anonymous\)) /Trapped /False
+/BaseFont /Times-Bold
+/Encoding /WinAnsiEncoding
+/Name /F2
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 10 0 obj
 <<
-/Count 1 /Kids [ 7 0 R ] /Type /Pages
+/BaseFont /Times-Bold
+/Encoding /WinAnsiEncoding
+/Name /F2
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 11 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ] /Length 2972
+/BaseFont /Times-Roman
+/Encoding /WinAnsiEncoding
+/Name /F3
+/Subtype /Type1
+/Type /Font
 >>
-stream
-Gau`V?$G!n&q/*0W2CZA#;?c]R*<`_9O]@pFprFI%t85g#'qi"'t%ShSGhu)]7gBrZ/V.%4[/!qh<M/CY.AbVKLIKj=m"6BM9[Gio%kS6VTFdu::!<O&Ig++^;$r(1YXO)4&48EFBi[NX3(8KDR@QoE-I+\CpI<PcDb-hDKVFDVh<rb:URom\6@7H9c#?`ZJ[</rh@NLWUX@7G5dB6LV(%_@eZdi]%s7FG4V1T95f1J^.gaB73O/2#-0`B9%@YH-iKCUc8B4p;/H*$.8TAV^fO7uBDEAkS[RoT]4EqV:9TSZJV`a(0;><k_\3WQjEEO^Tadl`$g(NZ+YQjN(@m<:2DhepcYI4%F008RhmQ]UZ[j/PqUWsl)"]2B='pi5GAh%M4&3LkZg5sNK-/^CHLp)iA3P\-\GA@]n^HN;HZ$C2[Po$^C74+kT/]^9DD1LOXT`Hh7,jdc8u*u#1E*J_b[_=m<i<:sOZfaZqm=i=@@<JKg4$8AYL@T?Ve`1^p8QN6?_6ERN,ms^3t)91%V2N`6URD!DnuODBJ]=F<0;uM+N$03GsZ":nAsWd5m@@^F(7j!.&)!Xc<8:JF'.MP=Q3PrCAoHtI4/g5eTBN!EJHbfm\S\D:paFGlY]Fr['&0;C#+aO<bL%[eo#H"pFJpFKIfuJ.?hAf1d^];K_iNT:D7?aE%Y`YT("-C#k-aHN28j1WrBr@jBDN!N+nH#Ba1Xn.pt6&Lia4Y\ugBkp[%TjSbgrlWjV038dS;@i-@s_cd(d;_X/ldrgX3snd@/W<-o!%K0t;oYA'8.Y_C=@+5!#Ykl^=*6.)G5)[&h`\m`u,-6Rhb[ah/afDTpCBspe+:Kb'cYT!H8&:n?E]r$-[fZ\6dDJ?0W6dJpDd-k/odTXDKB#]n[bbrY3BO$g4>g$i)pI[0B<jBFM61%RsejD_n/=L3fcIKP7`.csr84Ob,C_cQHQ\[W'e+G1raJ_koV3n)Z!U-&F^.+L+R,6";noNH..Zm>kG6bVWT(.d"4TQJM1t.hEDfHsXFKEXD1uW$^pAeA`$U2TGImpFAR7\d:mVA'^`hs$_hIf.$(i+u#.WWFp#CBcN5*&GCj)LW%HEpD/QMUS?%YRoVVpEk%.Ttco&BQ+3XAXRVV=8Bc28])@l%D6]G"J2N!]_B:oWrfKKLZOK^a#Ef+bA0&r=9gHA^p5F]`?!37\>fA9fgX(d[+:;mj"*O+\Tc2k/L".*;_TC9E;jiI-6-4_=;Q.:$XY.!YHqh'p)2&?*X9bq;n7#_jej.QbfnP0<<d\MdST3>HVqtN&Tb?VoqW!Zn7IDUcQ!@F@t3"nksEIgS%gjLAD=mnGpY>k>l.WVq!elI3)r_0p)D+N`B3#18W/M_KL6K.I>WGDR&4hOZ1!uCN[7$B5G1QA>C&T\&iWi5'bT.G\ZI/AGDQTS\IJ6:dEATUeJRBjs,I8Z3%cVH?,OsH,@EpJ"CB8efi<?7Hl"Y)$nUkbGb[W!]0iXF]B0E*h%;"a4C0C:GWTY&=De]!Yl>Tr2n5+-&M,s+:Dn?>[\r^gA-/JMuqTY2Udn6-6cqY4cZU!(P$-*)29sS?8@')<8R5pHG<mRHQH/@_*(gYO)q:Nmg<SH-.*k[g=[gVa<*Ht4%2Q@9RN0=mC\P$G+<&2Zn=pl:!F!tZ*4mIkFTG$Uj%h?klVh!R409gahW7$W.ZRI=dg_G;CN,tBUC09Z=+efQSPmLUm>8,ZYCSkNumVcSl,"sQ.Kd%M2,$tlMst2,nHLQ@pS4A@%fHM$UA)L8V@pH)!B$Ro7.@q".,N6JS[jaPqcB:6$%L,F'InmJaPu*]pJ<9'_1?)G%;$Sqj3:fI]2#A(5nOb\fk_QTWOEG#r5.N][Mf?"i4+l62eN;)G`h/OQl@D/pLo'E"2K-UO+P21_$PX1+Ccer]LpL]?_;o(5s8rj<MOKSP@C,oMiO3MZQE&Vp6oQrfjTl5N6H;=!*3M8S+lu,MV(1XL6m@Y1E*cOR#uHn4srR,;t7LnN!)-*c9Scc.fQ$6!N+.^0\ogJS/8cmO;mt="F*N_0?j;!FGrq"Y//d70oa:oQ<j,b)dD'CZ5.I"g(<rjE",\EDtWS]OW>jhO($X`(Jr88Ru"hLqTIDM@b<'q*G.f,D;p,MXEoIY1b7h`'L7sVBur7W3I;S8#7urY,ubQA>UNCCOZbK&-5M\(RbRH0ouLu$*[FX>*eDfZPZ=J[XsSJf1hN7M2lGbFWf:]7"-aDh[_[r_EIjqFa>$/hm=)2,X&BTZV9U[<HK7c'Zi=^fWTRM2X26)e_$*[Y>`j*@,B9tjNR+6<m_l6q-of6V;cX?duehOHbl&Zb>+nH$X%L?J[*dJD(XQX&ghDUoa](iP0KlKJn<+26!S/#%trB$+GWe_!m&6R3CZ\8U[6'$]!^A%NoS\p:$I,D,=[$,\F&XFZ$s[0L\KMo'*/5-Mdl<Prh-=F9_Xc0DJhLK-Q?^U;nod4Irk(c<&S&uB4s0XOrIoh-0*&UpP)SL0,h#Q5S(U7q;_P^QcU1$B]oL_9=$l9$fjeLb[q;1I(n_(ZVC0@GOokN/N5UVQj*C8Y&2q6@5RqMV2H)RYV"T"*CO-aKTZ]iVC0?A4WVC#<!ms4n5iKI4R\V'WI^!s+L`9V.+V4n9XC'Bg+)d#:>M[,GUYcL%C$/``]RuMKb@I2WJn7=T_q-c???hbcCAG'3u[`mRr7fc])F/c'.tdG"@uH<>kh`"NP#S(6#Hn-22Z#;<afTf>@mCdf2Z%Vmo0\?;fb)457n%KeV<1/?h<<1rhEr_>Q<i5o;!e,?))ns`M7][?`n8r9+oEjpABVrjg91okW3B)ip$'N3rS=G<Cl!'q2"I#P.-"684EB[`]$(],3<nVDEX'3Pj=69-X[q*=cU(:+^uJ7lXqA_Wujel[r3e)Z9-+XC<5N<LVZjViuI,0s/=-P,XNauYG06m^fs$d3Kh0jJ`^BR4Fk'X`p]3+297![l-95.d@Fl.~>endstream
+endobj
+12 0 obj
+<<
+/BaseFont /Times-Roman
+/Encoding /WinAnsiEncoding
+/Name /F3
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+13 0 obj
+<<
+/BaseFont /Times-Italic
+/Encoding /WinAnsiEncoding
+/Name /F4
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+14 0 obj
+<<
+/BaseFont /Times-Italic
+/Encoding /WinAnsiEncoding
+/Name /F4
+/Subtype /Type1
+/Type /Font
+>>
 endobj
 xref
-0 12
+0 15
 0000000000 65535 f 
-0000000061 00000 n 
-0000000122 00000 n 
-0000000229 00000 n 
-0000000337 00000 n 
-0000000446 00000 n 
-0000000619 00000 n 
-0000000729 00000 n 
-0000000942 00000 n 
-0000001011 00000 n 
-0000001291 00000 n 
-0000001351 00000 n 
+0000000015 00000 n 
+0000000054 00000 n 
+0000000113 00000 n 
+0000000162 00000 n 
+0000000462 00000 n 
+0000000644 00000 n 
+0000011621 00000 n 
+0000011728 00000 n 
+0000011835 00000 n 
+0000011943 00000 n 
+0000012052 00000 n 
+0000012162 00000 n 
+0000012272 00000 n 
+0000012383 00000 n 
 trailer
 <<
-/ID 
-[<0ea2b0bf7f05ca5716f18bfaa81548c1><0ea2b0bf7f05ca5716f18bfaa81548c1>]
-% ReportLab generated PDF document -- digest (opensource)
-
-/Info 9 0 R
-/Root 8 0 R
-/Size 12
+/Size 15
+/Root 3 0 R
+/Info 1 0 R
 >>
 startxref
-4415
+12494
 %%EOF

@@ -23,7 +23,7 @@ const DATA = {
     { c: "", t: "" },
     { c: "kw", t: "const ", x: 'name = "ainesh sabharwal";' },
     { c: "kw", t: "const ", x: 'school = "uc berkeley, cdss";' },
-    { c: "kw", t: "const ", x: "grad = 2030;" },
+    { c: "kw", t: "const ", x: "grad = 2029;" },
     { c: "", t: "" },
     { c: "cm", t: "// from cypress, tx. finished high school 2nd in a class of 921." },
     { c: "cm", t: "// started building side projects then and never really stopped," },
@@ -44,11 +44,13 @@ const DATA = {
   ],
 
   tapes: [
+    { role: "undergraduate research apprentice", org: "local laws observatory | uc berkeley urap", when: "sep 2026 - present", logo: "assets/logos/berkeley.png",
+      note: "building research infrastructure for collecting, organizing, searching and analyzing u.s. local laws. work covers legal document data quality, search and retrieval, and evaluating ai output against the source text." },
     { role: "lead instructor", org: "icode", when: "oct 2025 - mar 2026", logo: "assets/logos/icode.png",
       note: "taught programming to k-12 students through project-based classes, and helped them debug their own software and hardware." },
     { role: "student researcher", org: "algoverse ai research", when: "aug 2024 - may 2025", logo: "assets/logos/algoverse.png",
       note: "research on retrieval-augmented generation: having a model pull from source documents before answering, and measuring whether the answers actually got better." },
-    { role: "b.a. computer science", org: "uc berkeley (cdss)", when: "class of 2030", logo: "assets/logos/berkeley.png",
+    { role: "b.a. computer science", org: "uc berkeley (cdss)", when: "class of 2029", logo: "assets/logos/berkeley.png",
       note: "college of computing, data science & society. currently taking cs 61a." },
     { role: "bridgeland high school", org: "cypress, tx", when: "class of 2026", logo: "assets/logos/bridgeland.png",
       note: "rank 2 of 921. data structures and algorithms in java, ap physics c, fbla and tsa." },
@@ -850,7 +852,7 @@ function chatAnswer(q) {
   if (/resume|cv/.test(t))
     return `<p>here's the pdf: <a href="${DATA.resumeFile}" target="_blank" rel="noopener">${DATA.resumeFile} ↗</a></p>`;
   if (/who|about|ainesh|yourself|intro|school|berkeley/.test(t))
-    return `<p>ainesh is a computer science student at <b>uc berkeley</b> (college of computing, data science & society, class of 2030). before that he was in cypress, tx, where he finished high school second in a class of 921.</p><p>${esc(DATA.tagline)}</p><p>he's currently <b>looking for summer internships</b>.</p>`;
+    return `<p>ainesh is a computer science student at <b>uc berkeley</b> (college of computing, data science & society, class of 2029). before that he was in cypress, tx, where he finished high school second in a class of 921.</p><p>${esc(DATA.tagline)}</p><p>he's currently <b>looking for summer internships</b>.</p>`;
   if (/hi|hello|hey|yo\b/.test(t))
     return `<p>hey. i'm a small claude that only knows about ainesh. ask about his <b>projects</b>, <b>skills</b>, <b>experience</b>, <b>honors</b>, or how to <b>reach him</b>.</p>`;
   return `<p>i only know about ainesh. try his <b>projects</b>, <b>skills</b>, <b>experience</b>, <b>honors</b>, <b>resume</b>, or how to <b>reach him</b>.</p>`;
@@ -905,10 +907,13 @@ function renderFinder() {
   const P = DATA.projects;
   let sel = -1, tagFilter = null, query = "";
 
-  const folderIco = (cls = "folder__ico") => `<div class="${cls}"><i></i></div>`;
+  const GH_MARK = `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03A9.5 9.5 0 0 1 12 6.8c.85 0 1.71.12 2.51.35 1.91-1.3 2.75-1.03 2.75-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.85-2.34 4.7-4.57 4.95.36.31.68.92.68 1.85v2.75c0 .26.18.58.69.48A10 10 0 0 0 12 2z"/></svg>`;
+  // linked folders wear a small github badge, so "double-click me" is discoverable
+  const folderIco = (cls = "folder__ico", linked = false) =>
+    `<div class="${cls}"><i></i>${linked ? `<span class="folder__badge" title="double-click to open on github">${GH_MARK}</span>` : ""}</div>`;
   grid.innerHTML = P.map((p, i) => `
-    <button class="folder" data-i="${i}" style="--i:${i}">
-      ${folderIco()}
+    <button class="folder${p.link ? " has-repo" : ""}" data-i="${i}" style="--i:${i}"${p.link ? ` data-link="${esc(p.link)}" title="double-click to open on github"` : ""}>
+      ${folderIco("folder__ico", !!p.link)}
       <div class="folder__name">${esc(p.name)}</div>
       <div class="folder__tag">${esc(p.tag)}</div>
     </button>`).join("");
@@ -935,7 +940,7 @@ function renderFinder() {
     $$(".folder", grid).forEach((f) => f.classList.toggle("is-sel", +f.dataset.i === i));
     status.textContent = `${visible().length} of ${P.length} items, 1 selected`;
     const run = ++typing;
-    preview.innerHTML = `${folderIco("folder__ico finder__bigico")}<h3>${esc(p.name)}</h3><div class="sub">${esc(p.tag)} · ${esc(p.meta)}</div><pre></pre>${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">open source →</a>` : ""}
+    preview.innerHTML = `${folderIco("folder__ico finder__bigico", !!p.link)}<h3>${esc(p.name)}</h3><div class="sub">${esc(p.tag)} · ${esc(p.meta)}</div><pre></pre>${p.link ? `<a class="finder__repo" href="${esc(p.link)}" target="_blank" rel="noopener">${GH_MARK}open source →</a><p class="finder__dbl">double-click the folder to open the repo</p>` : ""}
       <div class="finder__kv"><span>Kind</span><span>Folder</span><span>Tags</span><span>${esc(tagKey(p))}</span><span>Where</span><span>~/ainesh/projects/${esc(p.name.toLowerCase().replace(/\s+/g, "-"))}</span></div>`;
     const pre = $("pre", preview);
     if (reduced) { pre.textContent = p.body; return; }
@@ -943,7 +948,24 @@ function renderFinder() {
   };
   const step = (d) => { const v = visible(); if (!v.length) return; const k = v.indexOf(sel); open(v[(k + d + v.length) % v.length]); };
 
-  $$(".folder", grid).forEach((f) => f.addEventListener("click", () => open(+f.dataset.i)));
+  const openRepo = (i) => {
+    const p = P[i];
+    if (p && p.link) { window.open(p.link, "_blank", "noopener"); flash("opening " + p.link.replace("https://", "") + " ..."); }
+    else flash("no public repo for " + (p ? p.name : "this one"));
+  };
+  let flashT = 0;
+  const flash = (msg) => {
+    status.textContent = msg;
+    clearTimeout(flashT);
+    flashT = setTimeout(() => { status.textContent = `${visible().length} of ${P.length} items` + (sel >= 0 ? ", 1 selected" : ""); }, 2200);
+  };
+  $$(".folder", grid).forEach((f) => {
+    const i = +f.dataset.i;
+    f.addEventListener("click", () => open(i));
+    f.addEventListener("dblclick", (e) => { e.preventDefault(); openRepo(i); });
+    // keyboard parity: the folder is a button, so enter/space should do the same thing
+    f.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); openRepo(i); } });
+  });
   $("#finderBack").addEventListener("click", () => step(-1));
   $("#finderFwd").addEventListener("click", () => step(1));
   $("#finderSearch").addEventListener("input", (e) => { query = e.target.value.trim().toLowerCase(); applyFilter(); });
@@ -959,7 +981,7 @@ function renderFinder() {
     }
   }));
   $("#finderShare").addEventListener("click", () => { const p = P[sel]; if (p && p.link) window.open(p.link, "_blank", "noopener"); });
-  status.textContent = `${P.length} items`;
+  status.textContent = `${P.length} items · double-click a folder to open its repo`;
   return () => open(0);
 }
 
