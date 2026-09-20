@@ -21,9 +21,9 @@ const DATA = {
   about: [
     { c: "cm", t: "// about.txt, last saved: today" },
     { c: "", t: "" },
-    { c: "kw", t: "const ", x: 'name = "ainesh sabharwal";' },
+    { c: "kw", t: "const ", x: 'name   = "ainesh sabharwal";' },
     { c: "kw", t: "const ", x: 'school = "uc berkeley, cdss";' },
-    { c: "kw", t: "const ", x: "grad = 2029;" },
+    { c: "kw", t: "const ", x: "grad   = 2029;" },
     { c: "", t: "" },
     { c: "cm", t: "// from cypress, tx. finished high school 2nd in a class of 921." },
     { c: "cm", t: "// started building side projects then and never really stopped," },
@@ -32,7 +32,30 @@ const DATA = {
     { c: "kw", t: "focus", x: " = ['ios apps', 'on-device ai', 'retrieval and search'];" },
     { c: "kw", t: "also", x: "  = ['eagle scout', 'taekwondo black belt'];" },
     { c: "", t: "" },
+    { c: "cm", t: "// right now: research apprentice at the local laws observatory," },
+    { c: "cm", t: "// making u.s. local law searchable, and building drawly, a notes" },
+    { c: "cm", t: "// app whose handwriting and speech models run on the device." },
+    { c: "", t: "" },
+    { c: "cm", t: "// what i want out of a piece of software:" },
+    { c: "kw", t: "rules", x: " = ['fast by default', 'quiet ui', 'nothing leaves the machine'];" },
+    { c: "", t: "" },
     { c: "cm", t: "// currently looking for summer internships." },
+  ],
+
+  // right rail of about.txt, so the page is not just one column of text
+  aboutSide: [
+    { h: "whoami", rows: [
+      ["from", "cypress, tx"],
+      ["now", "berkeley, ca"],
+      ["degree", "b.a. computer science '29"],
+      ["status", "open to summer internships"],
+    ] },
+    { h: "currently", live: true, rows: [
+      ["research", "local laws observatory, urap"],
+      ["class", "cs 61a"],
+      ["building", "drawly"],
+    ] },
+    { h: "stack", chips: ["swift", "typescript", "python", "java", "react", "core ml"] },
   ],
 
   skills: [
@@ -422,23 +445,57 @@ function shell() {
 let editorDone = false;
 async function runEditor() {
   if (editorDone) return; editorDone = true;
+  renderAboutSide();
   const code = $("#aboutCode"), gutter = $("#aboutGutter"), lnEl = $("#aboutLn");
   const fast = reduced;
+  let prev = null;
   for (let i = 0; i < DATA.about.length; i++) {
     const line = DATA.about[i];
     gutter.append((i + 1) + "\n");
     lnEl.textContent = "ln " + (i + 1);
+
+    // every line is its own row, so the one being typed can be highlighted
+    const row = document.createElement("span");
+    row.className = "editor__line is-cur";
+    if (prev) prev.classList.remove("is-cur");
+    prev = row;
+    code.append(row);
+
     const span = document.createElement("span");
     span.className = line.c || "";
-    code.append(span);
+    row.append(span);
     if (fast) span.append(line.t); else await typeInto(span, line.t, 9);
-    if (line.x) { const sx = document.createElement("span"); sx.className = "str"; code.append(sx); if (fast) sx.append(line.x); else await typeInto(sx, line.x, 9); }
-    code.append("\n");
+    if (line.x) { const sx = document.createElement("span"); sx.className = "str"; row.append(sx); if (fast) sx.append(line.x); else await typeInto(sx, line.x, 9); }
+    row.append("\n");
   }
   const cur = document.createElement("span");
   cur.className = "cursor"; cur.textContent = " ";
-  code.append(cur);
-  $("#aboutStatus").textContent = "SAVED ✓";
+  prev ? prev.append(cur) : code.append(cur);
+  $("#aboutStatus").textContent = "SAVED \u2713";
+}
+
+function renderAboutSide() {
+  const rail = $("#aboutSide");
+  if (!rail || rail.dataset.done) return;
+  rail.dataset.done = "1";
+  const c = DATA.contact;
+  rail.innerHTML = DATA.aboutSide.map((card) => `
+    <section class="arail__card">
+      <h3 class="arail__h">${card.live ? `<i class="arail__dot"></i>` : ""}${esc(card.h)}</h3>
+      ${card.rows ? `<dl class="arail__rows">${card.rows.map(([k, v]) =>
+        `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>` : ""}
+      ${card.chips ? `<ul class="arail__chips">${card.chips.map((x) =>
+        `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+    </section>`).join("") + `
+    <section class="arail__card">
+      <h3 class="arail__h">elsewhere</h3>
+      <ul class="arail__links">
+        <li><a href="${esc(c.github)}" target="_blank" rel="noopener">github</a></li>
+        <li><a href="${esc(c.linkedin)}" target="_blank" rel="noopener">linkedin</a></li>
+        <li><a href="mailto:${esc(c.email)}">${esc(c.email)}</a></li>
+        <li><a href="${esc(DATA.resumeFile)}" target="_blank" rel="noopener">resume.pdf</a></li>
+      </ul>
+    </section>`;
 }
 
 /* ============================================================
