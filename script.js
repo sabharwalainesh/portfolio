@@ -737,12 +737,13 @@ function renderDesktop() {
   }, { passive: true });
   desk.addEventListener("pointerleave", () => { nearEdge = false; sync(); });
   // wheel → step one app per deliberate scroll gesture; trackpad momentum is swallowed during the cooldown
-  const innerCanScroll = (el, dy) => {
+  // A scrollable pane owns the gesture even at its edges. Momentum must never
+  // turn reading an app into navigating away from it.
+  const innerOwnsScroll = (el) => {
     for (let n = el; n && n !== document.body; n = n.parentElement) {
       const cs = getComputedStyle(n);
       if (/(auto|scroll)/.test(cs.overflowY) && n.scrollHeight > n.clientHeight + 1) {
-        if (dy > 0 && n.scrollTop + n.clientHeight < n.scrollHeight - 1) return true;
-        if (dy < 0 && n.scrollTop > 0) return true;
+        return true;
       }
     }
     return false;
@@ -759,8 +760,8 @@ function renderDesktop() {
   };
   let acc = 0, lastStep = 0, settle;
   addEventListener("wheel", (e) => {
+    if (innerOwnsScroll(e.target)) { acc = 0; clearTimeout(settle); return; }
     pop(1800);
-    if (innerCanScroll(e.target, e.deltaY)) { acc = 0; return; }   // let content that still has room scroll
     const now = performance.now();
     if (now - lastStep < 1000 || swapping) { acc = 0; return; }    // momentum tail of the last gesture: ignore
     acc += e.deltaY;
@@ -772,16 +773,17 @@ function renderDesktop() {
   }, { passive: true });
 
   // phones never fire wheel, so the same gesture arrives as a vertical swipe
-  let sy = 0, sx = 0, st = 0, sEl = null;
+  let sy = 0, sx = 0, st = 0, sEl = null, touchOwnedByContent = false;
   addEventListener("touchstart", (e) => {
     const t = e.touches[0]; sy = t.clientY; sx = t.clientX; st = performance.now(); sEl = e.target;
+    touchOwnedByContent = innerOwnsScroll(sEl);
   }, { passive: true });
   addEventListener("touchend", (e) => {
     const t = e.changedTouches[0], dy = t.clientY - sy, dx = t.clientX - sx;
     if (swapping || performance.now() - st > 700) return;
     if (Math.abs(dy) < 55 || Math.abs(dx) > Math.abs(dy) * 0.8) return;   // must be a deliberate vertical flick
     if (sEl?.closest(".dock, .stage")) return;
-    if (innerCanScroll(sEl, -dy)) return;                                 // content still had somewhere to go
+    if (touchOwnedByContent || innerOwnsScroll(sEl)) return;
     const now = performance.now();
     if (now - lastStep < 500) return;
     lastStep = now;

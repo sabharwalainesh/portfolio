@@ -291,7 +291,7 @@ body[data-theme="cyan"] .desktop__wall { filter: hue-rotate(-15deg) saturate(1.1
 .dot.live { background: var(--phos); box-shadow: 0 0 8px var(--phos-glow); animation: pulse 1.6s ease-in-out infinite; }
 @keyframes pulse { 50% { opacity: .35; } }
 
-.window__body { padding: 1.3rem 1.5rem 1.5rem; overflow-y: auto; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.window__body { padding: 1.3rem 1.5rem 1.5rem; overflow-y: auto; overscroll-behavior-y: contain; flex: 1; min-height: 0; display: flex; flex-direction: column; }
 .window__body::-webkit-scrollbar { width: 8px; }
 .window__body::-webkit-scrollbar-thumb { background: var(--edge); }
 
