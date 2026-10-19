@@ -6,7 +6,7 @@
 const DATA = {
   name: "ainesh sabharwal",
   role: "cs @ uc berkeley",
-  tagline: "i build ios apps and ai tools that run on-device.\nmostly interested in software that stays fast and gets out of your way.",
+  tagline: "i build ios apps, computer vision and ai tools that run on-device.\nmostly interested in software that stays fast and gets out of your way.",
   resumeFile: "Ainesh_Sabharwal_Resume.pdf",
 
   ascii: [
@@ -29,12 +29,16 @@ const DATA = {
     { c: "cm", t: "// started building side projects then and never really stopped," },
     { c: "cm", t: "// usually because i wanted a tool that didn't exist yet." },
     { c: "", t: "" },
-    { c: "kw", t: "focus", x: " = ['ios apps', 'on-device ai', 'retrieval and search'];" },
+    { c: "kw", t: "focus", x: " = ['ios apps', 'on-device ai', 'computer vision', 'retrieval and search'];" },
     { c: "kw", t: "also", x: "  = ['eagle scout', 'taekwondo black belt'];" },
     { c: "", t: "" },
     { c: "cm", t: "// right now: research apprentice at the local laws observatory," },
     { c: "cm", t: "// making u.s. local law searchable, and building drawly, a notes" },
     { c: "cm", t: "// app whose handwriting and speech models run on the device." },
+    { c: "", t: "" },
+    { c: "cm", t: "// latest: age estimator, a vision pipeline that reports a range and" },
+    { c: "cm", t: "// an uncertain verdict instead of pretending to know your age, and" },
+    { c: "cm", t: "// supertutor, a hackathon tutor that reads the work you actually wrote." },
     { c: "", t: "" },
     { c: "cm", t: "// what i want out of a piece of software:" },
     { c: "kw", t: "rules", x: " = ['fast by default', 'quiet ui', 'nothing leaves the machine'];" },
@@ -43,18 +47,20 @@ const DATA = {
   ],
 
   skills: [
-    { g: "lang",  pct: 92, v: "java · typescript · python · swift" },
+    { g: "lang",  pct: 92, v: "python · java · typescript · sql · swift" },
     { g: "web",   pct: 84, v: "html/css · full-stack apps · dashboards and analytics" },
-    { g: "ai/ml", pct: 78, v: "rag · on-device inference · vision, speech, core ml" },
+    { g: "ai/ml", pct: 80, v: "pytorch · yolov8 / opencv · rag · on-device inference · core ml" },
     { g: "ds&a",  pct: 88, v: "stacks · queues · ring buffers · heaps · trees · greedy" },
-    { g: "tools", pct: 80, v: "git / github · xcode · eclipse" },
+    { g: "tools", pct: 82, v: "git / github · duckdb · postgres / supabase · vite · vercel · xcode" },
   ],
 
   tapes: [
     { role: "undergraduate research apprentice", org: "local laws observatory | uc berkeley urap", when: "sep 2026 - present", logo: "assets/logos/berkeley.png",
-      note: "building research infrastructure for collecting, organizing, searching and analyzing u.s. local laws. work covers legal document data quality, search and retrieval, and evaluating ai output against the source text." },
+      note: "making u.s. local law searchable. i built a gemini extraction pipeline with structured json output to classify municipal regulations across locus's 2.2m-row corpus, wrote python and duckdb filters that recovered 168k overlooked licensing and permitting sections, and built a multi-annotator review interface to check model output against human labels." },
     { role: "lead instructor", org: "icode", when: "oct 2025 - mar 2026", logo: "assets/logos/icode.png",
       note: "taught programming to k-12 students through project-based classes, and helped them debug their own software and hardware." },
+    { role: "unofficial teaching assistant", org: "bridgeland high school cs department", when: "aug 2025 - may 2026", logo: "assets/logos/bridgeland.png",
+      note: "volunteered with the cs department on a data structures and algorithms course: graded work, recorded instructional videos explaining algorithms, and wrote worksheets and practice problems." },
     { role: "student researcher", org: "algoverse ai research", when: "aug 2024 - may 2025", logo: "assets/logos/algoverse.png",
       note: "research on retrieval-augmented generation: having a model pull from source documents before answering, and measuring whether the answers actually got better." },
     { role: "b.a. computer science", org: "uc berkeley (cdss)", when: "class of 2029", logo: "assets/logos/berkeley.png",
@@ -64,15 +70,46 @@ const DATA = {
   ],
 
   projects: [
+    { name: "supertutor", tag: "typescript · mcp", meta: "mtc x grammarly hackathon",
+      body: "a tutor that reads the work you actually wrote. you draft code, math steps\nor an essay in a monaco editor, import the assignment from canvas, and the\ntutor answers inside superhuman go through a connector you own.\n\nit asks a diagnostic question before it explains, and it will not hand over\nthe finished solution. nine mcp tools, per-student tokens stored only as\nhashes, every assignment scoped to its owner.\n\nbuilt in a weekend with two teammates. i owned the shared contracts, auth,\nthe server and the mcp connection.",
+      link: "https://github.com/sabharwalainesh/SuperTutor",
+      demo: "https://www.youtube.com/watch?v=K8NShsITw6s",
+      loop: "assets/media/supertutor-loop.mp4",
+      media: [
+        { type: "video", src: "assets/media/supertutor.mp4", poster: "assets/media/supertutor.jpg", cap: "the full walkthrough: assignment import, the workspace, and the tutor answering in go" },
+        { type: "image", src: "assets/media/supertutor-editor.png", cap: "the editor the tutor reads from" },
+      ] },
+    { name: "age estimator", tag: "python · vision", meta: "oct 2026 - present",
+      body: "estimates apparent age from a photo or video, and whether someone is likely\nunder 18. three models chained: yunet finds the face, a 15-bin yolov8\nclassifier gives a distribution over ages, a body model takes over when the\nface is too small to read.\n\nthe honest part is the uncertainty. no model separates a 17 year old from a\n19 year old, so every subject gets a range and an explicit uncertain verdict\ninstead of one confident number.\n\ntrained on 100k+ images. cut error in the 16-17 band from 6.85 to 4.01\nyears, 84.5% of minors caught at a 1.3% false flag rate, and six-view\naveraging took verdict flips on mirroring from 7.1% to zero.",
+      link: "https://github.com/sabharwalainesh/age-estimator",
+      loop: "assets/media/age-estimator-loop.mp4",
+      media: [
+        { type: "video", src: "assets/media/age-estimator.mp4", poster: "assets/media/age-estimator.jpg", cap: "running a face through the pipeline: verdict, estimated age and the 80% range" },
+      ] },
     { name: "drawly", tag: "swift / swiftui", meta: "in progress",
+      look: { tree: ["DrawlyiOS/", "DrawlyMacOS/", "Packages/", "  DrawlyCore/", "Drawly.xcodeproj", "project.yml", "README.md"],
+        langs: [["swift", 100]], stats: [["language", "swift"], ["source", "142 kb"], ["last push", "jul 2026"]] },
       body: "notes app for iphone and mac. typing and sketches sync live between paired\ndevices over a direct peer-to-peer connection, with icloud as backup.\n\nhandwriting recognition, voice transcription and summarization all run on the\ndevice itself. sketches export to vector svg.", link: "https://github.com/sabharwalainesh/drawly" },
     { name: "apathyai", tag: "python · contributor", meta: "on-device copilot",
+      look: { tree: ["backend/", "desktop/", "  src/", "  src-tauri/", "research/", "memory/", "HOW-IT-WORKS.md", "README.md"],
+        langs: [["python", 74], ["typescript", 10], ["css", 8], ["html", 5], ["rust", 4]], stats: [["language", "python + rust"], ["source", "254 kb"], ["last push", "jul 2026"]] },
       body: "desktop assistant that runs entirely on-device, so nothing leaves the machine.\nit reads on-screen context to summarize long documents and suggest\nspreadsheet and form entries.", link: "https://github.com/qurashisohaib/ApathyAI" },
     { name: "huddlehub", tag: "typescript", meta: "fbla 25-26",
+      look: { tree: ["src/", "  components/", "  pages/", "  contexts/", "  integrations/", "  test/", "scripts/", "README.md"],
+        langs: [["typescript", 95], ["plpgsql", 2], ["javascript", 1], ["css", 1]], stats: [["language", "typescript"], ["source", "892 kb"], ["last push", "oct 2026"]] },
       body: "full-stack site for finding, reviewing and saving local businesses.\n\nowners get a dashboard to manage their listing and see how people are\nfinding them.", link: "https://github.com/sabharwalainesh/huddle" },
     { name: "bridgeland arena hub", tag: "typescript", meta: "3rd, fbla nationals",
+      look: { tree: ["src/", "  components/", "  pages/", "  hooks/", "  integrations/", "supabase/", "  migrations/", "README.md"],
+        langs: [["typescript", 97], ["plpgsql", 2], ["css", 1]], stats: [["language", "typescript"], ["source", "560 kb"], ["last push", "aug 2026"]] },
       body: "ticketing and box office platform for a school venue: seat selection,\ncheckout and event management.\n\ntook 3rd in website design at fbla nationals in 2025.", link: "https://github.com/sabharwalainesh/bridgeland-arena-hub" },
+    { name: "aqg rag pipeline", tag: "python · rag", meta: "algoverse research",
+      look: { tree: ["Automated_Question_Generation.ipynb", "data.json", "generated_mcq_questions_with_topics_no_dupes.json", "requirements.txt", "CITATION.cff", "README.md"],
+        langs: [["jupyter notebook", 100]], stats: [["language", "python"], ["source", "23 kb"], ["last push", "aug 2026"]] },
+      body: "retrieval-augmented pipeline that writes multiple choice questions from\nopenstax textbook chapters: chunk the chapter, embed it into chroma, pull\nthe top passages for a topic and generate a grounded question with\ndistractors, an answer and a rationale.\n\nthe point was to see how far retrieval gets you with no fine-tuning, so\nswapping the corpus swaps the subject. generation works end to end; the\nbloom's taxonomy grading stage was never finished, and the repo says so.",
+      link: "https://github.com/sabharwalainesh/AQG-RAG-Pipeline" },
     { name: "ds&a labs", tag: "java", meta: "github.com/sabharwalainesh",
+      look: { tree: ["Greedy-Huffman/", "  HuffmanCompressor.java", "20questions/", "  QuestionsGame.java", "guitarHero/", "  RingBuffer.java", "imageEnhancerLab/", "  ImageEnhancerwithUndoandRedo.java"],
+        langs: [["java", 100]], stats: [["repos", "4"], ["language", "java"], ["last push", "jul 2026"]] },
       body: "a set of java projects i built to work through data structures properly:\n\nhuffman compressor that builds a code tree and packs the output to bits.\n20 questions, a guessing game on a binary tree that grows as you play.\nkarplus-strong guitar synthesis running on a ring buffer.\nimage editor with filters and undo backed by a stack.",
       link: "https://github.com/sabharwalainesh" },
   ],
@@ -855,7 +892,7 @@ function chatAnswer(q) {
   const li = (a) => `<ul>${a.map((x) => `<li>${x}</li>`).join("")}</ul>`;
   if (/project|built|build|made|ship/.test(t))
     return `<p>what he's built so far:</p>` + li(DATA.projects.map((p) =>
-      `<b>${esc(p.name)}</b> <i>(${esc(p.tag)})</i>, ${esc(p.body.split("\n")[0])}${p.link ? ` <a href="${esc(p.link)}" target="_blank" rel="noopener">repo ↗</a>` : ""}`)) +
+      `<b>${esc(p.name)}</b> <i>(${esc(p.tag)})</i>, ${esc(p.body.split("\n")[0])}${p.link ? ` <a href="${esc(p.link)}" target="_blank" rel="noopener">repo ↗</a>` : ""}${p.demo ? ` <a href="${esc(p.demo)}" target="_blank" rel="noopener">demo ↗</a>` : ""}`)) +
       `<p>ask about any of them, or open the <a href="#projects" data-goto="projects">projects folder</a>.</p>`;
   if (/skill|stack|language|tool|know|tech/.test(t))
     return `<p>what he works with:</p>` + li(DATA.skills.map((k) => `<b>${esc(k.g)}</b>, ${esc(k.v)}`));
@@ -930,13 +967,21 @@ function renderFinder() {
 
   const GH_MARK = `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03A9.5 9.5 0 0 1 12 6.8c.85 0 1.71.12 2.51.35 1.91-1.3 2.75-1.03 2.75-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.85-2.34 4.7-4.57 4.95.36.31.68.92.68 1.85v2.75c0 .26.18.58.69.48A10 10 0 0 0 12 2z"/></svg>`;
   // linked folders wear a small github badge, so "double-click me" is discoverable
-  const folderIco = (cls = "folder__ico", linked = false) =>
-    `<div class="${cls}"><i></i>${linked ? `<span class="folder__badge" title="double-click to open on github">${GH_MARK}</span>` : ""}</div>`;
+  const folderIco = (cls = "folder__ico", linked = false, loop = "") =>
+    `<div class="${cls}${loop ? " has-film" : ""}"><i></i>${loop ? `<video class="folder__film" src="${esc(loop)}" ${reduced ? "controls" : "autoplay"} loop muted playsinline preload="metadata" tabindex="-1" aria-hidden="true"></video>` : ""}${linked ? `<span class="folder__badge" title="double-click to open on github">${GH_MARK}</span>` : ""}</div>`;
+  // a project can carry screenshots and demo clips; videos stay unloaded until clicked
+  const mediaHTML = (p, only) => {
+    const list = (p.media || []).filter((m) => !only || m.type === only);
+    return !list.length ? "" : `<div class="finder__media">${list.map((m) => m.type === "video"
+    ? `<figure class="finder__shot"><video src="${esc(m.src)}" poster="${esc(m.poster || "")}" preload="none" controls muted loop playsinline></video><figcaption>${esc(m.cap)}</figcaption></figure>`
+    : `<figure class="finder__shot"><img src="${esc(m.src)}" alt="${esc(m.cap)}" loading="lazy" /><figcaption>${esc(m.cap)}</figcaption></figure>`).join("")}</div>`;
+  };
+
   grid.innerHTML = P.map((p, i) => `
     <button class="folder${p.link ? " has-repo" : ""}" data-i="${i}" style="--i:${i}"${p.link ? ` data-link="${esc(p.link)}" title="double-click to open on github"` : ""}>
-      ${folderIco("folder__ico", !!p.link)}
+      ${folderIco("folder__ico", !!p.link, p.loop)}
       <div class="folder__name">${esc(p.name)}</div>
-      <div class="folder__tag">${esc(p.tag)}</div>
+      <div class="folder__tag">${p.media && p.media.length ? "▶ " : ""}${esc(p.tag)}</div>
     </button>`).join("");
 
   // sidebar tags = unique first word of each project tag
@@ -956,18 +1001,186 @@ function renderFinder() {
   };
 
   let typing = 0;
+  // a project can be browsed as a folder grid, or opened: the clip takes over the
+  // grid pane and the notes stay beside it, the way a finder window drills in
+  const stage = $("#finderStage"), subs = $("#finderSubs"), subsHost = $(".finder__subs-host");
+  const finder = grid.closest(".finder");
+  let detail = false;
+
+  subs.innerHTML = P.map((p, i) =>
+    `<li data-sub="${i}" style="--i:${i}"><span class="finder__subico">${p.loop ? "▶" : "▸"}</span>${esc(p.name)}</li>`).join("");
+
+  /* ---- opening animation -------------------------------------------------
+     the folder flies into the slot the clip lands in, the rest of the grid
+     scatters, and the sidebar drops the sibling list in behind it ---------- */
+  const EASE = "cubic-bezier(.22,.9,.26,1)";
+  let seq = 0;                                        // cancels a half-finished transition
+
+  const fly = (folder, target, reverse) => {
+    const icon = folder && $(".folder__ico", folder);
+    if (reduced || !icon || !target || !icon.animate) return;
+    const a = icon.getBoundingClientRect(), b = target.getBoundingClientRect();
+    if (!a.width || !b.width) return;
+    const ghost = icon.cloneNode(true);
+    ghost.classList.add("folder__ghost");
+    Object.assign(ghost.style, { position: "fixed", left: `${a.left}px`, top: `${a.top}px`, width: `${a.width}px`, height: `${a.height}px`, margin: "0", zIndex: "9999", pointerEvents: "none", transformOrigin: "0 0" });
+    document.body.append(ghost);
+    const grow = { transform: `translate(${b.left - a.left}px, ${b.top - a.top}px) scale(${b.width / a.width}, ${b.height / a.height})` };
+    const sit = { transform: "translate(0,0) scale(1,1)" };
+    const anim = ghost.animate(
+      reverse ? [{ ...grow, opacity: .9 }, { ...sit, opacity: 0 }]
+              : [{ ...sit, opacity: 1 }, { ...grow, opacity: 0 }],
+      { duration: reverse ? 320 : 380, easing: EASE, fill: "both" });
+    if (anim.finished) anim.finished.then(() => ghost.remove(), () => ghost.remove());
+    else setTimeout(() => ghost.remove(), 420);
+  };
+
+  const scatter = (out) => {
+    if (reduced || !grid.animate) return;
+    const cards = $$(".folder", grid).filter((f) => !f.classList.contains("is-hidden"));
+    cards.forEach((f, k) => f.animate(
+      out ? [{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateY(14px) scale(.9)" }]
+          : [{ opacity: 0, transform: "translateY(14px) scale(.94)" }, { opacity: 1, transform: "none" }],
+      { duration: out ? 230 : 300, delay: k * 18, easing: EASE, fill: "both" }));
+  };
+
+  // projects with no recording get a quick look at the repo instead: what is in it,
+  // and what it is written in, straight from github
+  const lookHTML = (p) => `<div class="look">
+      <div class="look__pane look__tree">
+        <div class="look__h">~/ainesh/projects/${esc(p.name.toLowerCase().replace(/\s+/g, "-"))}</div>
+        <ul>${p.look.tree.map((f) => {
+          const depth = (f.match(/^\s*/) || [""])[0].length / 2, n = f.trim(), dir = n.endsWith("/");
+          return `<li style="--d:${depth}"><i>${dir ? "▸" : "·"}</i>${esc(dir ? n.slice(0, -1) : n)}</li>`;
+        }).join("")}</ul>
+      </div>
+      <div class="look__pane">
+        <div class="look__h">written in</div>
+        <ul class="look__langs">${p.look.langs.map(([n, pct], i) =>
+          `<li style="--i:${i}"><span>${esc(n)}</span><b>${pct}%</b><i style="--w:${pct}%"></i></li>`).join("")}</ul>
+        <div class="look__h look__h--2">at a glance</div>
+        <dl class="look__stats">${p.look.stats.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>
+      </div>
+    </div>`;
+
+  const stageHTML = (p) => {
+    const vid = (p.media || []).find((m) => m.type === "video");
+    const shot = (p.media || []).find((m) => m.type === "image");
+    const art = vid
+      ? `<video class="fstage__film" src="${esc(vid.src)}" poster="${esc(vid.poster || "")}" ${reduced ? "" : "autoplay"} loop muted playsinline controls preload="metadata"></video>`
+      : shot ? `<img class="fstage__film" src="${esc(shot.src)}" alt="${esc(shot.cap)}" />`
+      : p.look ? lookHTML(p)
+      : `<div class="fstage__empty">${folderIco("folder__ico finder__bigico", !!p.link)}<p>no clip for this one yet</p></div>`;
+    const cap = vid ? vid.cap : shot ? shot.cap : p.look ? "no recording of this one, so here is what is actually in the repo" : "";
+    return `<div class="fstage__head">
+        <button class="fstage__back" type="button">‹ projects</button>
+        <span class="fstage__name">${esc(p.name)}</span>
+        <span class="fstage__meta">${esc(p.tag)} · ${esc(p.meta)}</span>
+      </div>
+      <div class="fstage__art">${art}${vid ? `<button class="fstage__fs" type="button" title="full screen">⤢ full screen</button>` : ""}</div>
+      ${cap ? `<p class="fstage__cap">${esc(cap)}</p>` : ""}
+      <div class="fstage__links">${p.demo ? `<a href="${esc(p.demo)}" target="_blank" rel="noopener">▶ watch on youtube</a>` : ""}${p.link ? `<a class="finder__repo" href="${esc(p.link)}" target="_blank" rel="noopener">${GH_MARK}open source →</a>` : ""}</div>`;
+  };
+
+  const renderStage = (p) => {
+    stage.innerHTML = stageHTML(p);
+    $(".fstage__back", stage).addEventListener("click", exit);
+    const film = $("video.fstage__film", stage), fsBtn = $(".fstage__fs", stage);
+    if (film && fsBtn) fsBtn.addEventListener("click", () => {
+      film.muted = false; film.loop = false;
+      (film.requestFullscreen || film.webkitEnterFullscreen || film.webkitRequestFullscreen).call(film);
+      film.play().catch(() => {});
+    });
+    if (film) film.addEventListener("dblclick", () => fsBtn && fsBtn.click());
+  };
+
+  function enter(i) {
+    const run = ++seq, was = detail, folder = $(`.folder[data-i="${i}"]`, grid);
+    detail = true;
+    finder.classList.add("is-detail");
+    subsHost.hidden = false;
+    stage.hidden = false;
+    renderStage(P[i]);
+    $$("li", subs).forEach((li) => li.classList.toggle("cur", +li.dataset.sub === i));
+    $("#finderTitle").textContent = `projects / ${P[i].name}`;
+    open(i);
+    if (!was) {                                        // coming from the grid: fly the folder in
+      scatter(true);
+      fly(folder, $(".fstage__art", stage) || stage, false);
+      stage.classList.add("is-arriving");
+      setTimeout(() => { if (run === seq) { grid.hidden = true; stage.classList.remove("is-arriving"); } }, 420);
+    } else {                                            // switching projects: just cut to the new one
+      stage.classList.remove("is-arriving"); void stage.offsetWidth; stage.classList.add("is-arriving");
+      setTimeout(() => { if (run === seq) stage.classList.remove("is-arriving"); }, 420);
+    }
+  }
+  function exit() {
+    if (!detail) return;
+    const run = ++seq, folder = $(`.folder[data-i="${sel}"]`, grid);
+    detail = false;
+    finder.classList.remove("is-detail");
+    grid.hidden = false;
+    subsHost.hidden = true;
+    stage.classList.add("is-leaving");
+    scatter(false);
+    fly(folder, $(".fstage__art", stage) || stage, true);
+    $("#finderTitle").textContent = "projects";
+    if (sel >= 0) open(sel);
+    setTimeout(() => {
+      if (run !== seq) return;
+      stage.hidden = true; stage.classList.remove("is-leaving");
+      stage.innerHTML = "";                             // stops the clip, frees the decoder
+    }, reduced ? 0 : 280);
+  }
+
   const open = async (i) => {
     const p = P[i]; sel = i;
     $$(".folder", grid).forEach((f) => f.classList.toggle("is-sel", +f.dataset.i === i));
+    $$("li", subs).forEach((li) => li.classList.toggle("cur", detail && +li.dataset.sub === i));
     status.textContent = `${visible().length} of ${P.length} items, 1 selected`;
     const run = ++typing;
-    preview.innerHTML = `${folderIco("folder__ico finder__bigico", !!p.link)}<h3>${esc(p.name)}</h3><div class="sub">${esc(p.tag)} · ${esc(p.meta)}</div><pre></pre>${p.link ? `<a class="finder__repo" href="${esc(p.link)}" target="_blank" rel="noopener">${GH_MARK}open source →</a><p class="finder__dbl">double-click the folder to open the repo</p>` : ""}
+    // while a project is open the stage carries the clip, so the notes pane is only notes
+    const head = detail
+      ? ""
+      : p.loop
+        ? `<div class="finder__filmwrap">${folderIco("folder__ico finder__bigico", !!p.link, p.loop)}<button class="finder__fs" type="button" title="full screen">⤢ full screen</button></div>`
+        : folderIco("folder__ico finder__bigico", !!p.link);
+    preview.innerHTML = `${head}<h3>${esc(p.name)}</h3><div class="sub">${esc(p.tag)} · ${esc(p.meta)}</div>${detail ? mediaHTML(p, "image") : mediaHTML(p)}<pre></pre>${p.demo ? `<a class="finder__demo" href="${esc(p.demo)}" target="_blank" rel="noopener">▶ watch the demo on youtube</a>` : ""}${p.link ? `<a class="finder__repo" href="${esc(p.link)}" target="_blank" rel="noopener">${GH_MARK}open source →</a>${detail ? "" : `<p class="finder__dbl">click the folder to open it, double-click for the repo</p>`}` : ""}
       <div class="finder__kv"><span>Kind</span><span>Folder</span><span>Tags</span><span>${esc(tagKey(p))}</span><span>Where</span><span>~/ainesh/projects/${esc(p.name.toLowerCase().replace(/\s+/g, "-"))}</span></div>`;
+    const fs = $(".finder__fs", preview), film = $(".folder__film", preview);
+    if (fs && film) {
+      const full = (p.media || []).find((m) => m.type === "video");
+      const goFull = () => {
+        // show the full-resolution cut full screen, with sound and controls, then put the loop back
+        if (full && film.dataset.src !== full.src) { film.dataset.src = full.src; film.src = full.src; }
+        film.muted = false; film.controls = true; film.loop = false; film.currentTime = 0;
+        document.addEventListener("fullscreenchange", restore);
+        (film.requestFullscreen || film.webkitEnterFullscreen || film.webkitRequestFullscreen).call(film);
+        film.play().catch(() => {});
+      };
+      fs.addEventListener("click", goFull);
+      film.addEventListener("dblclick", goFull);
+      const restore = () => {
+        if (document.fullscreenElement) return;
+        document.removeEventListener("fullscreenchange", restore);
+        film.controls = !!reduced; film.muted = true; film.loop = true;
+        if (film.src !== new URL(p.loop, location.href).href) { film.src = p.loop; delete film.dataset.src; }
+        if (!reduced) film.play().catch(() => {});
+      };
+    }
     const pre = $("pre", preview);
     if (reduced) { pre.textContent = p.body; return; }
     for (const ch of p.body) { if (run !== typing) return; pre.append(ch); await sleep(ch === "\n" ? 36 : 5); }
   };
-  const step = (d) => { const v = visible(); if (!v.length) return; const k = v.indexOf(sel); open(v[(k + d + v.length) % v.length]); };
+  $$("li", subs).forEach((li) => li.addEventListener("click", () => enter(+li.dataset.sub)));
+  stage.addEventListener("keydown", (e) => { if (e.key === "Escape") exit(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && detail && !document.fullscreenElement) exit(); });
+
+  const step = (d) => {
+    const v = visible(); if (!v.length) return;
+    const k = v.indexOf(sel), next = v[(k + d + v.length) % v.length];
+    detail ? enter(next) : open(next);
+  };
 
   const openRepo = (i) => {
     const p = P[i];
@@ -982,19 +1195,19 @@ function renderFinder() {
   };
   $$(".folder", grid).forEach((f) => {
     const i = +f.dataset.i;
-    f.addEventListener("click", () => open(i));
+    f.addEventListener("click", () => enter(i));
     f.addEventListener("dblclick", (e) => { e.preventDefault(); openRepo(i); });
     // keyboard parity: the folder is a button, so enter/space should do the same thing
-    f.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); openRepo(i); } });
+    f.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); enter(i); } });
   });
   $("#finderBack").addEventListener("click", () => step(-1));
   $("#finderFwd").addEventListener("click", () => step(1));
-  $("#finderSearch").addEventListener("input", (e) => { query = e.target.value.trim().toLowerCase(); applyFilter(); });
-  $$("#finderTags li").forEach((li) => li.addEventListener("click", () => { tagFilter = tagFilter === li.dataset.tag ? null : li.dataset.tag; applyFilter(); }));
+  $("#finderSearch").addEventListener("input", (e) => { exit(); query = e.target.value.trim().toLowerCase(); applyFilter(); });
+  $$("#finderTags li").forEach((li) => li.addEventListener("click", () => { exit(); tagFilter = tagFilter === li.dataset.tag ? null : li.dataset.tag; applyFilter(); }));
   $$("[data-fnav]").forEach((li) => li.addEventListener("click", () => {
     $$("[data-fnav]").forEach((x) => x.classList.toggle("cur", x === li));
     $("#finderTitle").textContent = li.textContent.replace("☁", "").trim();
-    if (li.dataset.fnav === "projects") { tagFilter = null; query = ""; $("#finderSearch").value = ""; applyFilter(); }
+    if (li.dataset.fnav === "projects") { exit(); tagFilter = null; query = ""; $("#finderSearch").value = ""; applyFilter(); }
     else { // every other "place" just shows an empty folder
       $$(".folder", grid).forEach((f) => f.classList.add("is-hidden"));
       status.textContent = "0 items";
@@ -1002,7 +1215,7 @@ function renderFinder() {
     }
   }));
   $("#finderShare").addEventListener("click", () => { const p = P[sel]; if (p && p.link) window.open(p.link, "_blank", "noopener"); });
-  status.textContent = `${P.length} items · double-click a folder to open its repo`;
+  status.textContent = `${P.length} items · click a folder to open it`;
   return () => open(0);
 }
 

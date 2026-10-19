@@ -156,6 +156,7 @@
               <section class="about-current">
                 <h3><span class="about-status-dot" aria-hidden="true"></span>On my desk right now</h3>
                 <button class="about-current__item" data-about-open="projects"><span class="about-current__icon" aria-hidden="true">✎</span><span><strong>Drawly</strong><span>A notes app with handwriting and speech models that stay on your device.</span></span><span class="about-current__arrow" aria-hidden="true">↗</span></button>
+                <button class="about-current__item" data-about-open="projects"><span class="about-current__icon" aria-hidden="true">◎</span><span><strong>Age Estimator</strong><span>A vision pipeline that reports an age range and an honest “uncertain”, instead of one confident number.</span></span><span class="about-current__arrow" aria-hidden="true">↗</span></button>
                 <button class="about-current__item" data-about-open="experience"><span class="about-current__icon" aria-hidden="true">⌕</span><span><strong>Local Laws Observatory</strong><span>Research at Berkeley: making U.S. local law searchable.</span></span><span class="about-current__arrow" aria-hidden="true">↗</span></button>
               </section>
             </div>
@@ -271,6 +272,7 @@
                 <li data-fnav="apps"><svg viewBox="0 0 24 24"><path d="M12 3l3 8h-6zM5 21l3-8h8l3 8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>applications</li>
                 <li data-fnav="desktop"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 20h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>desktop<span class="finder__cloud">☁</span></li>
                 <li class="cur" data-fnav="projects"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>projects<span class="finder__cloud">☁</span></li>
+                <li class="finder__subs-host" hidden><ul class="finder__subs" id="finderSubs"></ul></li>
                 <li data-fnav="downloads"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v9m-3-3l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>downloads</li>
               </ul>
               <div class="finder__h">locations</div>
@@ -301,6 +303,7 @@
               </div>
               <div class="finder__content">
                 <div class="finder__grid" id="finderGrid"></div>
+                <div class="finder__stage" id="finderStage" hidden></div>
                 <aside class="finder__preview" id="finderPreview"><p class="finder__hint">select a folder</p></aside>
               </div>
               <div class="finder__status" id="finderCount">- items</div>

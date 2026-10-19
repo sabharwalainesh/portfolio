@@ -534,7 +534,63 @@ h2.decode { font-family: var(--font-display); font-size: 24px; color: var(--phos
 .finder__search input::placeholder { color: var(--ink-dim); }
 
 .finder__content { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(260px, .9fr); }
-.finder__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: 1.2rem .6rem; align-content: start; padding: 1.4rem 1.2rem; overflow-y: auto; }
+.finder__grid { display: grid; grid-area: 1 / 1; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: 1.2rem .6rem; align-content: start; padding: 1.4rem 1.2rem; overflow-y: auto; }
+.finder__grid[hidden], .finder__stage[hidden] { display: none; }
+/* opened project: the clip takes the pane the folders were in */
+.finder__stage { grid-area: 1 / 1; display: flex; flex-direction: column; min-width: 0; min-height: 0; padding: 1rem 1.1rem 1.2rem; overflow-y: auto; gap: .7rem; }
+.fstage__head { display: flex; align-items: center; gap: .7rem; flex-wrap: wrap; }
+/* opening: the pane assembles, head first, then the art, then the notes under it */
+.finder__stage.is-arriving > * { animation: fstageIn .42s cubic-bezier(.22,.9,.26,1) both; }
+.finder__stage.is-arriving > :nth-child(2) { animation-name: fstageArt; animation-delay: .06s; }
+.finder__stage.is-arriving > :nth-child(3) { animation-delay: .14s; }
+.finder__stage.is-arriving > :nth-child(4) { animation-delay: .18s; }
+.finder__stage.is-leaving { animation: fstageOut .26s ease-in both; }
+@keyframes fstageIn { from { opacity: 0; transform: translateY(10px); } }
+@keyframes fstageArt { from { opacity: 0; transform: scale(.94); } }
+@keyframes fstageOut { to { opacity: 0; transform: scale(.97) translateY(6px); } }
+/* the folder that flies between the grid slot and the clip */
+.folder__ghost { border-radius: 5px; filter: drop-shadow(0 10px 24px rgba(0,0,0,.6)); }
+.fstage__back { font: inherit; font-size: 12px; color: var(--ink); background: rgba(255,255,255,.05); border: 1px solid var(--edge); border-radius: 6px; padding: .25rem .6rem; cursor: pointer; transition: background .12s, color .12s; }
+.fstage__back:hover { background: rgba(255,255,255,.1); color: var(--phos-bright); }
+.fstage__name { font-family: var(--font-display); font-size: 19px; color: var(--phos-bright); text-shadow: 0 0 8px var(--phos-glow); }
+.fstage__meta { font-size: 11px; color: var(--amber); margin-left: auto; }
+.fstage__art { position: relative; border: 1px solid color-mix(in srgb, var(--phos) 35%, #000); border-radius: 6px; overflow: hidden; background: #000; box-shadow: 0 0 22px -6px var(--phos-glow); }
+.fstage__film { display: block; width: 100%; max-height: 62vh; object-fit: contain; background: #000; }
+.fstage__empty { display: grid; place-items: center; gap: .8rem; padding: 2.4rem 1rem; }
+/* the stand-in for a project with no recording: a quick look at the repo */
+.look { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 1px; background: var(--edge); }
+.look__pane { background: color-mix(in srgb, var(--fbg) 60%, #000); padding: .85rem .95rem 1rem; min-width: 0; }
+.look__h { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-dim); margin-bottom: .55rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.look__h--2 { margin-top: 1.1rem; }
+.look__tree ul { list-style: none; font-family: var(--font-mono, monospace); font-size: 12px; line-height: 1.75; }
+.look__tree li { padding-left: calc(var(--d, 0) * 1.1rem); color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.look__tree li i { color: var(--phos); font-style: normal; margin-right: .45rem; }
+.look__langs { list-style: none; display: grid; gap: .5rem; }
+.look__langs li { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: .4rem .6rem; font-size: 12px; color: var(--ink); }
+.look__langs li b { font-weight: 500; color: var(--amber); font-size: 11px; }
+.look__langs li i { grid-column: 1 / -1; height: 4px; border-radius: 2px; background: rgba(255,255,255,.07); position: relative; overflow: hidden; }
+.look__langs li i::after { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--w, 0%); border-radius: 2px; background: linear-gradient(90deg, var(--phos), color-mix(in srgb, var(--phos) 55%, var(--amber))); box-shadow: 0 0 8px -1px var(--phos-glow); animation: lookBar .7s var(--ease, ease) both; animation-delay: calc(var(--i, 0) * .07s); }
+@keyframes lookBar { from { width: 0; } }
+.look__stats { display: grid; gap: .35rem; font-size: 12px; }
+.look__stats div { display: flex; justify-content: space-between; gap: .8rem; border-bottom: 1px dotted var(--edge); padding-bottom: .25rem; }
+.look__stats dt { color: var(--ink-dim); }
+.look__stats dd { color: var(--ink); }
+.fstage__empty p { font-size: 12px; color: var(--ink-dim); }
+.fstage__empty .finder__bigico { margin: 0; }
+.fstage__fs { position: absolute; right: 10px; top: 10px; z-index: 3; font: inherit; font-size: 10.5px; letter-spacing: .04em; padding: .25rem .55rem; border-radius: 4px; color: var(--ink); background: rgba(4,12,8,.75); border: 1px solid color-mix(in srgb, var(--phos) 45%, #000); cursor: pointer; opacity: 0; transition: opacity .18s var(--ease); }
+.fstage__art:hover .fstage__fs, .fstage__fs:focus-visible { opacity: 1; }
+.fstage__cap { font-size: 11.5px; line-height: 1.5; color: var(--ink-dim); }
+.fstage__links { display: flex; gap: 1rem; flex-wrap: wrap; font-size: 12px; }
+/* the open project's siblings, listed under the projects place */
+.finder__subs-host[hidden] { display: none !important; }
+.finder__subs-host { display: block !important; padding: 0 !important; margin: .1rem 0 .2rem; background: none !important; cursor: default; }
+.finder__subs { list-style: none; border-left: 1px solid var(--edge); margin-left: 1.1rem; overflow: hidden; animation: subsDrop .34s cubic-bezier(.22,.9,.26,1) both; }
+.finder__subs li { animation: subRow .3s cubic-bezier(.22,.9,.26,1) both; animation-delay: calc(.06s + var(--i, 0) * .035s); }
+@keyframes subsDrop { from { max-height: 0; opacity: 0; } to { max-height: 26rem; opacity: 1; } }
+@keyframes subRow { from { opacity: 0; transform: translateX(-8px); } }
+.finder__subs li { font-size: 12.5px; padding: .22rem .5rem; gap: .4rem; color: var(--ink-dim); }
+.finder__subs li.cur { background: rgba(255,255,255,.08); color: var(--phos-bright); }
+.finder__subico { color: var(--phos); font-size: 10px; width: 10px; }
 .folder { background: none; border: 0; padding: .4rem .2rem; cursor: pointer; text-align: center; display: flex; flex-direction: column; align-items: center; gap: .55rem; border-radius: 8px; transition: opacity .5s var(--ease), transform .5s var(--ease); }
 .folder:hover .folder__ico { transform: translateY(-3px) scale(1.04); }
 .folder.is-sel .folder__ico { filter: brightness(1.15) drop-shadow(0 0 10px var(--phos-glow)); }
@@ -552,12 +608,21 @@ h2.decode { font-family: var(--font-display); font-size: 24px; color: var(--phos
 .folder__badge svg { width: 14px; height: 14px; display: block; }
 .folder.has-repo:hover .folder__badge, .folder.has-repo.is-sel .folder__badge { transform: scale(1.12); box-shadow: 0 0 10px -1px var(--phos-glow); }
 .finder__bigico .folder__badge { right: -8px; bottom: -8px; width: 28px; height: 28px; }
+/* a folder can play its own demo clip inside the icon */
+.folder__film { position: absolute; inset: 2px; width: calc(100% - 4px); height: calc(100% - 4px); z-index: 1; display: block; border-radius: 4px; object-fit: cover; background: #000; box-shadow: inset 0 0 0 1px rgba(0,0,0,.4); }
+.folder__ico.has-film i { opacity: .35; }
+.finder__filmwrap { position: relative; width: 100%; max-width: 340px; margin: .6rem auto 1.2rem; }
+.finder__preview .finder__filmwrap .finder__bigico { width: 100%; height: auto; aspect-ratio: 78 / 58; margin: 0; }
+.finder__preview .finder__filmwrap .finder__bigico::before { height: 22px; top: -13px; border-radius: 7px 7px 0 0; }
+.finder__fs { position: absolute; right: 8px; bottom: 8px; z-index: 3; font: inherit; font-size: 10.5px; letter-spacing: .04em; padding: .25rem .5rem; border-radius: 4px; color: var(--ink); background: rgba(4,12,8,.72); border: 1px solid color-mix(in srgb, var(--phos) 45%, #000); cursor: pointer; opacity: 0; transition: opacity .18s var(--ease); }
+.finder__filmwrap:hover .finder__fs, .finder__fs:focus-visible { opacity: 1; }
+.folder__film:fullscreen { inset: auto; width: 100%; height: 100%; border-radius: 0; object-fit: contain; }
 .finder__bigico .folder__badge svg { width: 18px; height: 18px; }
 .finder__repo { display: inline-flex; align-items: center; gap: .4rem; }
 .finder__repo svg { width: 14px; height: 14px; }
 .finder__dbl { font-size: 10.5px; color: var(--ink-dim); margin-top: .25rem; letter-spacing: .02em; }
 
-.finder__preview { border-left: 1px solid var(--edge); background: color-mix(in srgb, var(--fbg) 70%, #000); padding: 1.4rem 1.4rem; font-size: 13.5px; overflow-y: auto; }
+.finder__preview { grid-area: 1 / 2; border-left: 1px solid var(--edge); background: color-mix(in srgb, var(--fbg) 70%, #000); padding: 1.4rem 1.4rem; font-size: 13.5px; overflow-y: auto; }
 .finder__preview .finder__bigico { width: 110px; height: 82px; margin: .6rem auto 1.2rem; }
 .finder__preview .finder__bigico::before { height: 18px; top: -10px; }
 .finder__hint { color: var(--ink-dim); }
@@ -567,6 +632,15 @@ h2.decode { font-family: var(--font-display); font-size: 24px; color: var(--phos
 .finder__preview a { font-size: 12px; display: inline-block; margin-top: .8rem; }
 .finder__kv { margin-top: 1rem; border-top: 1px solid var(--edge); padding-top: .7rem; display: grid; grid-template-columns: auto 1fr; gap: .25rem .8rem; font-size: 12px; }
 .finder__kv span:nth-child(odd) { color: var(--ink-dim); }
+
+/* screenshots and demo clips inside the preview pane */
+.finder__media { display: grid; gap: .7rem; margin: 0 0 1rem; }
+.finder__shot { margin: 0; border: 1px solid var(--edge); background: #000; border-radius: 3px; overflow: hidden; box-shadow: 0 0 14px rgba(0,0,0,.45); }
+.finder__shot video, .finder__shot img { display: block; width: 100%; height: auto; }
+.finder__shot video { cursor: pointer; }
+.finder__shot figcaption { padding: .4rem .55rem; font-size: 10.5px; line-height: 1.45; color: var(--ink-dim); border-top: 1px solid var(--edge); background: color-mix(in srgb, var(--fbg) 70%, #000); }
+.finder__demo { display: inline-block; margin: 0 0 .2rem; font-size: 12px; color: var(--amber); }
+.finder__demo:hover { text-shadow: 0 0 8px var(--phos-glow); }
 .finder__status { flex-shrink: 0; border-top: 1px solid var(--edge); padding: .3rem .9rem; font-size: 11.5px; color: var(--ink-dim); text-align: center; }
 
 /* ===================== TROPHIES ===================== */
@@ -852,15 +926,26 @@ a, button { -webkit-tap-highlight-color: transparent; }
   .finder__tools .finder__tool:not(#finderShare), .finder__toolgroup { display: none; }
   .finder__search { width: 110px; }
   .finder__content { grid-template-columns: 1fr; grid-template-rows: max-content minmax(0, 1fr); }
+  .finder__grid, .finder__stage { grid-area: 1 / 1; }
+  .finder__preview { grid-area: 2 / 1; }
   /* one sideways-scrolling strip of folders, so no vertical space is wasted */
   .finder__grid { display: flex; gap: .55rem; padding: .7rem .5rem; max-height: none; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
+  .finder__stage { padding: .7rem .6rem 1rem; }
+  .fstage__film { max-height: 42vh; }
+  .look { grid-template-columns: 1fr; }
+  .fstage__fs { opacity: 1; }
+  .fstage__meta { margin-left: 0; width: 100%; }
   .finder__grid::-webkit-scrollbar { display: none; }
   .folder { flex: 0 0 86px; }
   .folder__ico { width: 56px; height: 42px; }
   .finder__preview { border-left: 0; border-top: 1px solid var(--edge); padding: .8rem; overflow-y: auto; }
   .finder__preview .finder__bigico { display: none; }
+  .finder__filmwrap { max-width: none; margin-bottom: 1.5rem; }
+  .finder__preview .finder__filmwrap .finder__bigico { display: block; }
+  .finder__fs { opacity: 1; }
   .finder__preview h3 { font-size: 22px; }
   .finder__preview pre { font-size: 12px; }
+  .finder__shot figcaption { font-size: 10px; }
   .finder__kv { display: none; }
 
   .trophies { grid-template-columns: 1fr; gap: .5rem; }
